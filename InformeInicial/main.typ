@@ -126,10 +126,10 @@
       columns: (1fr, auto),
       align: (left, right),
       [
-        *I118 Taller de Proyecto I* \
+        *E0306 Taller de Proyecto I* \
         Tocadisco RFID/NFC
       ],
-      [/**Grupo G2**/ \ Año 2026],
+      [Año 2026],
     )
     v(-0.3em)
     line(length: 100%, stroke: 0.5pt + luma(150))
