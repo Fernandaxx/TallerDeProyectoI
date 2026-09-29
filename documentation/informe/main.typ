@@ -108,7 +108,7 @@
 #align(center)[
   #text(size: 11pt)[
     Universidad Nacional de La Plata \
-    10 de septiembre de 2026
+    5 de octubre de 2026
   ]
 ]
 
@@ -161,9 +161,12 @@
 #include "typst/1-introduccion.typ"
 #include "typst/2-objetivos.typ"
 #include "typst/3-requerimientos.typ"
-#include "typst/4-cronograma-y-tareas.typ"
+//#include "typst/4-cronograma-y-tareas.typ"
+#include "typst/5-hardware.typ"
+#include "typst/6-software.typ"
 
 #pagebreak()
+
 // ==========================================
 // BIBLIOGRAFIA
 // ==========================================
