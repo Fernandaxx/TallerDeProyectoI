@@ -3007,6 +3007,10 @@
 			(embedded_fonts no)
 		)
 	)
+	(no_connect
+		(at 96.52 102.87)
+		(uuid "97c76824-ba8e-4b33-ba59-df2ffd0b7507")
+	)
 	(wire
 		(pts
 			(xy 83.82 69.85) (xy 85.09 69.85)
@@ -3019,23 +3023,33 @@
 	)
 	(wire
 		(pts
-			(xy 38.1 114.3) (xy 46.736 114.3)
+			(xy 88.9 96.52) (xy 88.9 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0811b64b-8fd0-49b0-ae8b-1c9cc1829213")
+		(uuid "09643415-6343-49b3-9756-4df6d26b5eda")
 	)
 	(wire
 		(pts
-			(xy 38.1 111.76) (xy 46.736 111.76)
+			(xy 147.32 46.99) (xy 138.43 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "10f24bb1-9143-4899-be9f-ed7f89a47f52")
+		(uuid "099b4a1f-7ab7-45af-902d-6140b1987df0")
+	)
+	(wire
+		(pts
+			(xy 29.21 110.49) (xy 37.846 110.49)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e133e10-63bc-48ce-9c86-0aa77b1b8d3d")
 	)
 	(wire
 		(pts
@@ -3059,6 +3073,26 @@
 	)
 	(wire
 		(pts
+			(xy 138.43 62.23) (xy 147.32 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1be5f86f-adfb-4351-936c-a8426a48925d")
+	)
+	(wire
+		(pts
+			(xy 29.21 107.95) (xy 37.846 107.95)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2b5fa05b-2d1f-43d3-b656-2bfa84c5f25f")
+	)
+	(wire
+		(pts
 			(xy 182.88 53.34) (xy 196.85 53.34)
 		)
 		(stroke
@@ -3076,6 +3110,16 @@
 			(type default)
 		)
 		(uuid "48006501-bf32-4044-b509-c5594cf1d274")
+	)
+	(wire
+		(pts
+			(xy 83.82 80.01) (xy 85.09 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d3edf52-3e5c-475f-9c44-2a1318859a60")
 	)
 	(wire
 		(pts
@@ -3139,7 +3183,27 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 49.53) (xy 146.05 49.53)
+			(xy 29.464 113.03) (xy 37.846 113.03)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78ec4cd6-1c92-444c-8b2b-a06cb9553c4d")
+	)
+	(wire
+		(pts
+			(xy 176.53 62.23) (xy 170.18 62.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7e236b75-2bdb-44cb-bd06-6be9941785ff")
+	)
+	(wire
+		(pts
+			(xy 137.16 49.53) (xy 147.32 49.53)
 		)
 		(stroke
 			(width 0)
@@ -3189,6 +3253,16 @@
 	)
 	(wire
 		(pts
+			(xy 82.55 31.75) (xy 85.09 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ad89bc15-46e7-4cba-8ebe-35a134035116")
+	)
+	(wire
+		(pts
 			(xy 99.06 52.07) (xy 97.79 52.07)
 		)
 		(stroke
@@ -3196,6 +3270,16 @@
 			(type default)
 		)
 		(uuid "c2ad8a41-2619-4920-a357-a3ae2da1bd38")
+	)
+	(wire
+		(pts
+			(xy 100.33 31.75) (xy 97.79 31.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c525375e-c00a-4ad0-bf51-f003d8a76262")
 	)
 	(wire
 		(pts
@@ -3219,13 +3303,33 @@
 	)
 	(wire
 		(pts
-			(xy 137.16 52.07) (xy 146.05 52.07)
+			(xy 93.98 96.52) (xy 93.98 102.87)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e710a8e7-6c3d-465f-ae9b-1ff57d4f1288")
+	)
+	(wire
+		(pts
+			(xy 137.16 52.07) (xy 147.32 52.07)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
 		(uuid "f6e944e4-40f7-4986-9207-98be679e12d7")
+	)
+	(wire
+		(pts
+			(xy 29.21 115.57) (xy 37.846 115.57)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f8864b47-8b87-4dbc-b6ce-0195b76d5775")
 	)
 	(label "MOTOR_IN1"
 		(at 182.88 45.72 0)
@@ -3238,7 +3342,7 @@
 		(uuid "02d06526-cd21-40d6-ad3b-f8d7d3c15270")
 	)
 	(label "I2C_SCL"
-		(at 38.1 111.76 0)
+		(at 29.21 110.49 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3258,7 +3362,7 @@
 		(uuid "28a12a18-494d-465d-8089-5507efc7526b")
 	)
 	(label "I2C_SDA"
-		(at 38.1 114.3 0)
+		(at 29.464 113.03 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3266,6 +3370,16 @@
 			(justify left bottom)
 		)
 		(uuid "2de32536-25e9-4293-8e9d-18ad1c57428c")
+	)
+	(label "+5V"
+		(at 138.43 46.99 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3617cbbf-d883-441f-b2dc-75832043b6bd")
 	)
 	(label "UART_RX"
 		(at 137.16 52.07 0)
@@ -3297,6 +3411,26 @@
 		)
 		(uuid "66fc3b14-0a6a-4d8f-acea-206bda3c6aa7")
 	)
+	(label "GND"
+		(at 29.21 115.57 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6c71045d-8889-403e-bde9-f1cf7a6008b9")
+	)
+	(label "GND"
+		(at 138.43 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6ca6223e-a334-4e16-b68d-982df589e4a0")
+	)
 	(label "MOTOR_IN4"
 		(at 182.88 53.34 0)
 		(effects
@@ -3306,6 +3440,16 @@
 			(justify left bottom)
 		)
 		(uuid "7cc161ae-6da5-467e-a42e-e6899f86861b")
+	)
+	(label "GND"
+		(at 176.53 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "867a8584-6260-4e26-b62e-8b5ae386578d")
 	)
 	(label "MOTOR_IN3"
 		(at 182.88 50.8 0)
@@ -3327,6 +3471,16 @@
 		)
 		(uuid "c4ad258b-fa0c-4755-a549-e7ccb9f98e75")
 	)
+	(label "+3V3"
+		(at 29.21 107.95 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c800d09b-04ca-4733-b67e-277e98e45bca")
+	)
 	(label "UART_TX"
 		(at 137.16 49.53 0)
 		(effects
@@ -3337,6 +3491,16 @@
 		)
 		(uuid "d21d8c90-5dbb-46f1-a3aa-7681a8f3de00")
 	)
+	(label "+3V3"
+		(at 88.9 96.52 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "db83dbb7-d217-46c8-b3fb-590ea9e668de")
+	)
 	(label "SPI_SCK"
 		(at 104.14 96.52 90)
 		(effects
@@ -3346,6 +3510,16 @@
 			(justify left bottom)
 		)
 		(uuid "dc4ef5ce-7de3-42d4-af1e-0461ffd615ca")
+	)
+	(label "GND"
+		(at 93.98 96.52 90)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "dde78038-fe00-43c7-bbea-79156ad1f1ae")
 	)
 	(label "SPI_MISO"
 		(at 99.06 96.52 90)
@@ -3453,6 +3627,30 @@
 			)
 		)
 	)
+	(global_label "+3V3"
+		(shape input)
+		(at 82.55 31.75 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "2ed8973e-e74e-42c8-a6f6-1220ed142464")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 74.4848 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
 	(global_label "UART_TX"
 		(shape input)
 		(at 41.91 62.23 180)
@@ -3525,6 +3723,30 @@
 			)
 		)
 	)
+	(global_label "+5V"
+		(shape input)
+		(at 100.33 31.75 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "68820c00-4216-424c-9671-411b8c4d13b1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 107.1857 31.75 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+	)
 	(global_label "I2C_SDA"
 		(shape input)
 		(at 41.91 54.61 180)
@@ -3562,6 +3784,30 @@
 		(uuid "757842b5-a9c3-4142-9709-133540d76511")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
 			(at 31.3653 57.15 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape input)
+		(at 83.82 80.01 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "78c4994d-c758-4170-909a-fc9963019e8e")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 76.9643 80.01 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3965,7 +4211,7 @@
 	)
 	(symbol
 		(lib_id "MCE_Displays:OLED_Display128x64")
-		(at 55.88 113.03 0)
+		(at 46.99 111.76 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3976,7 +4222,7 @@
 		(fields_autoplaced yes)
 		(uuid "7679815f-d276-40da-aa2d-18158365c671")
 		(property "Reference" "D1"
-			(at 64.77 111.7599 0)
+			(at 55.88 110.4899 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3986,8 +4232,8 @@
 				(justify left)
 			)
 		)
-		(property "Value" "OLED Display"
-			(at 64.77 114.2999 0)
+		(property "Value" "OLED 1.3\" SH1106"
+			(at 55.88 113.0299 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3998,7 +4244,7 @@
 			)
 		)
 		(property "Footprint" "Display:OLED-128O064D"
-			(at 55.88 113.03 0)
+			(at 46.99 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4009,7 +4255,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 55.88 113.03 0)
+			(at 46.99 111.76 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4020,7 +4266,7 @@
 			)
 		)
 		(property "Description" "Modulo de pantalla OLED"
-			(at 56.388 129.032 0)
+			(at 47.498 127.762 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4461,7 +4707,7 @@
 	)
 	(symbol
 		(lib_id "MCE_Modules:DFPlayer_MiniMP3")
-		(at 157.48 58.42 0)
+		(at 158.75 58.42 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4472,7 +4718,7 @@
 		(fields_autoplaced yes)
 		(uuid "cdf1edbe-c27f-48a0-9cfc-f8b8800bb4cf")
 		(property "Reference" "U1"
-			(at 157.48 39.37 0)
+			(at 158.75 39.37 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4482,7 +4728,7 @@
 			)
 		)
 		(property "Value" "DFPlayer_MiniMP3"
-			(at 157.48 41.91 0)
+			(at 158.75 41.91 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4492,7 +4738,7 @@
 			)
 		)
 		(property "Footprint" "MCE_Modulos:DFPlayer_MiniMP3"
-			(at 160.02 76.2 0)
+			(at 161.29 76.2 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4503,7 +4749,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 157.48 58.42 0)
+			(at 158.75 58.42 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4514,7 +4760,7 @@
 			)
 		)
 		(property "Description" "DFPlayer_MiniMP3"
-			(at 157.48 68.072 0)
+			(at 158.75 68.072 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
