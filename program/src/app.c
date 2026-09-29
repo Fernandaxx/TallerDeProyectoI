@@ -42,7 +42,7 @@ int main( void )
             /* Si se presiona CIAA_BOARD_BUTTON, enciende el CIAA_BOARD_LED */
 
             // Leer pin conectado al boton.
-            buttonValue = gpioRead( CIAA_BOARD_BUTTON );
+            buttonValue = !gpioRead( CIAA_BOARD_BUTTON );
             // Invertir el valor leido, pues lee un 0 (OFF) con boton
             // presionado y 1 (ON) al liberarla.
             buttonValue = !buttonValue;

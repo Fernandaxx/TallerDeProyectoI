@@ -1,0 +1,8 @@
+= Introducción
+La forma de escuchar música ha cambiado considerablemente con el avance de la tecnología. Los tocadiscos y discos de vinilo, además de cumplir una función de reproducción, se caracterizan por ofrecer una experiencia física y visual que aún hoy conserva un fuerte valor estético y nostálgico. A partir de esta idea surge el presente proyecto, que busca combinar esa forma de interacción con un sistema de reproducción musical digital.
+
+El proyecto consiste en desarrollar un reproductor musical interactivo controlado por una placa EDU-CIAA-NXP. El usuario seleccionará la música mediante discos físicos impresos que incorporarán etiquetas RFID/NFC. Al colocar un disco sobre el dispositivo, el sistema lo identificará y reproducirá la canción o conjunto de canciones asociado. Además, una pantalla mostrará información básica sobre el estado de reproducción.
+
+En la actualidad, la reproducción de música digital y los sistemas de identificación RFID/NFC son tecnologías ampliamente utilizadas. En este proyecto se combinan para ofrecer una forma de interacción diferente a la de los reproductores convencionales, utilizando un objeto físico para seleccionar contenido digital. Como mejora adicional, se contempla incorporar un mecanismo que permita hacer girar el disco durante la reproducción y un sistema de asociación configurable entre discos y canciones.
+
+El principal desafío será integrar y coordinar los distintos componentes mediante la EDU-CIAA-NXP, garantizando el correcto funcionamiento de la identificación, la reproducción de audio, la señalización visual y la alimentación del sistema. De esta manera, el proyecto permitirá aplicar conocimientos de electrónica, programación y sistemas embebidos en el desarrollo de un prototipo funcional.
