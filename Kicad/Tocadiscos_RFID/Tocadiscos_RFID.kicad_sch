@@ -1265,6 +1265,147 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Device:Speaker"
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "LS"
+				(at 1.27 5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right)
+				)
+			)
+			(property "Value" "Speaker"
+				(at 1.27 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify right)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 -5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at -0.254 -1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Speaker"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "speaker sound"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Speaker_0_0"
+				(rectangle
+					(start -2.54 1.27)
+					(end 1.016 -3.81)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.016 1.27) (xy 3.556 3.81) (xy 3.556 -6.35) (xy 1.016 -3.81)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Speaker_1_1"
+				(pin input line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -5.08 -2.54 0)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "MCE_Displays:OLED_Display128x64"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -3007,9 +3148,53 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Tienen resistencias pull-up internas\n"
+		(exclude_from_sim no)
+		(at 26.162 56.388 0)
+		(effects
+			(font
+				(size 0.762 0.762)
+			)
+		)
+		(uuid "0f0ac623-7321-4a9d-8258-c90dc10376ee")
+	)
+	(text "Se puede usar como señal de control"
+		(exclude_from_sim no)
+		(at 189.23 46.736 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "17330297-ecd6-4b47-85f7-eb7667691ba9")
+	)
+	(no_connect
+		(at 147.32 57.15)
+		(uuid "391631d4-95e6-4b05-9923-fc0a9c6f7f9e")
+	)
+	(no_connect
+		(at 147.32 54.61)
+		(uuid "4c1a7af7-74f7-4fa7-8ebb-bdb85c868ba7")
+	)
+	(no_connect
+		(at 170.18 57.15)
+		(uuid "9682ec5c-9734-49ad-a577-80589709f24f")
+	)
 	(no_connect
 		(at 96.52 102.87)
 		(uuid "97c76824-ba8e-4b33-ba59-df2ffd0b7507")
+	)
+	(no_connect
+		(at 170.18 49.53)
+		(uuid "b417a03c-40fd-4d52-8aa5-656116f970b2")
+	)
+	(no_connect
+		(at 170.18 54.61)
+		(uuid "cc15c601-e9e5-4721-bad1-5c591eee4812")
+	)
+	(no_connect
+		(at 170.18 52.07)
+		(uuid "f38b8c50-1a6f-44f5-8dbb-742a25ae1cd5")
 	)
 	(wire
 		(pts
@@ -3053,7 +3238,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 59.69) (xy 43.18 59.69)
+			(xy 46.99 59.69) (xy 48.26 59.69)
 		)
 		(stroke
 			(width 0)
@@ -3073,13 +3258,13 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 62.23) (xy 147.32 62.23)
+			(xy 142.24 62.23) (xy 147.32 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1be5f86f-adfb-4351-936c-a8426a48925d")
+		(uuid "26e8b478-f190-478d-8c44-27a6fcc36180")
 	)
 	(wire
 		(pts
@@ -3093,7 +3278,7 @@
 	)
 	(wire
 		(pts
-			(xy 182.88 53.34) (xy 196.85 53.34)
+			(xy 227.33 143.51) (xy 241.3 143.51)
 		)
 		(stroke
 			(width 0)
@@ -3103,7 +3288,17 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 62.23) (xy 43.18 62.23)
+			(xy 142.24 64.77) (xy 147.32 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3d343103-db8e-4497-a341-d818ec3bd674")
+	)
+	(wire
+		(pts
+			(xy 46.99 62.23) (xy 48.26 62.23)
 		)
 		(stroke
 			(width 0)
@@ -3123,7 +3318,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 57.15) (xy 43.18 57.15)
+			(xy 46.99 57.15) (xy 48.26 57.15)
 		)
 		(stroke
 			(width 0)
@@ -3153,7 +3348,7 @@
 	)
 	(wire
 		(pts
-			(xy 182.88 48.26) (xy 196.85 48.26)
+			(xy 227.33 138.43) (xy 241.3 138.43)
 		)
 		(stroke
 			(width 0)
@@ -3163,7 +3358,7 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 54.61) (xy 43.18 54.61)
+			(xy 46.99 54.61) (xy 48.26 54.61)
 		)
 		(stroke
 			(width 0)
@@ -3173,7 +3368,17 @@
 	)
 	(wire
 		(pts
-			(xy 182.88 50.8) (xy 196.85 50.8)
+			(xy 147.32 59.69) (xy 138.43 59.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c1b0a31-cfcc-4536-b283-db00199499e2")
+	)
+	(wire
+		(pts
+			(xy 227.33 140.97) (xy 241.3 140.97)
 		)
 		(stroke
 			(width 0)
@@ -3213,6 +3418,16 @@
 	)
 	(wire
 		(pts
+			(xy 138.43 59.69) (xy 138.43 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8691babf-81fd-4346-9a95-e18e01955eac")
+	)
+	(wire
+		(pts
 			(xy 83.82 67.31) (xy 85.09 67.31)
 		)
 		(stroke
@@ -3220,6 +3435,26 @@
 			(type default)
 		)
 		(uuid "88b8ed31-6b65-4186-ab5b-82d86bfc0f88")
+	)
+	(wire
+		(pts
+			(xy 153.67 80.01) (xy 142.24 80.01)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8cb558ba-eb23-4a1a-aaca-aa2b208989d4")
+	)
+	(wire
+		(pts
+			(xy 138.43 82.55) (xy 153.67 82.55)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "90c69b4f-0e72-4c0d-9531-891154f3cc86")
 	)
 	(wire
 		(pts
@@ -3293,7 +3528,7 @@
 	)
 	(wire
 		(pts
-			(xy 182.88 45.72) (xy 196.85 45.72)
+			(xy 227.33 135.89) (xy 241.3 135.89)
 		)
 		(stroke
 			(width 0)
@@ -3310,6 +3545,16 @@
 			(type default)
 		)
 		(uuid "e710a8e7-6c3d-465f-ae9b-1ff57d4f1288")
+	)
+	(wire
+		(pts
+			(xy 142.24 80.01) (xy 142.24 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eda57198-6ab1-4dec-909e-ada518250fcc")
 	)
 	(wire
 		(pts
@@ -3332,7 +3577,7 @@
 		(uuid "f8864b47-8b87-4dbc-b6ce-0195b76d5775")
 	)
 	(label "MOTOR_IN1"
-		(at 182.88 45.72 0)
+		(at 227.33 135.89 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3421,18 +3666,8 @@
 		)
 		(uuid "6c71045d-8889-403e-bde9-f1cf7a6008b9")
 	)
-	(label "GND"
-		(at 138.43 62.23 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left bottom)
-		)
-		(uuid "6ca6223e-a334-4e16-b68d-982df589e4a0")
-	)
 	(label "MOTOR_IN4"
-		(at 182.88 53.34 0)
+		(at 227.33 143.51 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3452,7 +3687,7 @@
 		(uuid "867a8584-6260-4e26-b62e-8b5ae386578d")
 	)
 	(label "MOTOR_IN3"
-		(at 182.88 50.8 0)
+		(at 227.33 140.97 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3461,8 +3696,18 @@
 		)
 		(uuid "9fa3fcea-4e7d-441a-a0df-01f5ed199798")
 	)
+	(label "GND"
+		(at 142.24 62.23 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c23edd9c-aeb0-41da-ae75-1c2629a417e4")
+	)
 	(label "MOTOR_IN2"
-		(at 182.88 48.26 0)
+		(at 227.33 138.43 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3533,7 +3778,7 @@
 	)
 	(global_label "UART_RX"
 		(shape input)
-		(at 41.91 59.69 180)
+		(at 46.99 59.69 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3543,7 +3788,7 @@
 		)
 		(uuid "033fca0f-1894-4553-8fd6-e2deae2be05c")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 30.821 59.69 0)
+			(at 35.901 59.69 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3653,7 +3898,7 @@
 	)
 	(global_label "UART_TX"
 		(shape input)
-		(at 41.91 62.23 180)
+		(at 46.99 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3663,7 +3908,7 @@
 		)
 		(uuid "54cdff4b-9f6c-443c-8fbe-b5a1f4fd3469")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 31.1234 62.23 0)
+			(at 36.2034 62.23 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3749,7 +3994,7 @@
 	)
 	(global_label "I2C_SDA"
 		(shape input)
-		(at 41.91 54.61 180)
+		(at 46.99 54.61 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3759,7 +4004,7 @@
 		)
 		(uuid "6d54100e-0500-46c7-909c-a7cc62ba7927")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 31.3048 54.61 0)
+			(at 36.3848 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3773,7 +4018,7 @@
 	)
 	(global_label "I2C_SCL"
 		(shape input)
-		(at 41.91 57.15 180)
+		(at 46.99 57.15 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3783,7 +4028,7 @@
 		)
 		(uuid "757842b5-a9c3-4142-9709-133540d76511")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 31.3653 57.15 0)
+			(at 36.4453 57.15 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4299,7 +4544,7 @@
 	)
 	(symbol
 		(lib_id "Motor:Stepper_Motor_unipolar_5pin")
-		(at 242.57 58.42 0)
+		(at 252.73 109.22 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4310,7 +4555,7 @@
 		(fields_autoplaced yes)
 		(uuid "76810612-36b9-47ab-ad0c-9576b6296ce4")
 		(property "Reference" "M1"
-			(at 247.65 56.172 0)
+			(at 257.81 106.972 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4321,7 +4566,7 @@
 			)
 		)
 		(property "Value" "Stepper_Motor_unipolar_5pin"
-			(at 247.65 58.712 0)
+			(at 257.81 109.512 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4332,7 +4577,7 @@
 			)
 		)
 		(property "Footprint" "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm"
-			(at 242.824 58.674 0)
+			(at 252.984 109.474 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4343,7 +4588,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.infineon.com/dgdl/Application-Note-TLE8110EE_driving_UniPolarStepperMotor_V1.1.pdf?fileId=db3a30431be39b97011be5d0aa0a00b0"
-			(at 242.824 58.674 0)
+			(at 252.984 109.474 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4354,7 +4599,7 @@
 			)
 		)
 		(property "Description" "5-wire unipolar stepper motor"
-			(at 242.57 58.42 0)
+			(at 252.73 109.22 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4390,7 +4635,7 @@
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_02x20_Odd_Even")
-		(at 48.26 54.61 0)
+		(at 53.34 54.61 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4401,7 +4646,7 @@
 		(fields_autoplaced yes)
 		(uuid "7aba5aa3-080f-4266-b926-809a92a028ed")
 		(property "Reference" "P1"
-			(at 49.53 25.4 0)
+			(at 54.61 25.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4411,7 +4656,7 @@
 			)
 		)
 		(property "Value" "Conn_02x20"
-			(at 49.53 27.94 0)
+			(at 54.61 27.94 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4421,7 +4666,7 @@
 			)
 		)
 		(property "Footprint" "MCE_Modulos:DFPlayer_MiniMP3"
-			(at 48.26 54.61 0)
+			(at 53.34 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4432,7 +4677,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 48.26 54.61 0)
+			(at 53.34 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4443,7 +4688,7 @@
 			)
 		)
 		(property "Description" "Generic connector, double row, 02x20, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"
-			(at 48.26 54.61 0)
+			(at 53.34 54.61 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4583,8 +4828,90 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:Speaker")
+		(at 158.75 82.55 0)
+		(mirror x)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(uuid "8dd017c5-4f8c-46d6-86e4-bfb268bc54ee")
+		(property "Reference" "LS1"
+			(at 163.83 82.5501 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "Speaker 4R 3W"
+			(at 163.83 80.0101 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Package_SON:WSON-8-1EP_6x5mm_P1.27mm_EP3.4x4mm"
+			(at 158.75 77.47 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 158.496 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Speaker"
+			(at 158.75 82.55 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "f49350cc-16f5-407d-bc81-10b549c28584")
+		)
+		(pin "2"
+			(uuid "b14aa313-b9f2-4164-a7ff-059ca4a2b198")
+		)
+		(instances
+			(project "Tocadiscos_RFID"
+				(path "/75ce41c1-38be-4585-ae72-3abeaf0221a7"
+					(reference "LS1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "Transistor_Array:ULN2003")
-		(at 207.01 50.8 0)
+		(at 251.46 140.97 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4595,7 +4922,7 @@
 		(fields_autoplaced yes)
 		(uuid "b9cc5eb9-4dc9-48dc-97ef-bc3c021eb087")
 		(property "Reference" "U2"
-			(at 207.01 33.02 0)
+			(at 251.46 123.19 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4605,7 +4932,7 @@
 			)
 		)
 		(property "Value" "ULN2003"
-			(at 207.01 35.56 0)
+			(at 251.46 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4615,7 +4942,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 208.28 64.77 0)
+			(at 252.73 154.94 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4627,7 +4954,7 @@
 			)
 		)
 		(property "Datasheet" "http://www.ti.com/lit/ds/symlink/uln2003a.pdf"
-			(at 209.55 55.88 0)
+			(at 254 146.05 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4638,7 +4965,7 @@
 			)
 		)
 		(property "Description" "High Voltage, High Current Darlington Transistor Arrays, SOIC16/SOIC16W/DIP16/TSSOP16"
-			(at 207.01 50.8 0)
+			(at 251.46 140.97 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
