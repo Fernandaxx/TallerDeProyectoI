@@ -1,0 +1,4 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "Poncho_Esqueleto") (type "KiCad") (uri "${KIPRJMOD}/libPonchos/Poncho_Esqueleto.kicad_sym") (options "") (descr ""))
+)
