@@ -164,7 +164,7 @@ La forma de escuchar música ha cambiado considerablemente con el avance de la t
 
 El proyecto consiste en desarrollar un reproductor musical interactivo controlado por una placa EDU-CIAA-NXP. El usuario seleccionará la música mediante discos físicos impresos que incorporarán etiquetas RFID/NFC. Al colocar un disco sobre el dispositivo, el sistema lo identificará y reproducirá la canción o conjunto de canciones asociado. Además, una pantalla mostrará información básica sobre el estado de reproducción.
 
-En la actualidad, la reproducción de música digital y los sistemas de identificación RFID/NFC son tecnologías ampliamente utilizadas. En este proyecto se combinan para ofrecer una forma de interacción diferente a la de los reproductores convencionales, utilizando un objeto físico para seleccionar contenido digital. Como mejora adicional, se contempla incorporar un mecanismo que permita hacer girar el disco durante la reproducción y un sistema de asociación configurable entre discos y canciones.
+En la actualidad, la reproducción de música digital y los sistemas de identificación RFID/NFC son tecnologías ampliamente utilizadas. En este proyecto se combinan para ofrecer una forma de interacción diferente a la de los reproductores convencionales, utilizando un objeto físico para seleccionar contenido digital. Como mejoras adicionales, se contempla incorporar un sistema de asociación configurable entre discos y canciones con almacenamiento persistente e iluminación con secuencias preprogramadas mediante LEDs direccionables.
 
 El principal desafío será integrar y coordinar los distintos componentes mediante la EDU-CIAA-NXP, garantizando el correcto funcionamiento de la identificación, la reproducción de audio, la señalización visual y la alimentación del sistema. De esta manera, el proyecto permitirá aplicar conocimientos de electrónica, programación y sistemas embebidos en el desarrollo de un prototipo funcional.
 
@@ -172,7 +172,7 @@ El principal desafío será integrar y coordinar los distintos componentes media
 
 == Objetivo general
 
-Desarrollar un prototipo funcional de reproductor de música interactivo que, mediante la lectura de etiquetas RFID/NFC, reproduzca pistas de audio almacenadas localmente, controlado íntegramente por la placa EDU-CIAA-NXP. De forma complementaria, y sujeto a la disponibilidad de tiempo, el prototipo incorpora un mecanismo giratorio a modo de tocadiscos y un modo de asignación de canciones con almacenamiento persistente.
+Desarrollar un prototipo funcional de reproductor de música interactivo que, mediante la lectura de etiquetas RFID/NFC, reproduzca pistas de audio almacenadas localmente e incorpore un mecanismo giratorio a modo de tocadiscos, controlado íntegramente por la placa EDU-CIAA-NXP. De forma complementaria, y sujeto a la disponibilidad de tiempo, el prototipo incorpora un modo de asignación de canciones con almacenamiento persistente y secuencias lumínicas con LEDs NeoPixel.
 
 
 == Objetivos primarios
@@ -189,9 +189,12 @@ Desarrollar un prototipo funcional de reproductor de música interactivo que, me
 
 - Diseñar una placa de conexión que permita integrar los componentes del sistema de forma ordenada y segura.
 
+- Incorporar un mecanismo que permita hacer girar el disco durante la reproducción, simulando el funcionamiento visual de un tocadiscos.
+
 == Objetivos secundarios
 
-- Incorporar un mecanismo que permita hacer girar el disco durante la reproducción, simulando el funcionamiento visual de un tocadiscos.
+
+- Incorporar LEDs NeoPixel con secuencias preprogramadas según la canción.
 
 - Asignación configurable y persistente de canciones: incorporar un modo de configuración que permita asociar una etiqueta RFID/NFC a una canción sin modificar el código del programa, guardando dicha asociación en una memoria EEPROM externa para que persista tras el reinicio del sistema.
 
@@ -201,9 +204,9 @@ Desarrollar un prototipo funcional de reproductor de música interactivo que, me
 
 El sistema se organiza en torno a la placa EDU-CIAA-NXP, que funciona como unidad central de control y coordina los distintos módulos del proyecto. El lector RFID/NFC MFRC522 se comunica mediante SPI, la pantalla OLED mediante I²C y el módulo de reproducción DFPlayer Mini mediante UART. El procesamiento del audio es realizado por el propio DFPlayer Mini, mientras que la EDU-CIAA se encarga de controlar el funcionamiento general del sistema. En la @fig-bloques se presenta el diagrama en bloques del sistema a desarrollar.
 
-El funcionamiento comienza cuando el usuario coloca un disco sobre el reproductor. El lector RFID/NFC obtiene el identificador de la etiqueta incorporada al disco y la EDU-CIAA busca la canción o lista de canciones asociada. A continuación, envía al DFPlayer Mini la orden de reproducción del archivo almacenado en la tarjeta microSD. La señal de audio se dirige al amplificador PAM8403 y posteriormente al parlante, mientras que la pantalla OLED muestra información sobre el estado de la reproducción.
+El funcionamiento comienza cuando el usuario coloca un disco sobre el reproductor. El lector RFID/NFC obtiene el identificador de la etiqueta incorporada al disco y la EDU-CIAA busca la canción o lista de canciones asociada. A continuación, envía al DFPlayer Mini la orden de reproducción del archivo almacenado en la tarjeta microSD. La señal de audio se dirige al amplificador PAM8403 y posteriormente al parlante, mientras que la pantalla OLED muestra información sobre el estado de la reproducción y el motor paso a paso 28BYJ-48 con su controlador ULN2003 hace girar el disco mientras se reproduce la música.
 
-Como objetivos secundarios, se contempla incorporar un motor paso a paso 28BYJ-48 con su controlador ULN2003 para hacer girar el disco mientras se reproduce la música. También se prevé una memoria EEPROM externa para almacenar las asociaciones entre las etiquetas RFID/NFC y las canciones, permitiendo conservarlas aun después de apagar o reiniciar el sistema. La EEPROM compartiría el bus I²C con la pantalla OLED.
+Como objetivos secundarios, se prevé una memoria EEPROM externa para almacenar las asociaciones entre las etiquetas RFID/NFC y las canciones, permitiendo conservarlas aun después de apagar o reiniciar el sistema. La EEPROM compartiría el bus I²C con la pantalla OLED. Asimismo, se contempla incorporar una tira o arreglo de LEDs NeoPixel conectados a un pin GPIO de la placa para generar secuencias visuales preprogramadas acordes a la canción en reproducción.
 
 #figure(
   image("image/DiagramaBloques.png", width: 95%),
@@ -214,10 +217,14 @@ Como objetivos secundarios, se contempla incorporar un motor paso a paso 28BYJ-4
 
 == Alimentación del sistema
 
-La alimentación del sistema partirá de una fuente de 5 V. Los módulos de audio y, en caso de implementarse, el motor utilizarán el dominio de 5 V, mientras que los dispositivos que trabajan con lógica de 3,3 V utilizarán el correspondiente nivel de alimentación.
+La alimentación del sistema partirá de una fuente de 5 V. Los módulos de audio y el motor utilizarán el dominio de 5 V, mientras que los dispositivos que trabajan con lógica de 3,3 V utilizarán el correspondiente nivel de alimentación. De implementarse los LEDs NeoPixel, se alimentarán también desde la línea de 5 V contemplando su demanda de corriente.
 
-La EDU-CIAA-NXP dispone de líneas de 5 V y 3,3 V en sus conectores de expansión. Todos los módulos compartirán una referencia de masa común (GND). En la  se presenta el esquema general de alimentación previsto para el sistema.
-
+La EDU-CIAA-NXP dispone de líneas de 5 V y 3,3 V en sus conectores de expansión. Todos los módulos compartirán una referencia de masa común (GND). En la @fig-bloques2 se presenta el esquema general de alimentación previsto para el sistema.
+#figure(
+  image("image/EsquemaAlimentacion.png", width: 95%),
+  caption: [Esquema general de alimentación del sistema.],
+  kind: image,
+) <fig-bloques2>
 
 
 
@@ -240,16 +247,19 @@ La EDU-CIAA-NXP dispone de líneas de 5 V y 3,3 V en sus conectores de expansió
 
 6. El sistema debe contar con una alimentación de 5 V y disponer de los niveles de tensión necesarios para los módulos que trabajen a 3,3 V, manteniendo una masa común.
 
-7. Los módulos externos deben integrarse mediante una placa tipo poncho (PBC) compatible con los conectores de expansión de la EDU-CIAA-NXP.
+7. Los módulos externos deben integrarse mediante una placa tipo poncho (PCB) compatible con los conectores de expansión de la EDU-CIAA-NXP.
+
+8. Debe incorporar un motor paso a paso 28BYJ-48 con controlador ULN2003 para hacer girar el disco durante la reproducción.
 
 // TODO: confirmar RF-HW 6 según se decida usar o no la línea TX del DFPlayer (detección de fin de pista).
 === Secundarios
 
-8. Podrá incorporarse un motor paso a paso 28BYJ-48 con controlador ULN2003 para hacer girar el disco durante la reproducción.
 
-9. Podrá incorporarse una memoria EEPROM externa comunicada mediante I²C para almacenar las asociaciones entre etiquetas y canciones.
+9. Podrá incorporarse una tira o arreglo de LEDs RGB direccionables tipo NeoPixel (WS2812B), controlados por la EDU-CIAA-NXP, para ejecutar secuencias y efectos lumínicos preprogramados según la canción en reproducción.
 
-10. La placa de conexión deberá prever las conexiones necesarias para incorporar los módulos secundarios sin requerir un rediseño completo.
+10. Podrá incorporarse una memoria EEPROM externa comunicada mediante I²C para almacenar las asociaciones entre etiquetas y canciones.
+
+11. La placa de conexión deberá prever las conexiones necesarias para incorporar los módulos secundarios sin requerir un rediseño completo.
 
 
 == Requerimientos funcionales de software
@@ -268,16 +278,18 @@ La EDU-CIAA-NXP dispone de líneas de 5 V y 3,3 V en sus conectores de expansió
 
 6. El sistema debe gestionar de forma no bloqueante la lectura del RFID y la actualización de la pantalla, manteniendo la responsividad.
 
+7. El sistema debe controlar el giro del motor de manera coordinada con la reproducción de audio
+
 
 === Secundarios
 
-7. El sistema podrá controlar el giro del motor de manera coordinada con la reproducción de audio.
+8. El sistema podrá controlar secuencias luminosas preprogramadas en los LEDs NeoPixel en función de la canción en reproducción.
 
-8. Podrá incorporarse un modo de configuración que permita asociar una etiqueta RFID/NFC a una canción sin modificar el código del programa.
+9. Podrá incorporarse un modo de configuración que permita asociar una etiqueta RFID/NFC a una canción sin modificar el código del programa.
 
-9. Las asociaciones realizadas podrán almacenarse en una memoria EEPROM para conservarse después de apagar o reiniciar el sistema.
+10. Las asociaciones realizadas podrán almacenarse en una memoria EEPROM para conservarse después de apagar o reiniciar el sistema.
 
-10. Podrán incorporarse controles físicos para funciones básicas como pausa, cambio de pista o ajuste de volumen.
+11. Podrán incorporarse controles físicos para funciones básicas como pausa, cambio de pista o ajuste de volumen.
 
 
 == Requerimientos no funcionales
@@ -352,7 +364,8 @@ En la Tabla 1 se presenta el diagrama de Gantt preliminar del proyecto, donde se
     [Ensamblaje e integración del prototipo], [], [], [], [], [], [], f, f, [],
     [Estructura física del tocadiscos], [], [], [], [], [], [], f, f, [],
     [Pruebas de validación del sistema], [], [], [], [], [], [], [], f, f,
-    [(Opcional) Motor + giro del disco], [], [], [], [], [], [], [], h, [],
+    [Motor + giro del disco], [], [], [], [], [], [], [], f, f,
+    [(Opcional) LEDs NeoPixel + secuencias], [], [], [], [], [], [], [], h, [],
     [(Opcional) EEPROM + modo asignación], [], [], [], [], [], [], [], h, [],
     [Documentación e informe final], [], [], [], [], [], [], [], f, f,
     table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Entregas formales (hitos)*],
@@ -395,7 +408,8 @@ En la @tab-tareas se presenta la división preliminar de tareas del grupo. Esta 
     [
       - Integración y pruebas del lector MFRC522.
       - Lectura e identificación de etiquetas.
-      - Desarrollo de la asociación entre etiquetas y canciones.
+      - Asociación entre etiquetas y canciones.
+      - Integración y programación de los LEDs NeoPixel en caso de abordar el objetivo secundario.
       - Implementación de la EEPROM en caso de abordar el objetivo secundario.
     ],
 
@@ -414,7 +428,7 @@ En la @tab-tareas se presenta la división preliminar de tareas del grupo. Esta 
       - Integración y programación de la pantalla OLED.
       - Diseño de la información mostrada al usuario.
       - Diseño y desarrollo de la estructura física del tocadiscos.
-      - Integración del motor de giro en caso de abordar el objetivo secundario.
+      - Integración del motor de giro.
     ],
 
     [Seijo, Gerónimo],
@@ -454,3 +468,4 @@ En la @tab-tareas se presenta la división preliminar de tareas del grupo. Esta 
 - [5] Driver ULN2003 y motor 28BYJ-48 — hojas de datos.
 - [6] Controlador SSD1306 / SH1106 para display OLED — hojas de datos.
 - [7] Memoria EEPROM I²C 24LC256 (256K / 32K×8) — hoja de datos. // secundario
+- [8] Worldsemi, "WS2812B Intelligent control LED integrated light source" — hoja de datos.
