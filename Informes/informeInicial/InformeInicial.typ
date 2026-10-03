@@ -161,9 +161,7 @@
 #include "typst/1-introduccion.typ"
 #include "typst/2-objetivos.typ"
 #include "typst/3-requerimientos.typ"
-//#include "typst/4-cronograma-y-tareas.typ"
-#include "typst/5-hardware.typ"
-#include "typst/6-software.typ"
+#include "typst/4-cronograma-y-tareas.typ"
 
 #pagebreak()
 
@@ -182,3 +180,4 @@
 - [5] Driver ULN2003 y motor 28BYJ-48 — hojas de datos.
 - [6] Controlador SSD1306 / SH1106 para display OLED — hojas de datos.
 - [7] Memoria EEPROM I²C 24LC256 (256K / 32K×8) — hoja de datos. // secundario
+- [8] Worldsemi, "WS2812B Intelligent control LED integrated light source" — hoja de datos.

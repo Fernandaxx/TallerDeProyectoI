@@ -63,14 +63,9 @@
   footer: none, // Sin pie de página en la portada
 )
 
-/*// Logo cabecera portada Informatica
-#align(top + center)[
-  #image("image/logo_INFO-UNLP.png", width: 14cm)
-] */
-
 // Logo cabecera portada Ingenieria
 #align(top + center)[
-  #image("image/logo_FI-UNLP.png", width: 13cm)
+  #image("images/logo_FI-UNLP.png", width: 13cm)
 ]
 // Espacio flexible que empuja el texto hacia el centro
 #v(1fr)
@@ -245,7 +240,7 @@ Para representar la EDU-CIAA se utilizó el símbolo de la biblioteca de ponchos
 - *Pines sin uso:* marcados como no conectados.
 
  #figure(
-   image("image/image_avance_1/sch_conectores.png", width: 95%),
+   image("images/sch_conectores.png", width: 95%),
    caption: [Esquemático de los conectores P1 y P2.],
  ) <fig:sch-conectores>
 
@@ -265,7 +260,7 @@ El módulo se alimenta desde `3V3_P2` y nunca debe conectarse a 5 V (máximo abs
 - *C4 (100 nF):* desacople de alta frecuencia.
 
  #figure(
-   image("image/image_avance_1/sch_rfid.png", width: 60%),
+   image("images/sch_rfid.png", width: 60%),
    caption: [Esquemático del lector RFID.],
  ) <fig:sch-rfid>
 
@@ -279,7 +274,7 @@ Para mostrar el estado del sistema y la canción en reproducción se eligió una
 Se alimenta desde `3V3_P1`, por lo que no necesita adaptación de niveles. Junto a su conector se coloca un capacitor de desacople de 100 nF (C3), ya que la pantalla consume por pulsos al refrescar; los capacitores que exige el panel para su convertidor interno ya vienen montados en el módulo [6].
 
  #figure(
-   image("image/image_avance_1/sch_oled.png", width: 55%),
+   image("images/sch_oled.png", width: 55%),
    caption: [Esquemático de la pantalla OLED.],
  ) <fig:sch-oled>
 
@@ -290,7 +285,7 @@ Para que la asignación entre etiquetas y canciones persista tras un reinicio se
 Los pines I2C0 de la CIAA son de drenador abierto y no tienen pull-up interno [3], por lo que el bus necesita resistencias externas. El módulo OLED trae las suyas (se verificó midiendo 3 V en SDA y SCL con las líneas libres), pero en el poncho se agregan R3 y R4 de 10 kΩ para que el bus funcione aunque la pantalla no esté conectada. Es el valor que recomienda el fabricante de la memoria para 100 kHz [8], velocidad a la que operará el bus; en paralelo con las del módulo, la resistencia equivalente queda dentro de lo admitido por el estándar I2C.
 
  #figure(
-   image("image/image_avance_1/sch_eeprom.png", width: 40%),
+   image("images/sch_eeprom.png", width: 40%),
    caption: [Esquemático de la memoria EEPROM y los pull-ups del bus I2C.],
  ) <fig:sch-eeprom>
 
@@ -307,7 +302,7 @@ Aunque el módulo se alimenta con 5 V, su interfaz serie es de 3,3 V [5]. Se con
 El módulo se alimenta desde el riel de 5 V, junto a él se colocan C6 (470 µF), que cubre sus picos de hasta 200 mA, y C7 (100 nF) para el desacople. Los pines IO, ADKEY y USB no se utilizan. Las salidas SPK del amplificador interno (mono) se llevan a una bornera de respaldo (J5), validada en los ensayos.
 
  #figure(
-   image("image/image_avance_1/sch_dfplayer.png", width: 75%),
+   image("images/sch_dfplayer.png", width: 75%),
    caption: [Esquemático del reproductor DFPlayer.],
  ) <fig:sch-dfplayer>
 
@@ -323,7 +318,7 @@ Los parlantes se conectan directamente a las borneras del módulo, de modo que l
 Los cables hacia el panel deben ser cortos, trenzados y alejados de los del motor. En los ensayos, la falta de la masa de señal entre el DFPlayer y el amplificador fue la causa de que no hubiera sonido, por lo que esa masa se incluye explícitamente en J7.
 
  #figure(
-   image("image/image_avance_1/sch_audio.png", width: 65%),
+   image("images/sch_audio.png", width: 65%),
    caption: [Esquemático de los conectores hacia el amplificador.],
  ) <fig:sch-audio>
 
@@ -338,7 +333,7 @@ El volumen se controla con un potenciómetro deslizante lineal de 10 kΩ (B10K) 
 Se alimenta desde la alimentación analógica de la CIAA porque así la lectura resulta proporcional a la misma referencia del conversor y queda menos expuesta al ruido digital; su consumo es de 0,33 mA. Los pines del ADC no toleran 5 V [3], por lo que el potenciómetro nunca debe conectarse al riel de 5 V. Con 10 kΩ, la impedancia que ve el ADC es como máximo de 2,5 kΩ (cursor en el centro del recorrido), dentro de lo que admite el conversor del LPC4337. Entre el cursor y GNDA se coloca C13 (100 nF), que filtra el ruido captado por el cable y estabiliza la muestra del ADC; su constante de tiempo (1 ms) es despreciable para un control manual.
 
  #figure(
-   image("image/image_avance_1/sch_fader.png", width: 55%),
+   image("images/sch_fader.png", width: 55%),
    caption: [Esquemático del control de volumen.],
  ) <fig:sch-fader>
 
@@ -354,7 +349,7 @@ Según el esquema interno del ULN2003 [10, Fig. 1], cada entrada tiene una resis
 Un punto a resolver es el comportamiento durante el arranque: mientras la CIAA se reinicia y hasta que el firmware configura los pines, los GPIO del LPC4337 quedan como entradas con resistencia de pull-up interna [3]. Esa corriente débil podría activar parcialmente las salidas y mover o calentar el motor durante el reset. Para evitarlo se agregan resistencias de 10 kΩ a masa en cada entrada (R5 a R8), que mantienen las entradas firmemente en nivel bajo hasta que el firmware las controla; cuando el GPIO está en alto, cada una consume solo 0,33 mA. Junto a J9 se colocan C11 (470 µF) y C12 (100 nF), porque cada bobina consume 100 mA a 5 V y en cada paso se conmutan de a dos [9].
 
  #figure(
-   image("image/image_avance_1/sch_motor.png", width: 100%),
+   image("images/sch_motor.png", width: 100%),
    caption: [Esquemático de la conexión al módulo del motor.],
  ) <fig:sch-motor>
 
@@ -370,7 +365,7 @@ Cuando el GPIO está en alto, Q1 conduce y lleva la línea a 0 V; cuando está e
 R9 protege al primer LED y amortigua reflexiones en el cable [13], y C15 (470 µF) cubre los picos de consumo de la tira. Se eligió T_FIL1 porque la sAPI la ofrece como salida PWM y está vinculada al periférico SCT [14]: para luz fija alcanza con generar la señal por software, y el SCT permitiría generar animaciones por hardware sin cambiar el circuito.
 
  #figure(
-   image("image/image_avance_1/sch_neopixel.png", width: 75%),
+   image("images/sch_neopixel.png", width: 75%),
    caption: [Esquemático del adaptador de nivel y la tira de LEDs.],
  ) <fig:sch-neopixel>
 
@@ -380,7 +375,7 @@ El esquemático completo del poncho se realizó en KiCad. Para el DFPlayer se cr
 
 // PENDIENTE: exportar el esquemático completo (KiCad: Archivo → Trazar → SVG) y descomentar.
  #figure(
-   image("image/image_avance_1/esquematico.png", width: 105%),
+   image("images/esquematico.png", width: 105%),
    caption: [Circuito esquemático completo del poncho.],
  ) <fig:esquematico>
 
@@ -397,7 +392,7 @@ El sistema se alimenta desde un único riel de 5 V, con la siguiente arquitectur
 No se coloca diodo contra inversión de polaridad, porque su caída de tensión dejaría al amplificador y al DFPlayer por debajo de 5 V; en su lugar se usa un conector polarizado.
 
  #figure(
-   image("image/image_avance_1/sch_alimentacion.png", width: 100%),
+   image("images/sch_alimentacion.png", width: 100%),
    caption: [Esquemático de la entrada de alimentación.],
  ) <fig:sch-alimentacion>
 

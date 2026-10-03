@@ -49,7 +49,8 @@ En la Tabla 1 se presenta el diagrama de Gantt preliminar del proyecto, donde se
     [Ensamblaje e integración del prototipo], [], [], [], [], [], [], f, f, [],
     [Estructura física del tocadiscos], [], [], [], [], [], [], f, f, [],
     [Pruebas de validación del sistema], [], [], [], [], [], [], [], f, f,
-    [(Opcional) Motor + giro del disco], [], [], [], [], [], [], [], h, [],
+    [Motor + giro del disco], [], [], [], [], [], [], [], f, f,
+    [(Opcional) LEDs NeoPixel + secuencias], [], [], [], [], [], [], [], h, [],
     [(Opcional) EEPROM + modo asignación], [], [], [], [], [], [], [], h, [],
     [Documentación e informe final], [], [], [], [], [], [], [], f, f,
     table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Entregas formales (hitos)*],
@@ -92,7 +93,8 @@ En la @tab-tareas se presenta la división preliminar de tareas del grupo. Esta 
     [
       - Integración y pruebas del lector MFRC522.
       - Lectura e identificación de etiquetas.
-      - Desarrollo de la asociación entre etiquetas y canciones.
+      - Asociación entre etiquetas y canciones.
+      - Integración y programación de los LEDs NeoPixel en caso de abordar el objetivo secundario.
       - Implementación de la EEPROM en caso de abordar el objetivo secundario.
     ],
 
@@ -111,7 +113,7 @@ En la @tab-tareas se presenta la división preliminar de tareas del grupo. Esta 
       - Integración y programación de la pantalla OLED.
       - Diseño de la información mostrada al usuario.
       - Diseño y desarrollo de la estructura física del tocadiscos.
-      - Integración del motor de giro en caso de abordar el objetivo secundario.
+      - Integración del motor de giro.
     ],
 
     [Seijo, Gerónimo],
