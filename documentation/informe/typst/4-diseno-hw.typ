@@ -240,15 +240,6 @@ R9 protege al primer LED y amortigua reflexiones en el cable [13], y C15 (470 µ
    caption: [Esquemático del adaptador de nivel y la tira de LEDs.],
  ) <fig:sch-neopixel>
 
-== Circuito esquemático
-
-El esquemático completo del poncho se realizó en KiCad [19]. Para el DFPlayer se creó un símbolo propio; la EEPROM y el transistor 2N7000 (Q1) usan símbolos de la biblioteca estándar, y el resto de los módulos se representa mediante su conector, identificado con el módulo y el orden de sus pines, junto con los componentes que cada uno necesita. Las conexiones entre bloques se realizan con etiquetas globales. El verificador de reglas eléctricas (ERC) no reporta errores ni advertencias.
-// PENDIENTE: exportar el esquemático completo (KiCad: Archivo → Trazar → SVG) y descomentar.
- #figure(
-   image("../images/esquematico.png", width: 105%),
-   caption: [Circuito esquemático completo del poncho.],
- ) <fig:esquematico>
-
 == Alimentación del sistema <sec:alimentacion>
 
 El sistema se alimenta desde un único riel de 5 V, con la siguiente arquitectura:

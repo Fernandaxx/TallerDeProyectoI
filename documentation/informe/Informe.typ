@@ -16,7 +16,7 @@
   first-line-indent: 0pt, // sangría de primera línea
 )
 // Numeración de títulos automática
-#set heading(numbering: "1.1.")
+#set heading(numbering: "1.1.1.")
 #show heading: set text(size: 14pt)
 
 // Leyenda ARRIBA solo para tablas; las figuras de imagen la mantienen abajo
@@ -210,3 +210,14 @@
 
 [19] KiCad Developers, «KiCad EDA». [En línea]. Disponible en: #link("https://www.kicad.org/")
 ]
+
+// ==========================================
+// APÉNDICES
+// ==========================================
+
+#pagebreak()
+#set heading(numbering: "A.1.1.", supplement: [Apéndice])
+#counter(heading).update(0)
+#include "typst/A1-materiales.typ"
+#pagebreak(weak: true)
+#include "typst/A2-esquematico.typ"

@@ -1,22 +1,9 @@
-
-= Cronograma preliminar
+= Cronograma ajustado
 
 El desarrollo del proyecto se organizó en etapas sucesivas que comprenden el análisis inicial, la investigación de componentes, el diseño de hardware y software, el desarrollo del código, la fabricación, la integración y las pruebas finales. La planificación se realizó tomando como referencia el cronograma propuesto por la cátedra y los requerimientos definidos para el sistema.
 
-Las entregas formales de la materia se consideran hitos de control que permiten evaluar el avance del proyecto y marcar el cierre de las principales etapas de desarrollo. Durante septiembre y octubre se concentrarán principalmente las tareas de investigación y diseño, mientras que entre octubre y noviembre se avanzará con la programación, el diseño y fabricación de la placa y las pruebas individuales de los distintos módulos. Durante diciembre se prevé realizar la integración, los ensayos y la validación del prototipo.
+A la fecha se completaron la elección y definición del proyecto, el análisis de componentes y protocolos, la definición de requerimientos y el diseño preliminar del esquemático y de la arquitectura del firmware. En la @tab-gantt se muestra el período restante, de octubre a diciembre de 2026, con las tareas pendientes y los hitos por cumplir.
 
-
-En la Tabla 1 se presenta el diagrama de Gantt preliminar del proyecto, donde se indican las principales tareas, su distribución temporal y los hitos previstos.
-
-
-// NOTA (con el grupo): las columnas agrupan semanas por mes. Las barras indican en qué período
-// se trabaja cada tarea; la asignación fina por integrante y semana se detalla en la sección
-// "División de tareas". Editar celdas (marca de color) y estimar horas al planificar en grupo.
-
-#v(0.5em)
-
-#let e = table.cell(fill: rgb("#b6d7a8"))[]   // etapa inicial
-#let v = table.cell(fill: rgb("#a2c4c9"))[]   // investigación
 #let d = table.cell(fill: rgb("#ffe599"))[]   // diseño
 #let c = table.cell(fill: rgb("#f9cb9c"))[]   // desarrollo de código
 #let f = table.cell(fill: rgb("#b4a7d6"))[]   // etapa final
@@ -25,105 +12,106 @@ En la Tabla 1 se presenta el diagrama de Gantt preliminar del proyecto, donde se
 
 #figure(
   text(size: 9pt)[#table(
-    columns: (auto,) + (1fr,) * 9,
-    align: (left,) + (center,) * 9,
+    columns: (auto,) + (1fr,) * 6,
+    align: (left,) + (center,) * 6,
     stroke: 0.4pt + gray,
     inset: 3pt,
-    table.header([*Tarea*], [Ago], [1ª Sep], [2ª Sep], [1ª Oct], [2ª Oct], [1ª Nov], [2ª Nov], [1ª Dic], [2ª Dic]),
-    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Etapa inicial*],
-    [Elección y definición del proyecto], e, e, [], [], [], [], [], [], [],
-    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Etapa de investigación*],
-    [Análisis de componentes y protocolos], [], v, v, [], [], [], [], [], [],
-    [Definición de requerimientos y arquitectura], [], v, v, [], [], [], [], [], [],
-    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Etapa de diseño*],
-    [Diseño del esquemático y pines EDU-CIAA], [], [], d, d, [], [], [], [], [],
-    [Diseño de la arquitectura del firmware], [], [], d, d, [], [], [], [], [],
-    [Diseño del PCB (poncho)], [], [], [], d, d, [], [], [], [],
-    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Desarrollo de código*],
-    [Pruebas unitarias por módulo RFID], [], [], [], c, c, c, [], [], [],
-    [Pruebas unitarias por módulo DFPlayer], [], [], [], c, c, c, [], [], [],
-    [Pruebas unitarias por módulo OLED], [], [], [], c, c, c, [], [], [],
-    [Firmware del núcleo (máquina de estados)], [], [], [], [], c, c, c, [], [],
-    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Etapa final*],
-    [Fabricación y soldado del PCB], [], [], [], [], [], f, f, [], [],
-    [Ensamblaje e integración del prototipo], [], [], [], [], [], [], f, f, [],
-    [Estructura física del tocadiscos], [], [], [], [], [], [], f, f, [],
-    [Pruebas de validación del sistema], [], [], [], [], [], [], [], f, f,
-    [Motor + giro del disco], [], [], [], [], [], [], [], f, f,
-    [(Opcional) LEDs NeoPixel + secuencias], [], [], [], [], [], [], [], h, [],
-    [(Opcional) EEPROM + modo asignación], [], [], [], [], [], [], [], h, [],
-    [Documentación e informe final], [], [], [], [], [], [], [], f, f,
-    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Entregas formales (hitos)*],
-    [Informe Inicial - 10/09/2026], [], m, [], [], [], [], [], [], [],
-    [Informe de Avance 1 - 05/10/2026], [], [], [], m, [], [], [], [], [],
-    [Informe de Avance 2 - 05/11/2026], [], [], [], [], [], m, [], [], [],
-    [Presentación (meta del grupo)], [], [], [], [], [], [], [], [], m,
+    table.header([*Tarea*], [1ª Oct], [2ª Oct], [1ª Nov], [2ª Nov], [1ª Dic], [2ª Dic]),
+
+    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Etapa de diseño*],
+    [Ajuste final del esquemático y pines EDU-CIAA], d, [], [], [], [], [],
+    [Refinamiento de la arquitectura del firmware], d, [], [], [], [], [],
+    [Diseño del PCB (poncho)], d, d, [], [], [], [],
+
+    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Desarrollo de código*],
+    [Pruebas unitarias del módulo RFID], c, c, c, [], [], [],
+    [Pruebas unitarias del módulo DFPlayer], c, c, c, [], [], [],
+    [Pruebas unitarias del módulo OLED], c, c, c, [], [], [],
+    [Firmware del núcleo (máquina de estados)], [], c, c, c, [], [],
+
+    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Etapa final*],
+    [Fabricación y soldado del PCB], [], [], f, f, [], [],
+    [Ensamblaje e integración del prototipo], [], [], [], f, f, [],
+    [Estructura física del tocadiscos], [], [], [], f, f, [],
+    [Motor y giro del disco], [], [], [], [], f, f,
+    [Pruebas de validación del sistema], [], [], [], [], f, f,
+    [(Opcional) LEDs NeoPixel y secuencias], [], [], [], [], h, [],
+    [(Opcional) EEPROM y modo de asignación], [], [], [], [], h, [],
+    [Documentación e informe final], [], [], [], [], f, f,
+
+    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Entregas formales (hitos)*],
+    [Informe de Avance 1 — 05/10/2026], m, [], [], [], [], [],
+    [Informe de Avance 2 — 05/11/2026], [], [], m, [], [], [],
+    [Presentación (meta del grupo)], [], [], [], [], [], m,
   )],
-  caption: [Diagrama de Gantt por etapas, con meta de presentación en diciembre de 2026.],
-)
+  caption: [Diagrama de Gantt del período restante, con meta de presentación en diciembre de 2026.],
+) <tab-gantt>
 
 #text(size: 9pt)[
   *Referencias:*
-  #box(fill: rgb("#6b8e4e"), width: 0.7em, height: 0.7em) inicial ·
-  #box(fill: rgb("#4a7a3a"), width: 0.7em, height: 0.7em) investigación ·
-  #box(fill: rgb("#3b6ea5"), width: 0.7em, height: 0.7em) diseño ·
-  #box(fill: rgb("#c77f2a"), width: 0.7em, height: 0.7em) desarrollo ·
-  #box(fill: rgb("#7a4a9a"), width: 0.7em, height: 0.7em) etapa final ·
+  #box(fill: rgb("#ffe599"), width: 0.7em, height: 0.7em) diseño ·
+  #box(fill: rgb("#f9cb9c"), width: 0.7em, height: 0.7em) desarrollo ·
+  #box(fill: rgb("#b4a7d6"), width: 0.7em, height: 0.7em) etapa final ·
   #box(fill: rgb("#c9c9c9"), width: 0.7em, height: 0.7em) opcional ·
   #text(fill: rgb("#b02020"), weight: "bold")[◆] hito.
 ]
 
-#pagebreak()
 = División de tareas del grupo
 
-Con el fin de organizar el desarrollo y permitir el trabajo en paralelo, las principales tareas del proyecto se distribuyeron entre los integrantes del grupo. Cada integrante tendrá responsabilidades principales sobre determinados bloques del sistema, aunque las etapas de integración, pruebas, validación y documentación se realizarán de manera conjunta.
+Con el fin de organizar el desarrollo y permitir el trabajo en paralelo, las principales tareas del proyecto se distribuyeron entre los integrantes del grupo. Cada integrante tendrá responsabilidades principales sobre determinados bloques del sistema, aunque las etapas de integración, pruebas, validación y documentación se realizarán de manera conjunta. La distribución de tareas podrá ajustarse durante el desarrollo en función del avance del proyecto y de las necesidades que surjan en cada etapa.
 
-En la @tab-tareas se presenta la división preliminar de tareas del grupo. Esta distribución podrá ajustarse durante el desarrollo en función del avance del proyecto y de las necesidades que surjan en cada etapa.
+Durante estas semanas se trabajó en conjunto en el esquemático y el diseño de la arquitectura del firmware. En la @tab-tareas se presenta la división de tareas del grupo, actualizada según el trabajo realizado. Se agregaron las horas computadas por cada integrante.
+
 #figure(
   table(
-    columns: (1.1fr, 1fr, 3fr),
-    align: (left, left, left),
+    columns: (1.1fr, 3fr, 0.87fr),
+    align: (left, left, left, left),
     stroke: 0.4pt + gray,
     inset: 7pt,
 
-    table.header([*Integrante*], [*Responsabilidad principal*], [*Tareas asignadas*]),
+    table.header([*Integrante*], [*Tareas asignadas*], [*Horas computadas*]),
 
     [Acuña, Lucía],
-    [Identificación RFID/NFC],
     [
+      Identificación RFID/NFC y sistema de iluminación:
       - Integración y pruebas del lector MFRC522.
       - Lectura e identificación de etiquetas.
       - Asociación entre etiquetas y canciones.
       - Integración y programación de los LEDs NeoPixel en caso de abordar el objetivo secundario.
       - Implementación de la EEPROM en caso de abordar el objetivo secundario.
     ],
+    [],
 
     [Avila, Fernanda],
-    [Reproducción y sistema de audio],
     [
+      Reproducción y sistema de audio:
       - Integración y pruebas del DFPlayer Mini.
       - Manejo de la tarjeta microSD y reproducción de archivos.
       - Integración del amplificador PAM8403 y parlante.
       - Análisis y verificación de la alimentación del sistema.
     ],
+    [],
 
     [Bejarano, Abril],
-    [Interfaz y estructura física],
     [
+      Interfaz y estructura física:
       - Integración y programación de la pantalla OLED.
       - Diseño de la información mostrada al usuario.
       - Diseño y desarrollo de la estructura física del tocadiscos.
       - Integración del motor de giro.
     ],
+    [],
 
     [Seijo, Gerónimo],
-    [Firmware e integración de hardware],
+    
     [
-      - Diseño de la arquitectura general del firmware.
+      Firmware e integración de hardware:,
+      #strike[- Diseño de la arquitectura general del firmware.]
       - Integración de los distintos módulos en la EDU-CIAA-NXP.
-      - Selección de pines y diseño del esquemático.
+      #strike[- Selección de pines y diseño del esquemático.]
       - Diseño de la PCB tipo poncho.
     ],
+    [],
 
     table.cell(
       colspan: 3,
@@ -140,127 +128,3 @@ En la @tab-tareas se presenta la división preliminar de tareas del grupo. Esta 
   caption: [División preliminar de tareas entre los integrantes del grupo.],
   kind: table,
 ) <tab-tareas>
-
-// ------------------------------------------------------------
-// 4. LISTA DE MATERIALES
-// ------------------------------------------------------------
-
-== Lista de materiales
-
-En la @tab:bom se detalla la lista de materiales necesarios para implementar el proyecto, agrupados por función. Las referencias corresponden al esquemático del poncho; los elementos sin referencia se montan fuera de la placa o se conectan por cable.
-
-#[
-#show figure: set block(breakable: true)   // permite partir la tabla entre páginas
-#set par(justify: false)                   // evita espacios raros dentro de las celdas
-#set text(size: 10pt)
-#figure(
-  table(
-    columns: (0.5fr, 2fr, 1.8fr, 1.3fr, 1.5fr, 0.6fr),
-    inset: 5pt,
-    stroke: 0.5pt,
-    align: (center + horizon, left + horizon, left + horizon, left + horizon, left + horizon, center + horizon),
-    table.header(
-      [*Ítem*], [*Componente*], [*Código / modelo*], [*Valor*], [*Formato físico*], [*Cant.*],
-    ),
-
-    table.cell(colspan: 6, align: center)[_Módulos y placas_],
-    [1], [Placa de control], [EDU-CIAA-NXP], [LPC4337], [Placa], [1],
-    [2], [Lector RFID/NFC], [Módulo RC522 (MFRC522)], [13,56 MHz], [Módulo], [1],
-    [3], [Etiquetas NFC], [NTAG (adhesivas)], [—], [Sticker], [5],
-    [4], [Reproductor MP3], [DFPlayer Mini (MP3-TF-16P)], [—], [Módulo 16 pines], [1],
-    [5], [Tarjeta de memoria], [microSD, FAT32], [≤ 32 GB], [microSD], [1],
-    [6], [Pantalla OLED], [1,3" SH1106, I2C], [128 × 64], [Módulo 4 pines], [1],
-    [7], [Amplificador], [Módulo PAM8403 con potenciómetro], [2 × 3 W], [Módulo], [1],
-    [8], [Parlante], [—], [4 Ω / 3 W], [—], [2],
-    [9], [Potenciómetro deslizante], [Fader B10K], [10 kΩ lineal], [Panel, THT], [1],
-    [10], [Motor paso a paso + driver], [28BYJ-48 + módulo ULN2003], [5 V], [Motor + módulo], [1],
-    [11], [Tira de LEDs], [WS2812B], [22 LEDs, 5 V], [Tira], [1],
-
-    table.cell(colspan: 6, align: center)[_Alimentación_],
-    [12], [Cargador USB], [—], [5 V / 3 A], [Externo], [1],
-    [13], [Módulo USB de panel], [USB-A + USB-C, salida JST SM], [5 V / 2 A], [Panel], [1],
-
-    table.cell(colspan: 6, align: center)[_Semiconductores del poncho_],
-    [14], [EEPROM I2C (U2)], [24LC256-I/P], [256 kbit], [DIP-8], [1],
-    [15], [Zócalo], [—], [8 pines], [DIP-8], [1],
-    [16], [MOSFET canal N (Q1)], [2N7000], [—], [TO-92], [1],
-
-    table.cell(colspan: 6, align: center)[_Capacitores_],
-    [17], [Electrolítico (C1)], [—], [1000 µF / 16 V], [Radial], [1],
-    [18], [Electrolítico (C6, C11, C15)], [—], [470 µF / 16 V], [Radial], [3],
-    [19], [Electrolítico (C8)], [—], [100 µF / 16 V], [Radial], [1],
-    [20], [Capacitor (C5)], [—], [10 µF], [Radial], [1],
-    [21], [Cerámico (C2–C4, C7, C10, C12, C13)], [—], [100 nF], [Disco], [7],
-    [22], [Cerámico (C9)], [—], [1 µF], [Disco], [1],
-    [23], [Electrolítico (bornes del PAM8403)], [—], [1000 µF / 16 V], [Radial], [1],
-    [24], [Cerámico (bornes del PAM8403)], [—], [1 µF], [Disco], [1],
-
-    table.cell(colspan: 6, align: center)[_Resistencias (1/4 W)_],
-    [25], [Resistencia (R1, R2, R10)], [—], [1 kΩ], [Axial], [3],
-    [26], [Resistencia (R3–R8)], [—], [10 kΩ], [Axial], [6],
-    [27], [Resistencia (R9)], [—], [330 Ω], [Axial], [1],
-
-    table.cell(colspan: 6, align: center)[_Conectores y montaje_],
-    [28], [Tira de pines macho (P1, P2)], [—], [2 × 20, 2,54 mm], [THT], [2],
-    [29], [Tira de pines hembra (DFPlayer)], [—], [1 × 8, 2,54 mm], [THT], [2],
-    [30], [Tira de pines hembra (RFID)], [—], [1 × 8, 2,54 mm], [THT], [1],
-    [31], [Tira de pines hembra (OLED)], [—], [1 × 4, 2,54 mm], [THT], [1],
-    [32], [Tira de pines macho (J1, J2, J5–J11)], [—], [2,54 mm], [THT], [1],
-    [33], [Cables Dupont], [Hembra-hembra], [—], [—], [40],
-    [34], [Separadores], [Nylon M3], [—], [—], [8],
-    [35], [Placa virgen], [Simple faz], [—], [FR-4 o pertinax], [1],
-  ),
-  caption: [Lista de materiales.],
-) <tab:bom>
-]
-
-
-// ------------------------------------------------------------
-// 5. CRONOGRAMA AJUSTADO
-// ------------------------------------------------------------
-
-= Cronograma ajustado
-
-_Presentar el cronograma del proyecto reajustado de acuerdo con el estado actual de avance y las tareas restantes._
-
-
-_Fig. 2: Cronograma actualizado del proyecto._
-
-// ------------------------------------------------------------
-// 6. TAREAS INDIVIDUALES
-// ------------------------------------------------------------
-
-= Tareas individuales realizadas
-
-_Especificar las tareas realizadas hasta la fecha por cada integrante del grupo e indicar las horas invertidas por cada uno._
-
-#table(
-  columns: (1.4fr, 3fr, 1fr),
-  inset: 5pt,
-  stroke: 0.5pt,
-  [*Integrante*], [*Tareas realizadas*], [*Horas*],
-  [Acuña, Lucia], [], [],
-  [Avila Montoya, Eygleen Fernanda], [], [],
-  [Bejarano, Abril], [], [],
-  [Seijo, Gerónimo], [], [],
-)
-
-
-// ------------------------------------------------------------
-// 7. TAREAS RESTANTES
-// ------------------------------------------------------------
-
-= Tareas restantes
-
-_Detallar las tareas que quedan por realizar para continuar con el desarrollo del proyecto._
-
-#table(
-  columns: (3fr, 1.5fr, 1.5fr),
-  inset: 5pt,
-  stroke: 0.5pt,
-  [*Tarea restante*], [*Responsable/s*], [*Fecha / etapa prevista*],
-  [], [], [],
-  [], [], [],
-  [], [], [],
-  [], [], [],
-)
