@@ -17,4 +17,4 @@ extern "C" {
 }
 #endif
 
-#endif _APP_H_
+#endif /*_APP_H_*/
