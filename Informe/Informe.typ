@@ -85,7 +85,7 @@
   #text(size: 16pt, style: "italic")["Reproductor musical interactivo con selección mediante RFID/NFC"] \
   #v(0.8cm)
 
-  #text(size: 18pt, style: "italic")[Informe inicial]
+  #text(size: 18pt, style: "italic")[Informe de Avance 1]
 ]
 
 #v(1fr)
@@ -161,8 +161,10 @@
 #include "typst/1-introduccion.typ"
 #include "typst/2-objetivos.typ"
 #include "typst/3-requerimientos.typ"
-#include "typst/4-cronograma-y-tareas.typ"
-
+#include "typst/4-diseno-hw.typ"
+#include "typst/5-diseno-sw.typ"
+#include "typst/6-ensayos-y-avances.typ"
+#include "typst/cronograma-y-tareas-2.typ"
 #pagebreak()
 
 // ==========================================
@@ -171,7 +173,7 @@
 
 = Bibliografía
 
-// TODO: completar y verificar las referencias, dando formato según la plantilla.
+// tp1
 
 - [1] Proyecto CIAA, "Computadora Industrial Abierta Argentina". URL: http://www.proyecto-ciaa.com.ar/
 - [2] Biblioteca sAPI, EDU-CIAA. URL: https://github.com/epernia/firmware_v3
@@ -181,3 +183,23 @@
 - [6] Controlador SSD1306 / SH1106 para display OLED — hojas de datos.
 - [7] Memoria EEPROM I²C 24LC256 (256K / 32K×8) — hoja de datos. // secundario
 - [8] Worldsemi, "WS2812B Intelligent control LED integrated light source" — hoja de datos.
+
+// tp2 (unir) 
+// [1]  Proyecto CIAA, "EDU-CIAA-NXP — Esquemático jerárquico", Rev. 1.2, 2015 (hojas 4 y 5).
+// [2]  E. Pernia, "Pinout EDU-CIAA-NXP", v1.1.
+// [3]  NXP Semiconductors, "LPC4357/53/37/33 — Product data sheet", Rev. 5.3, 2016.
+// [4]  NXP Semiconductors, "MFRC522 — Standard performance MIFARE and NTAG frontend", Rev. 3.4.
+// [5]  DFRobot, "DFPlayer Mini — Datasheet / Manual".
+// [6]  Allvision Technology, "QG-2864KSWLG01 OLED module datasheet" (controlador SH1106).
+// [7]  Diodes Incorporated, "PAM8403 — Filterless 3 W class-D stereo audio amplifier", 2012.
+// [8]  Microchip Technology, "24AA256/24LC256/24FC256 — 256K I2C Serial EEPROM", DS20001203W.
+// [9]  Kiatronics, "28BYJ-48 — 5V Stepper Motor".
+// [10] STMicroelectronics, "ULN2001, ULN2002, ULN2003, ULN2004 — Seven Darlington array", Rev. 14.
+// [11] Worldsemi, "WS2812B — Intelligent control LED integrated light source".
+// [12] 2N7000 — N-Channel Enhancement Mode Field Effect Transistor.
+// [13] Adafruit, "Adafruit NeoPixel Überguide — Best practices".
+// [14] E. Pernia, "sAPI — Referencia de la API" (salidas PWM de la EDU-CIAA-NXP).
+// [15] E. Pernia, "firmware_v3". [En línea]. Disponible en: https://github.com/epernia/firmware_v3
+// [16] M. Balboa, "Arduino RFID Library for MFRC522". [En línea]. Disponible en:
+//      https://github.com/miguelbalboa/rfid
+// ============================================================
