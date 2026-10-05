@@ -1,4 +1,4 @@
-#include "app.h"
+#include "main.h"
 #include "sapi.h"
 #include "chip.h"
 #include <stdint.h>
@@ -28,7 +28,7 @@ static void reset_neopixel(void);
  * MAIN
  * --------------------------------------------------------- */
 
-int main2(void)
+int main3(void)
 {
     boardConfig();
 

@@ -1,7 +1,7 @@
-#include "app.h"
+#include "main.h"
 #include "sapi.h"
 
-int main( void )
+int main2( void )
 {
    // Inicializar y configurar la plataforma
    boardConfig();
