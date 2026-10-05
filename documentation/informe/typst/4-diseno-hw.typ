@@ -1,9 +1,9 @@
-#set heading(numbering: "1.1.1.1.")
+//#set heading(numbering: "1.1.1.1.")
 = Diseño de hardware
 
 El sistema se organiza alrededor de la EDU-CIAA-NXP, que coordina los periféricos pero no procesa audio: la decodificación de los archivos MP3 la resuelve un módulo dedicado. Sobre la EDU-CIAA se monta una placa de expansión propia (poncho) que distribuye la alimentación, aloja los módulos de menor tamaño y concentra los conectores hacia los elementos que van montados en el gabinete (amplificador, motor, control de volumen y tira de LEDs).
 
-El diseño contempla todas las funcionalidades del proyecto. Dentro de ellas se distingue un *núcleo funcional* (lectura RFID, reproducción de audio, pantalla y control de volumen), que conforma el camino crítico del desarrollo y se integra en primer lugar, y un conjunto de *funcionalidades complementarias* (giro del disco, persistencia de las asignaciones e iluminación), que completan la experiencia de uso y se incorporan sobre ese núcleo. Todas quedan resueltas en el hardware desde esta etapa.
+El diseño contempla todas las funcionalidades del proyecto. Dentro de ellas se distingue un *núcleo funcional* (lectura RFID, reproducción de audio, pantalla, control de volumen y giro del disco), que conforma el camino crítico del desarrollo y se integra en primer lugar, y un conjunto de *funcionalidades complementarias* (persistencia de las asignaciones e iluminación), que completan la experiencia de uso y se incorporan sobre ese núcleo. Todas quedan resueltas en el hardware desde esta etapa.
 
 == Componentes a utilizar
 
@@ -27,12 +27,12 @@ El poncho se diseña con componentes de inserción (THT), compatibles con la fab
     [Amplificador], [Módulo PAM8403 con potenciómetro e interruptor], [2 × 3 W en 4 Ω, clase D], [Módulo de panel],
     [Parlantes], [—], [4 Ω / 3 W], [2 unidades],
     [Control de volumen], [Potenciómetro deslizante B10K], [10 kΩ lineal, doble pista], [Componente de panel],
+    [Motor y driver], [28BYJ-48 + módulo ULN2003], [Paso a paso unipolar, 5 V], [Motor + módulo en el gabinete],
     [Fuente], [Cargador USB + módulo USB de panel], [5 V / 3 A (módulo: 2 A)], [Externo, salida JST de 2 pines],
     table.cell(colspan: 4)[_Funcionalidades complementarias_],
     [EEPROM], [24LC256-I/P (Microchip)], [256 kbit, I2C (0x50)], [DIP-8 en zócalo],
-    [Motor y driver], [28BYJ-48 + módulo ULN2003], [Paso a paso unipolar, 5 V], [Motor + módulo en el gabinete],
     [Tira de LEDs], [WS2812B], [22 LEDs direccionables, 5 V], [Tira con conector de 3 hilos],
-    [Adaptador de nivel], [2N7000], [MOSFET N, TO-92], [DIP-14 en zócalo],
+    [Adaptador de nivel], [2N7000], [MOSFET N, TO-92], [TO-92],
   ),
   caption: [Módulos y componentes principales.],
 ) <tab:modulos>
@@ -70,7 +70,7 @@ El poncho se diseña con componentes de inserción (THT), compatibles con la fab
 
 == Interfaces eléctricas y conexiones <sec:interfaces>
 
-Los módulos del núcleo funcional utilizan cada uno un periférico distinto del LPC4337 (SPI, I2C, UART y ADC), todos disponibles en los conectores P1 y P2 de la EDU-CIAA, por lo que no compiten entre sí. La asignación completa de pines se resume en la @tab:pines. Se evitaron los pines rotulados para Ethernet y LCD; de los pines del teclado matricial solo se usa T_FIL1, como salida de propósito general, porque el proyecto no utiliza teclado.
+Los módulos del núcleo funcional utilizan cada uno un periférico distinto del LPC4337 (SPI, I2C, UART, ADC y GPIO para el motor), todos disponibles en los conectores P1 y P2 de la EDU-CIAA, por lo que no compiten entre sí. La asignación completa de pines se resume en la @tab:pines. Se evitaron los pines rotulados para Ethernet y LCD; de los pines del teclado matricial solo se usa T_FIL1, como salida de propósito general, porque el proyecto no utiliza teclado.
 
 #figure(
   table(
@@ -94,7 +94,7 @@ Los módulos del núcleo funcional utilizan cada uno un periférico distinto del
     [Fader], [Cursor], [P1-13], [CH1 (ADC)], [`ADC_VOL`],
     [], [Extremos], [P1-17 / P1-18], [VDDA / GNDA], [`VDDA` / `GNDA`],
     [Motor], [IN1–IN4 del ULN2003], [P2-36, 35, 38, 40], [GPIO5–GPIO8], [`MOT_IN1`–`MOT_IN4`],
-    [Tira LED], [DIN (vía U4 y R9)], [P1-36], [T_FIL1 (PWM0, SCT)], [`NEO_DATA`],
+    [Tira LED], [DIN (vía Q1 y R9)], [P1-36], [T_FIL1 (PWM0, SCT)], [`NEO_DATA`],
     [Reserva], [Botones (a definir)], [P2-34, P2-33], [GPIO3, GPIO4], [—],
   ),
   caption: [Asignación de pines de la EDU-CIAA-NXP.],
@@ -137,7 +137,7 @@ El módulo se alimenta desde `3V3_P2` y nunca debe conectarse a 5 V (máximo abs
 
 === Pantalla OLED (salida)
 
-Para mostrar el estado del sistema y la canción en reproducción se eligió una pantalla OLED de 1,3 pulgadas y 128 × 64 píxeles con controlador SH1106. No requiere retroiluminación y su resolución alcanza para texto y gráficos simples; en los ensayos se mostró incluso una animación del disco girando junto al título y el artista. Se comunica por I2C en la dirección 0x3C:
+Para mostrar el estado del sistema y la canción en reproducción se eligió una pantalla OLED de 1,3 pulgadas y 128 × 64 píxeles con controlador SH1106 [18]. No requiere retroiluminación y su resolución alcanza para texto y gráficos simples; en los ensayos se mostró incluso una animación del disco girando junto al título y el artista. Se comunica por I2C en la dirección 0x3C:
 
 - SDA a I2C_SDA (P1-19).
 - SCL a I2C_SCL (P1-21).
@@ -168,7 +168,7 @@ La reproducción la resuelve un DFPlayer Mini (clon MP3-TF-16P), que decodifica 
 - TX del módulo a RS232_RX (P1-23), a través de R2.
 - BUSY a GPIO2.
 
-Aunque el módulo se alimenta con 5 V, su interfaz serie es de 3,3 V [5]. Se confirmó midiendo 3,375 V en el TX en reposo, por encima del umbral de nivel alto de la CIAA (0,7 × 3,3 V = 2,31 V [3]). Las resistencias R1 y R2 (1 kΩ) se colocan en serie según la recomendación del fabricante, para reducir ruido y limitar la corriente si una de las placas queda sin alimentación. La salida BUSY indica si hay reproducción en curso; se midieron 0,061 V reproduciendo y 3,376 V en silencio (activa en bajo, lógica de 3,3 V), lo que permite conectarla directamente y detectar el fin de una canción por su flanco ascendente.
+Aunque el módulo se alimenta con 5 V, su interfaz serie es de 3,3 V [5]. Se confirmó midiendo 3,375 V en el TX en reposo, por encima del umbral de nivel alto de la CIAA (0,7 × 3,3 V = 2,31 V [3]). Las resistencias R1 y R2 (1 kΩ) se colocan en serie según la recomendación del fabricante [5], para reducir ruido y limitar la corriente si una de las placas queda sin alimentación. La salida BUSY indica si hay reproducción en curso; se midieron 0,061 V reproduciendo y 3,376 V en silencio (activa en bajo, lógica de 3,3 V), lo que permite conectarla directamente y detectar el fin de una canción por su flanco ascendente.
 
 El módulo se alimenta desde el riel de 5 V, junto a él se colocan C6 (470 µF), que cubre sus picos de hasta 200 mA, y C7 (100 nF) para el desacople. Los pines IO, ADKEY y USB no se utilizan. Las salidas SPK del amplificador interno (mono) se llevan a una bornera de respaldo (J5), validada en los ensayos.
 
@@ -242,8 +242,7 @@ R9 protege al primer LED y amortigua reflexiones en el cable [13], y C15 (470 µ
 
 == Circuito esquemático
 
-El esquemático completo del poncho se realizó en KiCad. Para el DFPlayer se creó un símbolo propio; la EEPROM y el 74AHCT125 usan símbolos de la biblioteca estándar, y el resto de los módulos se representa mediante su conector, identificado con el módulo y el orden de sus pines, junto con los componentes que cada uno necesita. Las conexiones entre bloques se realizan con etiquetas globales. El verificador de reglas eléctricas (ERC) no reporta errores ni advertencias.
-
+El esquemático completo del poncho se realizó en KiCad [19]. Para el DFPlayer se creó un símbolo propio; la EEPROM y el transistor 2N7000 (Q1) usan símbolos de la biblioteca estándar, y el resto de los módulos se representa mediante su conector, identificado con el módulo y el orden de sus pines, junto con los componentes que cada uno necesita. Las conexiones entre bloques se realizan con etiquetas globales. El verificador de reglas eléctricas (ERC) no reporta errores ni advertencias.
 // PENDIENTE: exportar el esquemático completo (KiCad: Archivo → Trazar → SVG) y descomentar.
  #figure(
    image("../images/esquematico.png", width: 105%),
@@ -302,7 +301,7 @@ Este valor corresponde a ambos canales a potencia máxima en forma continua, sit
     align: center + horizon,
     [*Componente*], [*Peor caso [A]*], [*Típico estimado [A]*], [*Notas*],
     [PAM8403 estéreo (2 × 4 Ω)], [1,54], [0,3 a 0,4], [Ecuación anterior; potencia media de la música.],
-    [DFPlayer], [0,20], [0,05], [Datos del fabricante.],
+    [DFPlayer], [0,20], [0,05], [Datos del fabricante [5].],
     [Motor 28BYJ-48], [0,20], [0,20], [Dos bobinas de 50 Ω a 5 V [9].],
     [Tira WS2812B], [0,40], [0,30], [Brillo limitado por firmware.],
     [EDU-CIAA + riel de 3,3 V], [0,38], [0,30], [Estimado; a medir.],
@@ -311,7 +310,7 @@ Este valor corresponde a ambos canales a potencia máxima en forma continua, sit
   caption: [Consumo estimado del riel de 5 V.],
 ) <tab:consumo5>
 
-El peor caso teórico, con todas las cargas al máximo en simultáneo, queda por debajo de los 3 A del cargador pero supera los 2 A del módulo de panel; en condiciones reales de uso el consumo típico estimado ronda 1,2 A. Para conservar el margen, el brillo de la tira se limita por firmware y el potenciómetro del amplificador se usa como tope de volumen, a su vez se podria probar una modificacion en el modulo de panel para que entregue los 3 A que aporta el cargador. Además, se medirá la tensión en la entrada del poncho con el sistema a volumen alto: no debería bajar de unos 4,6 V, porque la CIAA pierde unos 0,3 V en el diodo de su entrada P4 y su regulador necesita alrededor de 1 V de margen para entregar 3,3 V.
+El peor caso teórico, con todas las cargas al máximo en simultáneo, queda por debajo de los 3 A del cargador pero supera los 2 A del módulo de panel; en condiciones reales de uso el consumo típico estimado ronda 1,2 A. Para conservar el margen, el brillo de la tira se limita por firmware y el potenciómetro del amplificador se usa como tope de volumen; también se evaluará modificar el módulo de panel para que entregue los 3 A del cargador. Además, se medirá la tensión en la entrada del poncho con el sistema a volumen alto: no debería bajar de unos 4,6 V, porque la CIAA pierde unos 0,3 V en el diodo de su entrada P4 y su regulador necesita alrededor de 1 V de margen para entregar 3,3 V.
 
 == Diseño mecánico del prototipo
 

@@ -11,25 +11,26 @@
 
 3. Debe incorporar un módulo DFPlayer Mini para reproducir archivos de audio almacenados en una tarjeta microSD y comunicarse con la EDU-CIAA mediante UART.
 
-4. Debe incorporar un amplificador PAM8403 y un parlante compatible para la reproducción del audio.
+4. Debe incorporar un amplificador PAM8403 y dos parlantes compatibles para la reproducción del audio.
 
 5. Debe incorporar una pantalla OLED comunicada mediante I²C para mostrar información del sistema.
 
-6. El sistema debe contar con una alimentación de 5 V y disponer de los niveles de tensión necesarios para los módulos que trabajen a 3,3 V, manteniendo una masa común.
+6. Debe incorporar un potenciómetro deslizante, leído por el conversor analógico-digital de la EDU-CIAA-NXP, para el control de volumen.
 
-7. Los módulos externos deben integrarse mediante una placa tipo poncho (PCB) compatible con los conectores de expansión de la EDU-CIAA-NXP.
+7. El sistema debe contar con una alimentación de 5 V y disponer de los niveles de tensión necesarios para los módulos que trabajen a 3,3 V, manteniendo una masa común.
 
-8. Debe incorporar un motor paso a paso 28BYJ-48 con controlador ULN2003 para hacer girar el disco durante la reproducción.
+8. Los módulos externos deben integrarse mediante una placa tipo poncho (PCB) compatible con los conectores de expansión de la EDU-CIAA-NXP.
+
+9. Debe incorporar un motor paso a paso 28BYJ-48 con controlador ULN2003 para hacer girar el disco durante la reproducción.
 
 // TODO: confirmar RF-HW 6 según se decida usar o no la línea TX del DFPlayer (detección de fin de pista).
 === Secundarios
 
-9. Podrá incorporarse una tira o arreglo de LEDs RGB direccionables tipo NeoPixel (WS2812B), controlados por la EDU-CIAA-NXP, para ejecutar secuencias y efectos lumínicos preprogramados según la canción en reproducción.
+10. Podrá incorporarse una tira o arreglo de LEDs RGB direccionables tipo NeoPixel (WS2812B), controlados por la EDU-CIAA-NXP, para ejecutar secuencias y efectos lumínicos preprogramados según la canción en reproducción.
 
-10. Podrá incorporarse una memoria EEPROM externa comunicada mediante I²C para almacenar las asociaciones entre etiquetas y canciones.
+11. Podrá incorporarse una memoria EEPROM externa comunicada mediante I²C para almacenar las asociaciones entre etiquetas y canciones.
 
-11. La placa de conexión deberá prever las conexiones necesarias para incorporar los módulos secundarios sin requerir un rediseño completo.
-
+12. La placa de conexión deberá prever las conexiones necesarias para incorporar los módulos secundarios sin requerir un rediseño completo.
 
 == Requerimientos funcionales de software
 
@@ -47,18 +48,19 @@
 
 6. El sistema debe gestionar de forma no bloqueante la lectura del RFID y la actualización de la pantalla, manteniendo la responsividad.
 
-7. El sistema debe controlar el giro del motor de manera coordinada con la reproducción de audio
+7. El sistema debe leer la posición del control de volumen y ajustar en consecuencia el volumen del reproductor.
+
+8. El sistema debe controlar el giro del motor de manera coordinada con la reproducción de audio.
 
 === Secundarios
 
-8. El sistema podrá controlar secuencias luminosas preprogramadas en los LEDs NeoPixel en función de la canción en reproducción.
+9. El sistema podrá controlar secuencias luminosas preprogramadas en los LEDs NeoPixel en función de la canción en reproducción.
 
-9. Podrá incorporarse un modo de configuración que permita asociar una etiqueta RFID/NFC a una canción sin modificar el código del programa.
+10. Podrá incorporarse un modo de configuración que permita asociar una etiqueta RFID/NFC a una canción sin modificar el código del programa.
 
-10. Las asociaciones realizadas podrán almacenarse en una memoria EEPROM para conservarse después de apagar o reiniciar el sistema.
+11. Las asociaciones realizadas podrán almacenarse en una memoria EEPROM para conservarse después de apagar o reiniciar el sistema.
 
-11. Podrán incorporarse controles físicos para funciones básicas como pausa, cambio de pista o ajuste de volumen.
-
+12. Podrán incorporarse controles físicos para funciones básicas como pausa, cambio de pista o ajuste de volumen.
 
 == Requerimientos no funcionales
 

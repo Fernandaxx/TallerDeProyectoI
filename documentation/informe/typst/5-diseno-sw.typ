@@ -1,4 +1,4 @@
-#set heading(numbering: "1.1.1.1.")
+//#set heading(numbering: "1.1.1.1.")
 = Diseño de software
 
 El firmware se desarrolla en C sobre la EDU-CIAA-NXP utilizando la biblioteca sAPI del entorno firmware_v3 [14] [15], que abstrae el acceso a los periféricos del LPC4337 (GPIO, SPI, I2C, UART, ADC y base de tiempo). Sobre ella se escribe un módulo por periférico, de modo que cada uno pueda probarse por separado antes de integrarlo, y una lógica principal organizada como máquina de estados finitos (MEF) no bloqueante.
@@ -54,7 +54,7 @@ El motor es la tarea más sensible a esas demoras, porque un retraso en un paso 
 
 - *dfplayer:* arma las tramas de 10 bytes del protocolo del DFPlayer, con su suma de verificación [5], y las encola para respetar la separación mínima entre comandos. Al arrancar espera la trama de inicialización del módulo, con un tiempo máximo de 3 s, y fija el volumen inicial, ya que el módulo arranca al máximo. Los comandos utilizados son reproducir una pista de una carpeta, detener, pausar y fijar el volumen. El fin de una pista se detecta principalmente por la salida BUSY y, como respaldo, por la trama de fin de reproducción que envía el módulo.
 - *rfid:* inicializa el MFRC522 por SPI, habilita la antena y realiza la secuencia de detección y anticolisión de la norma ISO/IEC 14443A [4]. Como las etiquetas NTAG tienen UID de 7 bytes, se implementan los dos niveles de cascada de la anticolisión. Para la secuencia de registros se toma como referencia la biblioteca MFRC522 para Arduino [16], reescrita sobre la sAPI. La verificación del registro de versión acepta el valor 0x82 del clon utilizado, además de los valores del datasheet.
-- *oled:* inicializa el controlador SH1106 y envía la imagen por páginas, considerando el desplazamiento de 2 columnas de su memoria (132 columnas frente a 128 visibles). Sobre él, una capa gráfica dibuja texto con una tipografía de mapa de bits e imágenes almacenadas en memoria de programa, como los cuadros de la animación del disco.
+- *oled:* inicializa el controlador SH1106 y envía la imagen por páginas, considerando el desplazamiento de 2 columnas de su memoria (132 columnas frente a 128 visibles)[18]. Sobre él, una capa gráfica dibuja texto con una tipografía de mapa de bits e imágenes almacenadas en memoria de programa, como los cuadros de la animación del disco.
 - *eeprom:* lee y escribe páginas de 64 bytes de la 24LC256 [8]. Tras cada escritura consulta a la memoria hasta que responde (ACK polling), en lugar de esperar un tiempo fijo de 5 ms.
 - *motor:* recorre la secuencia de medio paso de 8 estados sobre las cuatro entradas del ULN2003. Al detenerse apaga las bobinas, para evitar el consumo de 200 mA y el calentamiento con el motor quieto.
 - *neopixel:* mantiene un buffer con el color de los 22 LEDs y lo transmite a la tira. Un brillo máximo fijado como constante limita el consumo (ver sección de alimentación).
