@@ -61,7 +61,6 @@ A la fecha se completaron la elección y definición del proyecto, el análisis 
 Con el fin de organizar el desarrollo y permitir el trabajo en paralelo, las principales tareas del proyecto se distribuyeron entre los integrantes del grupo. Cada integrante tendrá responsabilidades principales sobre determinados bloques del sistema, aunque las etapas de integración, pruebas, validación y documentación se realizarán de manera conjunta. La distribución de tareas podrá ajustarse durante el desarrollo en función del avance del proyecto y de las necesidades que surjan en cada etapa.
 
 Durante estas semanas se trabajó en conjunto en el esquemático y el diseño de la arquitectura del firmware. En la @tab-tareas se presenta la división de tareas del grupo, actualizada según el trabajo realizado. Se agregaron las horas computadas por cada integrante.
-
 #figure(
   table(
     columns: (1.1fr, 3fr, 0.87fr),
@@ -73,58 +72,68 @@ Durante estas semanas se trabajó en conjunto en el esquemático y el diseño de
 
     [Acuña, Lucía],
     [
-      Identificación RFID/NFC y sistema de iluminación:
+      Identificación RFID/NFC y funcionalidades complementarias:
       - Integración y pruebas del lector MFRC522.
-      - Lectura e identificación de etiquetas.
-      - Asociación entre etiquetas y canciones.
-      - Integración y programación de los LEDs NeoPixel en caso de abordar el objetivo secundario.
-      - Implementación de la EEPROM en caso de abordar el objetivo secundario.
+      - Lectura de etiquetas y asociación UID–canción.
+      - Análisis de EEPROM 24LC256 y LEDs NeoPixel.
+      - Colaboración en requerimientos y revisión del diseño.
     ],
-    [],
+    [9 h],
 
     [Avila, Fernanda],
     [
-      Reproducción y sistema de audio:
-      - Integración y pruebas del DFPlayer Mini.
-      - Manejo de la tarjeta microSD y reproducción de archivos.
-      - Integración del amplificador PAM8403 y parlante.
-      - Análisis y verificación de la alimentación del sistema.
+      Reproducción, audio y alimentación:
+      - Integración y ensayos del DFPlayer Mini.
+      - Configuración de microSD y reproducción de audio.
+      - Integración del PAM8403 y parlantes.
+      - Verificación de UART/BUSY y análisis de alimentación.
     ],
-    [],
+    [9 h],
 
     [Bejarano, Abril],
     [
-      Interfaz y estructura física:
-      - Integración y programación de la pantalla OLED.
-      - Diseño de la información mostrada al usuario.
-      - Diseño y desarrollo de la estructura física del tocadiscos.
-      - Integración del motor de giro.
+      Interfaz de usuario y estructura física:
+      - Integración y ensayos de la pantalla OLED SH1106.
+      - Diseño de pantallas e información al usuario.
+      - Análisis del control de volumen mediante fader.
+      - Diseño preliminar de estructura e integración del motor.
     ],
-    [],
+    [9 h],
 
     [Seijo, Gerónimo],
-    
     [
-      Firmware e integración de hardware:,
-      #strike[- Diseño de la arquitectura general del firmware.]
-      - Integración de los distintos módulos en la EDU-CIAA-NXP.
-      #strike[- Selección de pines y diseño del esquemático.]
-      - Diseño de la PCB tipo poncho.
+      Firmware e integración de hardware:
+      - Diseño de la arquitectura del firmware y máquina de estados.
+      - Selección y asignación de pines de la EDU-CIAA-NXP.
+      - Diseño del esquemático e interfaces de periféricos.
+      - Inicio del diseño de la PCB tipo poncho.
     ],
-    [],
+    [12 h],
+  ),
 
-    table.cell(
-      colspan: 3,
-      fill: rgb("#eeeeee"),
-    )[
-      *Tareas compartidas por todo el grupo*
-    ],
+  caption: [División actualizada de tareas y horas invertidas por los integrantes del grupo.],
+  kind: table,
+) <tab-tareas>
 
-    table.cell(colspan: 3)[
-      Integración final del prototipo, pruebas y validación del sistema, resolución de problemas, revisión del diseño, elaboración de los informes y preparación de la presentación del proyecto.
+
+#figure(
+  table(
+    columns: 1fr,
+    align: left,
+    stroke: 0.4pt + gray,
+    inset: 7pt,
+
+    table.header([*Tareas compartidas por todo el grupo*]),
+
+    [
+      - Revisión de requerimientos y selección de componentes.
+      - Revisión conjunta del diseño de hardware y firmware.
+      - Elaboración y corrección del Informe de Avance.
+      - Planificación de integración, pruebas y validación del prototipo.
     ],
   ),
 
-  caption: [División preliminar de tareas entre los integrantes del grupo.],
+  caption: [Tareas compartidas por todos los integrantes del grupo.],
   kind: table,
-) <tab-tareas>
+) <tab-tareas-compartidas>
+

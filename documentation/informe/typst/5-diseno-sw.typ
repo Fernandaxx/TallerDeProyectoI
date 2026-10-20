@@ -29,8 +29,14 @@ Se adopta un esquema cooperativo sin sistema operativo: un único lazo principal
     stroke: 0.5pt,
     align: left + horizon,
     [*Tarea*], [*Período*], [*Función*],
-    [Lector RFID], [150 ms], [Detecta la presencia de un disco y lee su UID. El retiro del disco se confirma tras varias lecturas fallidas consecutivas, para no reaccionar a una lectura perdida.],
-    [Reproductor], [Cada iteración], [Procesa las tramas recibidas del DFPlayer y envía los comandos pendientes, respetando la separación mínima de 200 ms que requiere el módulo. Vigila la salida BUSY.],
+    [Lector RFID],
+    [150 ms],
+    [Detecta la presencia de un disco y lee su UID. El retiro del disco se confirma tras varias lecturas fallidas consecutivas, para no reaccionar a una lectura perdida.],
+
+    [Reproductor],
+    [Cada iteración],
+    [Procesa las tramas recibidas del DFPlayer y envía los comandos pendientes, respetando la separación mínima de 200 ms que requiere el módulo. Vigila la salida BUSY.],
+
     [Volumen], [50 ms], [Lee el ADC, promedia las muestras y traduce la posición del fader a un nivel de 0 a 30.],
     [Pantalla], [100 ms], [Actualiza la pantalla por páginas (ver más abajo).],
     [Motor], [2 a 3 ms], [Avanza un paso de la secuencia mientras el disco debe girar.],
@@ -44,9 +50,9 @@ Dos tareas requieren atención particular para no bloquear el lazo:
 - *Pantalla:* enviar los 1024 bytes de la pantalla completa por I2C a 100 kHz demora unos 100 ms (1024 bytes × 9 bits / 100 kHz), tiempo durante el cual las demás tareas quedarían detenidas. Por eso la imagen se arma en un buffer en RAM y se envía de a una página (128 bytes, 12 ms aproximadamente) por iteración, y solo se envían las páginas que cambiaron.
 - *Tira de LEDs:* la señal de datos del WS2812B tiene tiempos del orden de 1 µs [11], por lo que se genera por software con las interrupciones deshabilitadas. Para 22 LEDs la transmisión dura 22 × 24 bits × 1,25 µs ≈ 0,7 ms, y como la luz es fija solo ocurre al cambiar de estado.
 
-// PENDIENTE: medir en la integración si el paso del motor presenta 
-// irregularidades por las tareas más largas (página de pantalla, lectura RFID). 
-// Si es así, generar los pasos desde la interrupción de un temporizador del 
+// PENDIENTE: medir en la integración si el paso del motor presenta
+// irregularidades por las tareas más largas (página de pantalla, lectura RFID).
+// Si es así, generar los pasos desde la interrupción de un temporizador del
 // LPC4337.
 El motor es la tarea más sensible a esas demoras, porque un retraso en un paso se percibe como un giro irregular. Si en la integración se observara ese efecto, los pasos se generarán desde la interrupción periódica de un temporizador del LPC4337, independiente del lazo principal.
 
