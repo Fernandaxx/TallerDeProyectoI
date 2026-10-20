@@ -233,7 +233,7 @@ Para la iluminación se utiliza una tira de 22 LEDs WS2812B, que se mantendrá e
 
 Cuando el GPIO está en alto, Q1 conduce y lleva la línea a 0 V; cuando está en bajo, Q1 se corta y R10 lleva la línea a 5 V. La señal resultante queda invertida, lo que se compensa en el firmware enviando cada bit negado. El 2N7000 conduce con tensiones de compuerta del orden de los 3,3 V que entrega la CIAA [12], y como el GPIO solo maneja la compuerta, no entrega corriente a la carga. El valor de R10 se eligió para que el flanco de subida, que depende de esa resistencia, sea mucho más rápido que la duración de un bit de la tira (del orden de 0,4 µs), con una corriente de solo 5 mA cuando el transistor conduce. Al arrancar, el GPIO queda con su pull-up interno, Q1 conduce y la línea permanece en bajo, que es el estado de reposo de la tira, por lo que no se encienden LEDs de forma espuria.
 
-R9 protege al primer LED y amortigua reflexiones en el cable [13], y C15 (470 µF) cubre los picos de consumo de la tira. Se eligió T_FIL1 porque la sAPI la ofrece como salida PWM y está vinculada al periférico SCT [14]: para luz fija alcanza con generar la señal por software, y el SCT permitiría generar animaciones por hardware sin cambiar el circuito.
+R9 protege al primer LED y amortigua reflexiones en el cable [13], y C15 (470 µF) cubre los picos de consumo de la tira. Se eligió T_FIL1 porque la sAPI la ofrece como salida PWM y está vinculada al periférico SCT @sapi-pernia: para luz fija alcanza con generar la señal por software, y el SCT permitiría generar animaciones por hardware sin cambiar el circuito.
 
  #figure(
    image("../images/sch_neopixel.png", width: 75%),

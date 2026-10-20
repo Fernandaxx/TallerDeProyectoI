@@ -1,16 +1,12 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #include "sapi.h"
+#include <string.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
-#ifdef __cplusplus
-}
+#define JUKEBOX_DEBUG 1
+
 #endif
-
-#endif /*_MAIN_H_*/

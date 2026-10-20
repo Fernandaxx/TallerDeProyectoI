@@ -1,7 +1,8 @@
-//#set heading(numbering: "1.1.1.1.")
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+
 = Diseño de software
 
-El firmware se desarrolla en C sobre la EDU-CIAA-NXP utilizando la biblioteca sAPI del entorno firmware_v3 [14] [15], que abstrae el acceso a los periféricos del LPC4337 (GPIO, SPI, I2C, UART, ADC y base de tiempo). Sobre ella se escribe un módulo por periférico, de modo que cada uno pueda probarse por separado antes de integrarlo, y una lógica principal organizada como máquina de estados finitos (MEF) no bloqueante.
+El firmware se desarrolla en C sobre la EDU-CIAA-NXP utilizando la biblioteca sAPI del entorno firmware_v3 @sapi-pernia @firmware-pernia, que abstrae el acceso a los periféricos del LPC4337 (GPIO, SPI, I2C, UART, ADC y base de tiempo). Sobre ella se escribe un módulo por periférico, de modo que cada uno pueda probarse por separado antes de integrarlo, y una lógica principal organizada como máquina de estados finitos (MEF) no bloqueante.
 
 == Arquitectura y modularización del firmware
 
@@ -12,15 +13,115 @@ El firmware se organiza en cuatro capas (@fig:arquitectura). Cada capa solo util
 - *Servicios:* funciones de más alto nivel que combinan drivers: la biblioteca de discos, el control de volumen y los efectos de giro y luz.
 - *Aplicación:* la MEF principal y la interfaz de usuario.
 
+
 #figure(
-  image("../images/arquitectura.svg", width: 95%),
+  image("../images/arquitectura.svg", width: 95%)
+)
+
+#let nivel(fila, titulo, fondo, borde) = {
+  let a = label("t" + str(fila))
+  let b = label("f" + str(fila))
+  (
+    node((0, fila), text(weight: "bold", size: 30pt)[#titulo], name: a,
+      width: 6cm, height: 2cm, stroke: none),
+    node((6.5, fila), [], name: b, width: 0pt, height: 3cm, stroke: none),
+    node(enclose: (a, b), fill: fondo, stroke: 0.8pt + borde,
+      corner-radius: 6pt, inset: 20pt, snap: -1),
+  )
+}
+
+#let caja(pos, nombre, contenido) = node(
+  pos, text(size: 25pt, contenido), name: nombre,
+  shape: rect, corner-radius: 5pt, stroke: 0.8pt, fill: white,
+  inset: 4pt, width: 5.5cm, height: 3cm,
+)
+
+#let arquitectura = diagram(
+  spacing: (2.2cm, 2cm),
+  edge-stroke: 0.7pt + luma(80),
+  mark-scale: 70%,
+
+  // Fondos de los 4 niveles
+  ..nivel(0, "Aplicación", rgb("#e8eef5"), rgb("#6c88a8")),
+  ..nivel(1, "Servicios", rgb("#eaf3ea"), rgb("#78a878")),
+  ..nivel(2, "Drivers", rgb("#f7f3ea"), rgb("#a89a78")),
+  ..nivel(3, "Biblioteca sAPI", rgb("#f3eaf3"), rgb("#a878a8")),
+
+  // Nivel 0
+  caja((4, 0), <mef>, [MEF principal]),
+
+  // Nivel 1
+  caja((2, 1), <ui>, [Interfaz de \ usuario]),
+  caja((3, 1), <discos>, [Biblioteca \ de discos]),
+  caja((4, 1), <vol>, [Volumen \ (fader→0–30)]),
+  caja((5.5, 1), <efectos>, [Efectos \ (giro y luz)]),
+
+  // Nivel 2
+  caja((1, 2), <rfid>, [rfid \ MFRC522]),
+  caja((2, 2), <oled>, [oled \ SH1106]),
+  caja((3, 2), <eeprom>, [eeprom \ 24LC256]),
+  caja((4, 2), <dfplayer>, [dfplayer]),
+  caja((5, 2), <neopixel>, [neopixel \ WS2812B]),
+  caja((6, 2), <motor>, [motor \ 28BYJ-48]),
+
+  // Nivel 3
+  caja((1, 3), <tick>, [Tick 1 ms]),
+  caja((2, 3), <spi>, [SPI]),
+  caja((3, 3), <i2c>, [I2C]),
+  caja((4, 3), <adc>, [ADC]),
+  caja((5, 3), <uart>, [UART]),
+  caja((6, 3), <gpio>, [GPIO]),
+
+  // Chip
+  node((3.5, 4), text(size: 25pt)[EDU-CIAA-NXP (LPC4337)], name: <chip>,
+    shape: rect, fill: luma(220), stroke: 0.8pt, inset: 8pt, width: 10cm),
+
+  // Flechas nivel 0 → 1 y 2
+  edge(<mef>, <ui>, "->"),
+  edge(<mef>, <discos>, "->"),
+  edge(<mef>, <vol>, "->"),
+  edge(<mef>, <efectos>, "->"),
+  edge(<ui>, <oled>, "->"),
+
+  // Nivel 1 → 2
+  edge(<discos>, <eeprom>, "->"),
+  edge(<vol>, <dfplayer>, "->"),
+  edge(<efectos>, <neopixel>, "->"),
+  edge(<efectos>, <motor>, "->"),
+
+  // Nivel 2 → 3
+  edge(<rfid>, <spi>, "->"),
+  edge(<oled>, <i2c>, "->"),
+  edge(<eeprom>, <i2c>, "->"),
+  edge(<dfplayer>, <uart>, "->"),
+  edge(<dfplayer>, <gpio>, "->"),
+  edge(<dfplayer>, <adc>, "->"),
+  edge(<neopixel>, <gpio>, "->"),
+  edge(<motor>, <gpio>, "->"),
+
+  // Nivel 3 → chip
+  edge(<tick>, <chip>, "->"),
+  edge(<spi>, <chip>, "->"),
+  edge(<i2c>, <chip>, "->"),
+  edge(<uart>, <chip>, "->"),
+  edge(<gpio>, <chip>, "->"),
+  edge(<adc>, <chip>, "->"),
+)
+
+#figure(
+  // Se ajusta al ancho útil (respeta márgenes) y queda centrado
+  layout(size => {
+    let m = measure(arquitectura)
+    let k = calc.min(1, size.width / m.width)
+    align(center, scale(k * 100%, reflow: true, arquitectura))
+  }),
   caption: [Arquitectura en capas del firmware.],
 ) <fig:arquitectura>
 
 === Planificación y temporización
 
 // PENDIENTE: confirmar la elección de un lazo cooperativo (sin RTOS).
-Se adopta un esquema cooperativo sin sistema operativo: un único lazo principal recorre las tareas del sistema y cada una se ejecuta solo cuando venció su período, lo que se determina comparando el tick de 1 ms de la sAPI con el instante de su última ejecución. Ninguna tarea utiliza retardos bloqueantes, de modo que la lectura del lector RFID, la pantalla y el control de volumen avanzan en paralelo. Se eligió este esquema frente a un sistema operativo de tiempo real porque las tareas son pocas, sus tiempos son del orden de decenas de milisegundos y resulta más simple de depurar; si durante la integración aparecieran problemas de temporización, la organización por módulos permite migrar a FreeRTOS, disponible en el mismo entorno [15].
+Se adopta un esquema cooperativo sin sistema operativo: un único lazo principal recorre las tareas del sistema y cada una se ejecuta solo cuando venció su período, lo que se determina comparando el tick de 1 ms de la sAPI con el instante de su última ejecución. Ninguna tarea utiliza retardos bloqueantes, de modo que la lectura del lector RFID, la pantalla y el control de volumen avanzan en paralelo. Se eligió este esquema frente a un sistema operativo de tiempo real porque las tareas son pocas, sus tiempos son del orden de decenas de milisegundos y resulta más simple de depurar; si durante la integración aparecieran problemas de temporización, la organización por módulos permite migrar a FreeRTOS, disponible en el mismo entorno @firmware-pernia .
 
 #figure(
   table(
@@ -94,7 +195,7 @@ El comportamiento del sistema se describe con la MEF de la @fig:mef. El control 
 === Bibliotecas y dependencias
 
 // PENDIENTE: indicar la versión de firmware_v3 / sAPI utilizada.
-- *sAPI*, dentro del entorno firmware_v3 del Proyecto CIAA [14] [15].
+- *sAPI*, dentro del entorno firmware_v3 del Proyecto CIAA @sapi-pernia @firmware-pernia.
 - *Bibliotecas de terceros:* como punto de partida para los drivers se evaluarán bibliotecas existentes para Arduino y ESP32, en particular la del MFRC522 [16] y las utilizadas en los ensayos de la pantalla y del reproductor. Las que puedan adaptarse a la sAPI se incorporarán al firmware, y en los casos en que no resulte viable el driver se implementará a partir de las hojas de datos. La lista definitiva de dependencias se definirá durante el desarrollo de cada módulo.
 
 == Software adicional

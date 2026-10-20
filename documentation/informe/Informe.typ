@@ -2,7 +2,7 @@
 #import "@preview/codly:1.3.0": *
 #import "@preview/codly-languages:0.1.10": codly-languages
 // Diagramas de estados o bloques
-#import "@preview/fletcher:0.5.8"
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
 // Listas o cuestionarios
 #import "@preview/lilaq:0.5.0" as lq
 // Notación matemática
@@ -159,7 +159,7 @@
 #include "typst/3-requerimientos.typ"
 #include "typst/4-diseno-hw.typ"
 #include "typst/5-diseno-sw.typ"
-#include "typst/6-ensayos-y-avances.typ"
+//#include "typst/6-ensayos-y-avances.typ"
 #include "typst/cronograma-y-tareas-2.typ"
 #pagebreak()
 
@@ -198,9 +198,9 @@
 
 [13] Adafruit, «Adafruit NeoPixel Überguide — Best Practices». [En línea]. Disponible en: #link("https://learn.adafruit.com/adafruit-neopixel-uberguide/best-practices")
 
-[14] E. Pernia, «sAPI — Referencia de la API». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3/blob/master/libs/sapi/documentation/api_reference_es.md")
+//[14] E. Pernia, «sAPI — Referencia de la API». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3/blob/master/libs/sapi/documentation/api_reference_es.md")
 
-[15] E. Pernia, «firmware_v3». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3")
+//[15] E. Pernia, «firmware_v3». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3")
 
 [16] M. Balboa, «Arduino RFID Library for MFRC522». [En línea]. Disponible en: #link("https://github.com/miguelbalboa/rfid")
 
@@ -210,6 +210,8 @@
 
 [19] KiCad Developers, «KiCad EDA». [En línea]. Disponible en: #link("https://www.kicad.org/")
 ]
+
+#bibliography("bibliografia.bib")
 
 // ==========================================
 // APÉNDICES

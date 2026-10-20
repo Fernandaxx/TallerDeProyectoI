@@ -1,41 +1,41 @@
 #ifndef _DISPLAY_H_
 #define _DISPLAY_H_
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 #include "main.h"
-#include "utils/sprites.h"
+#include "drivers/oled.h"
+#include "u8g2.h"
 
-/// Ancho del display en píxeles
 #define DISPLAY_WIDTH 128
-/// Alto del display en píxeles
 #define DISPLAY_HEIGHT 64
 
-/// Colores del display
-typedef enum {
-  DISPLAY_BLACK = 0,
-  DISPLAY_WHITE = 1,
-  DISPLAY_INVERSE = -1,
-} DisplayColor;
-
-void displayInit();
-void displayDrawPixel(uint8_t x, uint8_t y, DisplayColor color);
-void displayDrawLine(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1,
-                     DisplayColor color);
-void displayDrawRectangle(uint8_t x, uint8_t y, uint8_t width, uint8_t height,
-                          DisplayColor color, bool_t filled);
-void displayDrawRoundedRectangle(uint8_t x, uint8_t y, uint8_t width,
-                                 uint8_t height, DisplayColor color,
-                                 bool_t filled);
-void displayPlace(const Sprite sprite, uint8_t x, uint8_t y,
-                  DisplayColor color);
-void displayText(const SpriteFont *font, const char *text, uint8_t x, uint8_t y,
-                 DisplayColor color);
-void displayUpdate();
-
-#ifdef __cplusplus
-}
+#ifndef DISC_CX
+#define DISC_CX      100
 #endif
-
-#endif /*_DISPLAY_H_*/
+#ifndef DISC_CY
+#define DISC_CY      38
+#endif
+#ifndef DEG2RAD
+#define DEG2RAD      0.01745329252f
+#endif
+ 
+#define UI_TEXTO_MAX   28
+#define ANGLE_STEP     10
+#define ANIMATION_FRAMES  14
+ 
+typedef enum {
+    UI_INICIO = 0,
+    UI_ESPERA,
+    UI_REPRODUCIENDO,
+    UI_FIN_PISTA,
+    UI_NO_REGISTRADO,
+    UI_CONFIG,
+    UI_ERROR
+} uiPantalla_t;
+ 
+void displayInit(void);
+ 
+void uiMostrar(uiPantalla_t p);
+ 
+void tareaPantalla(void);
+ 
+#endif
