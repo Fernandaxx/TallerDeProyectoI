@@ -123,11 +123,11 @@ Se utiliza el módulo RC522, basado en el MFRC522 de NXP, que lee el identificad
 - SDA (que en modo SPI cumple la función de selección, NSS) a GPIO0.
 - RST a GPIO1.
 
-La selección se maneja por GPIO porque el MFRC522 requiere que NSS vuelva a nivel alto entre tramas [4]. Al encender, los GPIO de la CIAA quedan como entradas con pull-up interno, lo que deja el lector deshabilitado y fuera de reset hasta que el firmware los configure, por lo que no se agregan resistencias externas. Las líneas SPI van directas, sin resistencias serie, porque ambos extremos trabajan a 3,3 V.
+La selección se maneja por GPIO porque el MFRC522 requiere que NSS vuelva a nivel alto entre tramas @nxp_mfrc522. Al encender, los GPIO de la CIAA quedan como entradas con pull-up interno, lo que deja el lector deshabilitado y fuera de reset hasta que el firmware los configure, por lo que no se agregan resistencias externas. Las líneas SPI van directas, sin resistencias serie, porque ambos extremos trabajan a 3,3 V.
 
-El módulo se alimenta desde `3V3_P2` y nunca debe conectarse a 5 V (máximo absoluto de 4 V [4]). Junto al conector se colocan:
+El módulo se alimenta desde `3V3_P2` @nxp_mfrc522. Junto al conector se colocan:
 
-- *C5 (10 µF):* el transmisor del MFRC522 consume típicamente 60 mA y hasta 100 mA por pulsos al generar el campo de radiofrecuencia [4]; el capacitor aporta esos pulsos para que no caiga la tensión que llega desde la CIAA.
+- *C5 (10 µF):* el transmisor del MFRC522 consume típicamente 60 mA y hasta 100 mA por pulsos al generar el campo de radiofrecuencia @nxp_mfrc522; el capacitor aporta esos pulsos para que no caiga la tensión que llega desde la CIAA.
 - *C4 (100 nF):* desacople de alta frecuencia.
 
  #figure(

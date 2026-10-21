@@ -1,7 +1,11 @@
-#ifndef _MEF_H_
-#define _MEF_H_
+#ifndef MEF_H_
+#define MEF_H_
 
 #include "main.h"
+
+#include "modules/display.h"
+#include "modules/motor.h"
+#include "modules/rfid.h"
 
 #define MEF_TICK_MS 20 // 20 ms 
 
@@ -15,8 +19,6 @@ typedef enum {
     MEF_CONFIGURACION,
     MEF_ERROR
 } state_t;
-
-extern state_t state;
 
 int mefEstado(void);
 void mefInit(void);

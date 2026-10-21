@@ -1,5 +1,6 @@
 #include "mef.h"
 #include "modules/display.h"
+#include "leds.h"
 
 #define MS_A_TICKS(ms)          ((ms) / MEF_TICK_MS)
 
@@ -65,32 +66,49 @@ void mefActualizar(void)
 
     switch (state) {
         case MEF_INICIO:
+        motorApagar();
+        neopixel_show_all(0, 0, 0);
         if (ticksEnEstado>=250) cambiarEstado(MEF_ESPERA);
             break;
 
         case MEF_ESPERA:
-        if (ticksEnEstado>=250) cambiarEstado(MEF_REPRODUCIENDO);
+        motorApagar();
+        neopixel_show_all(0, 0, 0);
+        if (rfidCambioDisco()) cambiarEstado(MEF_REPRODUCIENDO);
             break;
 
         case MEF_IDENTIFICANDO:
+        motorApagar();
+        neopixel_show_all(0, 0, 0);
             break;
 
         case MEF_REPRODUCIENDO:
+        if (!rfidHayDisco()) cambiarEstado(MEF_ESPERA);
         if (ticksEnEstado>=250) cambiarEstado(MEF_FIN_PISTA);
+        motorEncender(MOTOR_CW);
+        neopixel_show_all(10, 0, 0);
             break;
 
         case MEF_FIN_PISTA:
-        if (ticksEnEstado>=250) cambiarEstado(MEF_NO_REGISTRADO);
+        motorApagar();
+        neopixel_show_all(0, 0, 0);
+        if (rfidCambioDisco()) cambiarEstado(MEF_REPRODUCIENDO);
+        if (ticksEnEstado>=250) cambiarEstado(MEF_ESPERA);
             break;
 
         case MEF_NO_REGISTRADO:
-        if (ticksEnEstado>=250) cambiarEstado(MEF_ERROR);
+        motorApagar();
+        neopixel_show_all(0, 0, 0);
             break;
 
         case MEF_CONFIGURACION:
+        motorApagar();
+        neopixel_show_all(0, 0, 0);
             break;
 
         case MEF_ERROR:
+        motorApagar();
+        neopixel_show_all(0, 0, 0);
         if (ticksEnEstado>=250) cambiarEstado(MEF_INICIO);
             break;
         }

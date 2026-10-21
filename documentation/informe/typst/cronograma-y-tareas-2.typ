@@ -11,40 +11,46 @@ A la fecha se completaron la elección y definición del proyecto, el análisis 
 #let m = table.cell(fill: rgb("#f2d9d9"), align: center)[#text(fill: rgb("#b02020"), weight: "bold")[◆]]
 
 #figure(
-  text(size: 9pt)[#table(
-    columns: (auto,) + (1fr,) * 6,
-    align: (left,) + (center,) * 6,
+  text(size: 8.5pt)[#table(
+    columns: (auto,) + (1fr,) * 9,
+    align: (left,) + (center,) * 9,
     stroke: 0.4pt + gray,
     inset: 3pt,
-    table.header([*Tarea*], [1ª Oct], [2ª Oct], [1ª Nov], [2ª Nov], [1ª Dic], [2ª Dic]),
+    table.header(
+      table.cell(rowspan: 2, align: horizon)[*Tarea*],
+      table.cell(colspan: 4)[*Octubre*],
+      table.cell(colspan: 4)[*Noviembre*],
+      table.cell(colspan: 1)[*Dic*],
+      [5], [12], [19], [26], [2], [9], [16], [23], [1],
+    ),
 
-    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Etapa de diseño*],
-    [Ajuste final del esquemático y pines EDU-CIAA], d, [], [], [], [], [],
-    [Refinamiento de la arquitectura del firmware], d, [], [], [], [], [],
-    [Diseño del PCB (poncho)], d, d, [], [], [], [],
+    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Etapa de diseño*],
+    [Ajuste final del esquemático y pines EDU-CIAA], d, d, [], [], [], [], [], [], [],
+    [Refinamiento de la arquitectura del firmware], d, d, [], [], [], [], [], [], [],
+    [Diseño del PCB (poncho)], [], [], d, d, d, [], [], [], [],
 
-    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Desarrollo de código*],
-    [Pruebas unitarias del módulo RFID], c, c, c, [], [], [],
-    [Pruebas unitarias del módulo DFPlayer], c, c, c, [], [], [],
-    [Pruebas unitarias del módulo OLED], c, c, c, [], [], [],
-    [Firmware del núcleo (máquina de estados)], [], c, c, c, [], [],
+    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Desarrollo de código*],
+    [Pruebas unitarias del módulo OLED], c, c, [], [], [], [], [], [], [],
+    [Pruebas unitarias del módulo RFID], [], [], c, [], [], [], [], [], [],
+    [Pruebas unitarias del módulo DFPlayer], [], [], c, [], [], [], [], [], [],
+    [Motor y giro del disco], [], [], c, [], [], [], [], [], [],
+    [(Opcional) LEDs NeoPixel], [], [], h, h, [], [], [], [], [],
+    [Firmware del núcleo (máquina de estados)], [], c, c, c, c, [], [], [], [],
 
-    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Etapa final*],
-    [Fabricación y soldado del PCB], [], [], f, f, [], [],
-    [Ensamblaje e integración del prototipo], [], [], [], f, f, [],
-    [Estructura física del tocadiscos], [], [], [], f, f, [],
-    [Motor y giro del disco], [], [], [], [], f, f,
-    [Pruebas de validación del sistema], [], [], [], [], f, f,
-    [(Opcional) LEDs NeoPixel y secuencias], [], [], [], [], h, [],
-    [(Opcional) EEPROM y modo de asignación], [], [], [], [], h, [],
-    [Documentación e informe final], [], [], [], [], f, f,
+    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Etapa final*],
+    [Fabricación y soldado del PCB], [], [], [], [], f, f, f, f, [],
+    [Ensamblaje e integración del prototipo], [], [], [], [], [], [], f, f, f,
+    [Estructura física del tocadiscos], [], [], [], [], [], [], f, f, f,
+    [Pruebas de validación del sistema], [], [], [], [], [], [], [], [], f,
+    [(Opcional) EEPROM y modo de asignación], [], [], [], [], [], [], [], [], h,
+    [Documentación e informe final], [], [], [], [], [], [], [], [], f,
 
-    table.cell(colspan: 7, fill: rgb("#eeeeee"))[*Entregas formales (hitos)*],
-    [Informe de Avance 1 — 05/10/2026], m, [], [], [], [], [],
-    [Informe de Avance 2 — 05/11/2026], [], [], m, [], [], [],
-    [Presentación (meta del grupo)], [], [], [], [], [], m,
+    table.cell(colspan: 10, fill: rgb("#eeeeee"))[*Entregas formales (hitos)*],
+    [Informe de Avance 1 — 05/10/2026], m, [], [], [], [], [], [], [], [],
+    [Informe de Avance 2 — 05/11/2026], [], [], [], [], m, [], [], [], [],
+    [Presentación (meta del grupo)], [], [], [], [], [], [], [], [], m,
   )],
-  caption: [Diagrama de Gantt del período restante, con meta de presentación en diciembre de 2026.],
+  caption: [Diagrama de Gantt del período restante (4 semanas por mes), con meta de presentación a comienzos de diciembre de 2026.],
 ) <tab-gantt>
 
 #text(size: 9pt)[
