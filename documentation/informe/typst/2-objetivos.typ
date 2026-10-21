@@ -42,7 +42,7 @@ El funcionamiento comienza cuando el usuario coloca un disco sobre el reproducto
 Como objetivos secundarios, se prevé una memoria EEPROM externa 24LC256 [8] para almacenar las asociaciones entre las etiquetas RFID/NFC y las canciones, permitiendo conservarlas aun después de apagar o reiniciar el sistema. La EEPROM comparte el bus I²C con la pantalla OLED. Asimismo, se contempla incorporar una tira o arreglo de LEDs NeoPixel (WS2812B) [11] conectados a un pin GPIO de la placa para generar secuencias visuales preprogramadas acordes a la canción en reproducción.
 
 #figure(
-  image("../images/DiagramaBloques.png", width: 95%),
+  image("../images/DiagramaBloquesAct.png", width: 95%),
   caption: [Diagrama en bloques del sistema.],
   kind: image,
 ) <fig-bloques>
