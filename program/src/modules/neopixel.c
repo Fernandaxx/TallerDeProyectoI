@@ -1,4 +1,4 @@
-#include "leds.h"
+#include "modules/neopixel.h"
 
 /* Tiempos WS2812B en ciclos del contador DWT (se calculan en neopixel_init).
  * Nominales: T0H = 0.40 us, T1H = 0.80 us, periodo de bit = 1.25 us. */
@@ -39,7 +39,7 @@ static uint8_t ubicar_pin(void)
     return 0;
 }
 
-uint8_t neopixel_init(void)
+uint8_t neopixelInit(void)
 {
     uint32_t mhz;
 
@@ -91,7 +91,7 @@ void neopixel_set_color(uint8_t r, uint8_t g, uint8_t b)
 }
 
 /* Tira completa con un color uniforme */
-void neopixel_show_all(uint8_t r, uint8_t g, uint8_t b)
+void neopixelMostrar(uint8_t r, uint8_t g, uint8_t b)
 {
     uint32_t t0;
     uint16_t i;

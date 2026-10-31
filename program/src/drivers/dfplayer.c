@@ -1,8 +1,5 @@
 #include "drivers/dfplayer.h"
 
-#define MP3_UART UART_232
-#define MP3_BAUDIOS 9600
-
 static void mp3EnviarComando(uint8_t comando , uint16_t parametro){
     uint8_t trama[10];
 
@@ -30,16 +27,22 @@ static void mp3EnviarComando(uint8_t comando , uint16_t parametro){
 }
 
 void mp3Init(void){
-    uartConfig(MP3_UART , MP3_BAUDIOS);
-
     // Esperar a que el modulo inicialice la microSD
     delay(1500);
 
     mp3Volumen(20);
+
+    mp3EnviarComando(0x19 , 1);   // sin repeticion de pista
+    mp3EnviarComando(0x11 , 0);   // sin repeticion global
 }
 
 void mp3Reproducir(uint16_t pista){
-    mp3EnviarComando(0x03 , pista);
+    //mp3EnviarComando(0x03 , pista);
+    mp3EnviarComando(0x0F , ((uint16_t) 1 << 8) | pista);
+}
+
+void mp3Detener(void){
+    mp3EnviarComando(0x16 , 0);
 }
 
 void mp3Siguiente(void){

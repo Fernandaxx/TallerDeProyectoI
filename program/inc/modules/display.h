@@ -33,9 +33,8 @@ typedef enum {
 } uiPantalla_t;
  
 void displayInit(void);
- 
 void uiMostrar(uiPantalla_t p);
- 
+void uiActualizarTextos(const char *artista , const char *cancion);
 void tareaPantalla(void);
  
 #endif

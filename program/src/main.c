@@ -1,64 +1,73 @@
-#include "sapi.h"
-#include "modules/reproductor.h"
+#include "main.h"
+#include "mef.h"
 
-int main(void){
+#include "modules/display.h"
+#include "modules/motor.h"
+#include "modules/rfid.h"
+#include "modules/neopixel.h"
+#include "modules/reproductor.h"
+#include "modules/eeprom.h"
+
+#define RFID_PERIODO      10  // 8 x 20 ms = 200 ms
+#define VOLUMEN_PERIODO   3   // 3 x 20 ms =  60 ms
+ 
+static volatile bool_t flagMEF = FALSE;
+uint8_t contRFID = 0;
+uint8_t contVolumen = 0;
+
+// Callback del SysTick (1 ms)
+static void tickHook(void *param)
+{
+    static uint8_t cont = 0;
+    (void)param;
+ 
+    tareaMotor();
+ 
+    if (++cont >= MEF_TICK_MS) {
+        cont = 0;
+        flagMEF = TRUE;
+    }
+}
+
+int main(void)
+{
     boardConfig();
 
+    //uartConfig(UART_USB, 115200);   // para debug
+    uartConfig(UART_232, 9600);     // para el reproductor
+    i2cInit(I2C0, 100000);          // para la pantalla y la memoria
+    spiConfig(SPI0);                // para el lector RFID
+    
+    eepromCargarInicial();
+    
+    displayInit();
     reproductorInit();
+    rfidInit();
+    motorInit();
+    neopixelInit();
 
-    gpioWrite(LEDB , ON);
+    mefInit();
 
-    while (1){
-        if (gpioRead(TEC1) == OFF){
-            delay(30);
-
-            if (gpioRead(TEC1) == OFF){
-                reproductorPista1();
-
-                while (gpioRead(TEC1) == OFF){
-                    delay(10);
-                }
+    tickCallbackSet(tickHook, NULL);
+    while (1) {
+        if (flagMEF) {
+            flagMEF = FALSE;
+ 
+            if (++contRFID >= RFID_PERIODO) {
+                contRFID = 0;
+                tareaRFID();
             }
-        }
-
-        if (gpioRead(TEC2) == OFF){
-            delay(30);
-
-            if (gpioRead(TEC2) == OFF){
-                reproductorSiguiente();
-
-                while (gpioRead(TEC2) == OFF){
-                    delay(10);
-                }
+            if (++contVolumen >= VOLUMEN_PERIODO) {
+                contVolumen = 0;
+                //tareaVolumen();
             }
+ 
+            mefActualizar();
+
+            tareaPantalla();
         }
-
-        if (gpioRead(TEC3) == OFF){
-            delay(30);
-
-            if (gpioRead(TEC3) == OFF){
-                reproductorAnterior();
-
-                while (gpioRead(TEC3) == OFF){
-                    delay(10);
-                }
-            }
-        }
-
-        if (gpioRead(TEC4) == OFF){
-            delay(30);
-
-            if (gpioRead(TEC4) == OFF){
-                reproductorPausaContinuar();
-
-                while (gpioRead(TEC4) == OFF){
-                    delay(10);
-                }
-            }
-        }
-
-        delay(10);
     }
-
     return 0;
 }
+
+ 

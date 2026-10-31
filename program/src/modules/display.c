@@ -58,8 +58,8 @@ static uint16_t     angle        = 0;
 static uint8_t animFrame = 0;
 
 // Datos que tenemos que sacar del disco
-static char titulo [UI_TEXTO_MAX] = "stupid song";
-static char artista[UI_TEXTO_MAX] = "Olivia Rodrigo";
+static char titulo [28] = "";
+static char artista[20] = "";
 
 /* ------------------------------- DISCO (cambiar por animación) ------------------------------- */
 
@@ -216,7 +216,19 @@ void uiMostrar(uiPantalla_t p)
     frameEnCurso = FALSE;       /* abandona el cuadro en curso, si lo habia   */
     sucia        = TRUE;
   }
-  
+ 
+void uiActualizarTextos(const char *a , const char *c)
+{
+    if (a == NULL) a = "";
+    if (c == NULL) c = "";
+
+    strncpy(artista , a , 20);
+    artista[20] = '\0';
+
+    strncpy(titulo , c , 28);
+    titulo[28] = '\0';
+}
+
 void tareaPantalla(void) {
     if (!frameEnCurso) {
         if (pantallaAnimada()) {
