@@ -1,4 +1,4 @@
-#include "modules/eeprom.h"
+#include "drivers/eeprom.h"
 
 #define EE_ADDR      0x50
 #define EE_PAGINA    64

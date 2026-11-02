@@ -19,5 +19,6 @@ void    tareaMotor(void);
 void    motorInit(void);   
 void    motorEncender(motorDir_t dir);
 void    motorApagar(void);
+void    motorPaso(void);
 
 #endif

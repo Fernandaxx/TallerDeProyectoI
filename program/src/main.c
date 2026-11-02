@@ -2,13 +2,12 @@
 #include "mef.h"
 
 #include "modules/display.h"
-#include "modules/motor.h"
+#include "modules/efectos.h"
 #include "modules/rfid.h"
-#include "modules/neopixel.h"
-#include "modules/reproductor.h"
-#include "modules/eeprom.h"
+#include "modules/volumen.h"
+#include "drivers/eeprom.h"
 
-#define RFID_PERIODO      10  // 8 x 20 ms = 200 ms
+#define RFID_PERIODO      10  // 10 x 20 ms = 200 ms
 #define VOLUMEN_PERIODO   3   // 3 x 20 ms =  60 ms
  
 static volatile bool_t flagMEF = FALSE;
@@ -39,12 +38,6 @@ int main(void)
     spiConfig(SPI0);                // para el lector RFID
     
     eepromCargarInicial();
-    
-    displayInit();
-    reproductorInit();
-    rfidInit();
-    motorInit();
-    neopixelInit();
 
     mefInit();
 

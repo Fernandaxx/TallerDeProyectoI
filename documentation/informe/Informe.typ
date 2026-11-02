@@ -16,7 +16,7 @@
   first-line-indent: 0pt, // sangría de primera línea
 )
 // Numeración de títulos automática
-#set heading(numbering: "1.1.1.")
+#set heading(numbering: "1.1.1.1.")
 #show heading: set text(size: 14pt)
 
 // Leyenda ARRIBA solo para tablas; las figuras de imagen la mantienen abajo
@@ -81,7 +81,7 @@
   #text(size: 16pt, style: "italic")["Reproductor musical interactivo con selección mediante RFID/NFC"] \
   #v(0.8cm)
 
-  #text(size: 18pt, style: "italic")[Informe de Avance 1]
+  #text(size: 18pt, style: "italic")[Informe de Avance 2]
 ]
 
 #v(1fr)
@@ -104,7 +104,7 @@
 #align(center)[
   #text(size: 11pt)[
     Universidad Nacional de La Plata \
-    5 de octubre de 2026
+    5 de noviembre de 2026
   ]
 ]
 
@@ -140,6 +140,31 @@
   },
 )
 
+// Registra todas las referencias en el orden de la lista, sin mostrar nada
+#for clave in (
+  <ciaa_esquematico>,    // [1]
+  <pernia_pinout>,       // [2]
+  <nxp_lpc43xx>,         // [3]
+  <nxp_mfrc522>,         // [4]
+  <dfrobot_dfplayer>,    // [5]
+  <allvision_oled>,      // [6]
+  <diodes_pam8403>,      // [7]
+  <microchip_24lc256>,   // [8]
+  <kiatronics_28byj48>,  // [9]
+  <st_uln2003>,          // [10]
+  <worldsemi_ws2812b>,   // [11]
+  <onsemi_2n7002>,       // [12]
+  <adafruit_neopixel>,   // [13]
+  <pernia_sapi>,         // [14]
+  <pernia_firmware_v3>,  // [15]
+  <balboa_rfid>,         // [16]
+  <proyecto_ciaa>,       // [17]
+  <sinowealth_sh1106>,   // [18]
+  <kicad>,               // [19]
+) {
+  cite(clave, form: none)
+}
+
 // Reiniciamos el contador para que el índice sea la página 1
 #counter(page).update(1)
 
@@ -160,7 +185,7 @@
 #include "typst/4-diseno-hw.typ"
 #include "typst/5-diseno-sw.typ"
 //#include "typst/6-ensayos-y-avances.typ"
-#include "typst/cronograma-y-tareas-2.typ"
+#include "typst/cronograma-y-tareas-3.typ"
 #pagebreak()
 
 // ==========================================
@@ -168,7 +193,8 @@
 // ==========================================
 
 = Bibliografía
-
+#bibliography("bibliografia.bib", style: "ieee", title: none)
+/*
 #[
 #set par(justify: false, hanging-indent: 2.2em)
 
@@ -198,9 +224,9 @@
 
 [13] Adafruit, «Adafruit NeoPixel Überguide — Best Practices». [En línea]. Disponible en: #link("https://learn.adafruit.com/adafruit-neopixel-uberguide/best-practices")
 
-//[14] E. Pernia, «sAPI — Referencia de la API». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3/blob/master/libs/sapi/documentation/api_reference_es.md")
+[14] E. Pernia, «sAPI — Referencia de la API». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3/blob/master/libs/sapi/documentation/api_reference_es.md")
 
-//[15] E. Pernia, «firmware_v3». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3")
+[15] E. Pernia, «firmware_v3». [En línea]. Disponible en: #link("https://github.com/epernia/firmware_v3")
 
 [16] M. Balboa, «Arduino RFID Library for MFRC522». [En línea]. Disponible en: #link("https://github.com/miguelbalboa/rfid")
 
@@ -210,8 +236,8 @@
 
 [19] KiCad Developers, «KiCad EDA». [En línea]. Disponible en: #link("https://www.kicad.org/")
 ]
+*/
 
-#bibliography("bibliografia.bib")
 
 // ==========================================
 // APÉNDICES

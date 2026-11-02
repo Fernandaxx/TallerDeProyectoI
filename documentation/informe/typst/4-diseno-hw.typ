@@ -1,4 +1,3 @@
-//#set heading(numbering: "1.1.1.1.")
 = Diseño de hardware
 
 El sistema se organiza alrededor de la EDU-CIAA-NXP, que coordina los periféricos pero no procesa audio: la decodificación de los archivos MP3 la resuelve un módulo dedicado. Sobre la EDU-CIAA se monta una placa de expansión propia (poncho) que distribuye la alimentación, aloja los módulos de menor tamaño y concentra los conectores hacia los elementos que van montados en el gabinete (amplificador, motor, control de volumen y tira de LEDs).
@@ -137,12 +136,12 @@ El módulo se alimenta desde `3V3_P2` @nxp_mfrc522. Junto al conector se colocan
 
 === Pantalla OLED (salida)
 
-Para mostrar el estado del sistema y la canción en reproducción se eligió una pantalla OLED de 1,3 pulgadas y 128 × 64 píxeles con controlador SH1106 [18]. No requiere retroiluminación y su resolución alcanza para texto y gráficos simples; en los ensayos se mostró incluso una animación del disco girando junto al título y el artista. Se comunica por I2C en la dirección 0x3C:
+Para mostrar el estado del sistema y la canción en reproducción se eligió una pantalla OLED de 1,3 pulgadas y 128 × 64 píxeles con controlador SH1106 @sinowealth_sh1106. No requiere retroiluminación y su resolución alcanza para texto y gráficos simples; en los ensayos se mostró incluso una animación del disco girando junto al título y el artista. Se comunica por I2C en la dirección 0x3C:
 
 - SDA a I2C_SDA (P1-19).
 - SCL a I2C_SCL (P1-21).
 
-Se alimenta desde `3V3_P1`, por lo que no necesita adaptación de niveles. Junto a su conector se coloca un capacitor de desacople de 100 nF (C3), ya que la pantalla consume por pulsos al refrescar; los capacitores que exige el panel para su convertidor interno ya vienen montados en el módulo [6].
+Se alimenta desde `3V3_P1`, por lo que no necesita adaptación de niveles. Junto a su conector se coloca un capacitor de desacople de 100 nF (C3), ya que la pantalla consume por pulsos al refrescar; los capacitores que exige el panel para su convertidor interno ya vienen montados en el módulo @allvision_oled.
 
  #figure(
    image("../images/sch_oled.png", width: 55%),
@@ -153,7 +152,7 @@ Se alimenta desde `3V3_P1`, por lo que no necesita adaptación de niveles. Junto
 
 Para que la asignación entre etiquetas y canciones persista tras un reinicio se incorpora una EEPROM 24LC256, que comparte el bus I2C con la pantalla en la dirección 0x50 (A0, A1 y A2 a masa). Su pin WP se conecta a masa para habilitar la escritura, y se alimenta desde `3V3_P1` con un capacitor de desacople de 100 nF (C10) pegado a su pin de alimentación.
 
-Los pines I2C0 de la CIAA son de drenador abierto y no tienen pull-up interno [3], por lo que el bus necesita resistencias externas. El módulo OLED trae las suyas (se verificó midiendo 3 V en SDA y SCL con las líneas libres), pero en el poncho se agregan R3 y R4 de 10 kΩ para que el bus funcione aunque la pantalla no esté conectada. Es el valor que recomienda el fabricante de la memoria para 100 kHz [8], velocidad a la que operará el bus; en paralelo con las del módulo, la resistencia equivalente queda dentro de lo admitido por el estándar I2C.
+Los pines I2C0 de la CIAA son de drenador abierto y no tienen pull-up interno @nxp_lpc43xx, por lo que el bus necesita resistencias externas. El módulo OLED trae las suyas (se verificó midiendo 3 V en SDA y SCL con las líneas libres), pero en el poncho se agregan R3 y R4 de 10 kΩ para que el bus funcione aunque la pantalla no esté conectada. Es el valor que recomienda el fabricante de la memoria para 100 kHz @microchip_24lc256, velocidad a la que operará el bus; en paralelo con las del módulo, la resistencia equivalente queda dentro de lo admitido por el estándar I2C.
 
  #figure(
    image("../images/sch_eeprom.png", width: 40%),
@@ -168,7 +167,7 @@ La reproducción la resuelve un DFPlayer Mini (clon MP3-TF-16P), que decodifica 
 - TX del módulo a RS232_RX (P1-23), a través de R2.
 - BUSY a GPIO2.
 
-Aunque el módulo se alimenta con 5 V, su interfaz serie es de 3,3 V [5]. Se confirmó midiendo 3,375 V en el TX en reposo, por encima del umbral de nivel alto de la CIAA (0,7 × 3,3 V = 2,31 V [3]). Las resistencias R1 y R2 (1 kΩ) se colocan en serie según la recomendación del fabricante [5], para reducir ruido y limitar la corriente si una de las placas queda sin alimentación. La salida BUSY indica si hay reproducción en curso; se midieron 0,061 V reproduciendo y 3,376 V en silencio (activa en bajo, lógica de 3,3 V), lo que permite conectarla directamente y detectar el fin de una canción por su flanco ascendente.
+Aunque el módulo se alimenta con 5 V, su interfaz serie es de 3,3 V @dfrobot_dfplayer. Se confirmó midiendo 3,375 V en el TX en reposo, por encima del umbral de nivel alto de la CIAA (0,7 × 3,3 V = 2,31 V @nxp_lpc43xx). Las resistencias R1 y R2 (1 kΩ) se colocan en serie según la recomendación del fabricante @dfrobot_dfplayer, para reducir ruido y limitar la corriente si una de las placas queda sin alimentación. La salida BUSY indica si hay reproducción en curso; se midieron 0,061 V reproduciendo y 3,376 V en silencio (activa en bajo, lógica de 3,3 V), lo que permite conectarla directamente y detectar el fin de una canción por su flanco ascendente.
 
 El módulo se alimenta desde el riel de 5 V, junto a él se colocan C6 (470 µF), que cubre sus picos de hasta 200 mA, y C7 (100 nF) para el desacople. Los pines IO, ADKEY y USB no se utilizan. Las salidas SPK del amplificador interno (mono) se llevan a una bornera de respaldo (J5), validada en los ensayos.
 
@@ -179,12 +178,12 @@ El módulo se alimenta desde el riel de 5 V, junto a él se colocan C6 (470 µF)
 
 === Amplificador y parlantes (salida de audio)
 
-Para el sonido estéreo se utiliza un módulo amplificador clase D PAM8403, que entrega 3 W por canal sobre 4 Ω con 5 V de alimentación [7]. El módulo se monta en el panel del gabinete, para que su potenciómetro quede accesible, y se conecta al poncho por cable mediante dos conectores:
+Para el sonido estéreo se utiliza un módulo amplificador clase D PAM8403, que entrega 3 W por canal sobre 4 Ω con 5 V de alimentación @diodes_pam8403. El módulo se monta en el panel del gabinete, para que su potenciómetro quede accesible, y se conecta al poncho por cable mediante dos conectores:
 
 - *J7 (señal):* DAC_L, masa de señal y DAC_R del DFPlayer, en el mismo orden que la entrada L, G, R del módulo.
 - *J6 (alimentación):* 5 V y masa, con pistas anchas por la corriente del amplificador.
 
-Los parlantes se conectan directamente a las borneras del módulo, de modo que la corriente de audio no circula por el poncho. Junto a J6 se coloca C8 (100 µF), que absorbe los picos del amplificador (hasta 1,5 A) para que no se propaguen al resto del riel, y C9 (1 µF) para el desacople. Los capacitores que pide el fabricante van, en cambio, en los bornes de alimentación del propio módulo, porque deben estar lo más cerca posible del integrado [7]: un cerámico de 1 µF para los picos de alta frecuencia, uno de al menos 20 µF para el ruido de baja frecuencia y, como medida para reducir interferencias electromagnéticas, uno de 1000 µF en su borne de alimentación. Como el módulo está en el panel, se suelda en sus bornes un electrolítico de 1000 µF (que cubre las dos últimas recomendaciones) junto con el cerámico de 1 µF.
+Los parlantes se conectan directamente a las borneras del módulo, de modo que la corriente de audio no circula por el poncho. Junto a J6 se coloca C8 (100 µF), que absorbe los picos del amplificador (hasta 1,5 A) para que no se propaguen al resto del riel, y C9 (1 µF) para el desacople. Los capacitores que pide el fabricante van, en cambio, en los bornes de alimentación del propio módulo, porque deben estar lo más cerca posible del integrado @diodes_pam8403: un cerámico de 1 µF para los picos de alta frecuencia, uno de al menos 20 µF para el ruido de baja frecuencia y, como medida para reducir interferencias electromagnéticas, uno de 1000 µF en su borne de alimentación. Como el módulo está en el panel, se suelda en sus bornes un electrolítico de 1000 µF (que cubre las dos últimas recomendaciones) junto con el cerámico de 1 µF.
 
 Los cables hacia el panel deben ser cortos, trenzados y alejados de los del motor. En los ensayos, la falta de la masa de señal entre el DFPlayer y el amplificador fue la causa de que no hubiera sonido, por lo que esa masa se incluye explícitamente en J7.
 
@@ -201,7 +200,7 @@ El volumen se controla con un potenciómetro deslizante lineal de 10 kΩ (B10K) 
 - Cursor a CH1 del ADC (P1-13).
 - Extremo bajo a GNDA (P1-18).
 
-Se alimenta desde la alimentación analógica de la CIAA porque así la lectura resulta proporcional a la misma referencia del conversor y queda menos expuesta al ruido digital; su consumo es de 0,33 mA. Los pines del ADC no toleran 5 V [3], por lo que el potenciómetro nunca debe conectarse al riel de 5 V. Con 10 kΩ, la impedancia que ve el ADC es como máximo de 2,5 kΩ (cursor en el centro del recorrido), dentro de lo que admite el conversor del LPC4337. Entre el cursor y GNDA se coloca C13 (100 nF), que filtra el ruido captado por el cable y estabiliza la muestra del ADC; su constante de tiempo (1 ms) es despreciable para un control manual.
+Se alimenta desde la alimentación analógica de la CIAA porque así la lectura resulta proporcional a la misma referencia del conversor y queda menos expuesta al ruido digital; su consumo es de 0,33 mA. Los pines del ADC no toleran 5 V @nxp_lpc43xx, por lo que el potenciómetro nunca debe conectarse al riel de 5 V. Con 10 kΩ, la impedancia que ve el ADC es como máximo de 2,5 kΩ (cursor en el centro del recorrido), dentro de lo que admite el conversor del LPC4337. Entre el cursor y GNDA se coloca C13 (100 nF), que filtra el ruido captado por el cable y estabiliza la muestra del ADC; su constante de tiempo (1 ms) es despreciable para un control manual.
 
  #figure(
    image("../images/sch_fader.png", width: 55%),
@@ -215,9 +214,9 @@ Para el giro del disco se utiliza un motor paso a paso 28BYJ-48 con su módulo d
 - *J8:* entradas IN1 a IN4 del módulo, desde GPIO5 a GPIO8.
 - *J9:* alimentación de 5 V del módulo, desde el riel de 5 V del poncho, en el mismo orden que su conector (pin 1 GND, pin 2 VCC).
 
-Según el esquema interno del ULN2003 [10, Fig. 1], cada entrada tiene una resistencia de 2,7 kΩ en serie, que limita la corriente que toma del GPIO, y el fabricante garantiza que con 2,4 V en la entrada la salida conduce 200 mA [10, Tabla 3]. Por lo tanto, los 3,3 V de los GPIO de la CIAA alcanzan para manejarlo directamente, sin etapas intermedias. Los diodos de protección contra los picos de tensión de las bobinas también están integrados en el ULN2003.
+Según el esquema interno del ULN2003 @st_uln2003[Fig. 1], cada entrada tiene una resistencia de 2,7 kΩ en serie, que limita la corriente que toma del GPIO, y el fabricante garantiza que con 2,4 V en la entrada la salida conduce 200 mA @st_uln2003[Tabla 3]. Por lo tanto, los 3,3 V de los GPIO de la CIAA alcanzan para manejarlo directamente, sin etapas intermedias. Los diodos de protección contra los picos de tensión de las bobinas también están integrados en el ULN2003.
 
-Un punto a resolver es el comportamiento durante el arranque: mientras la CIAA se reinicia y hasta que el firmware configura los pines, los GPIO del LPC4337 quedan como entradas con resistencia de pull-up interna [3]. Esa corriente débil podría activar parcialmente las salidas y mover o calentar el motor durante el reset. Para evitarlo se agregan resistencias de 10 kΩ a masa en cada entrada (R5 a R8), que mantienen las entradas firmemente en nivel bajo hasta que el firmware las controla; cuando el GPIO está en alto, cada una consume solo 0,33 mA. Junto a J9 se colocan C11 (470 µF) y C12 (100 nF), porque cada bobina consume 100 mA a 5 V y en cada paso se conmutan de a dos [9].
+Un punto a resolver es el comportamiento durante el arranque: mientras la CIAA se reinicia y hasta que el firmware configura los pines, los GPIO del LPC4337 quedan como entradas con resistencia de pull-up interna @nxp_lpc43xx. Esa corriente débil podría activar parcialmente las salidas y mover o calentar el motor durante el reset. Para evitarlo se agregan resistencias de 10 kΩ a masa en cada entrada (R5 a R8), que mantienen las entradas firmemente en nivel bajo hasta que el firmware las controla; cuando el GPIO está en alto, cada una consume solo 0,33 mA. Junto a J9 se colocan C11 (470 µF) y C12 (100 nF), porque cada bobina consume 100 mA a 5 V y en cada paso se conmutan de a dos @kiatronics_28byj48.
 
  #figure(
    image("../images/sch_motor.png", width: 100%),
@@ -226,14 +225,14 @@ Un punto a resolver es el comportamiento durante el arranque: mientras la CIAA s
 
 === Iluminación (salida) <sec:neopixel>
 
-Para la iluminación se utiliza una tira de 22 LEDs WS2812B, que se mantendrá encendida mientras suene un tema. Alimentada con 5 V, su entrada de datos necesita al menos 0,7 × 5 V = 3,5 V para reconocer un nivel alto [11], mientras que la CIAA entrega 3,3 V. Como se trata de una única señal, la adaptación de nivel se resuelve con un transistor MOSFET de canal N (Q1, 2N7000) y una resistencia de pull-up a 5 V:
+Para la iluminación se utiliza una tira de 22 LEDs WS2812B, que se mantendrá encendida mientras suene un tema. Alimentada con 5 V, su entrada de datos necesita al menos 0,7 × 5 V = 3,5 V para reconocer un nivel alto @worldsemi_ws2812b, mientras que la CIAA entrega 3,3 V. Como se trata de una única señal, la adaptación de nivel se resuelve con un transistor MOSFET de canal N (Q1, 2N7000) y una resistencia de pull-up a 5 V:
 
 - La compuerta de Q1 recibe la señal de T_FIL1 (P1-36) y su fuente va a masa.
 - El drenador se conecta a 5 V a través de R10 (1 kΩ) y, a través de R9 (330 Ω), a la entrada de datos de la tira, en J11.
 
-Cuando el GPIO está en alto, Q1 conduce y lleva la línea a 0 V; cuando está en bajo, Q1 se corta y R10 lleva la línea a 5 V. La señal resultante queda invertida, lo que se compensa en el firmware enviando cada bit negado. El 2N7000 conduce con tensiones de compuerta del orden de los 3,3 V que entrega la CIAA [12], y como el GPIO solo maneja la compuerta, no entrega corriente a la carga. El valor de R10 se eligió para que el flanco de subida, que depende de esa resistencia, sea mucho más rápido que la duración de un bit de la tira (del orden de 0,4 µs), con una corriente de solo 5 mA cuando el transistor conduce. Al arrancar, el GPIO queda con su pull-up interno, Q1 conduce y la línea permanece en bajo, que es el estado de reposo de la tira, por lo que no se encienden LEDs de forma espuria.
+Cuando el GPIO está en alto, Q1 conduce y lleva la línea a 0 V; cuando está en bajo, Q1 se corta y R10 lleva la línea a 5 V. La señal resultante queda invertida, lo que se compensa en el firmware enviando cada bit negado. El 2N7000 conduce con tensiones de compuerta del orden de los 3,3 V que entrega la CIAA @onsemi_2n7002, y como el GPIO solo maneja la compuerta, no entrega corriente a la carga. El valor de R10 se eligió para que el flanco de subida, que depende de esa resistencia, sea mucho más rápido que la duración de un bit de la tira (del orden de 0,4 µs), con una corriente de solo 5 mA cuando el transistor conduce. Al arrancar, el GPIO queda con su pull-up interno, Q1 conduce y la línea permanece en bajo, que es el estado de reposo de la tira, por lo que no se encienden LEDs de forma espuria.
 
-R9 protege al primer LED y amortigua reflexiones en el cable [13], y C15 (470 µF) cubre los picos de consumo de la tira. Se eligió T_FIL1 porque la sAPI la ofrece como salida PWM y está vinculada al periférico SCT @sapi-pernia: para luz fija alcanza con generar la señal por software, y el SCT permitiría generar animaciones por hardware sin cambiar el circuito.
+R9 protege al primer LED y amortigua reflexiones en el cable @adafruit_neopixel, y C15 (470 µF) cubre los picos de consumo de la tira. Se eligió T_FIL1 porque la sAPI la ofrece como salida PWM y está vinculada al periférico SCT @pernia_sapi: para luz fija alcanza con generar la señal por software, y el SCT permitiría generar animaciones por hardware sin cambiar el circuito.
 
  #figure(
    image("../images/sch_neopixel.png", width: 75%),
@@ -247,8 +246,8 @@ El sistema se alimenta desde un único riel de 5 V, con la siguiente arquitectur
 - *Fuente:* cargador de celular de 5 V / 3 A conectado a un módulo USB de panel (especificado a 2 A). Con el cargador y el cable reales se midieron entre 5,0 y 5,1 V sin carga.
 - *Entrada al poncho (J1):* conector polarizado. Junto a él se colocan C1 (1000 µF), que actúa como reserva de todo el riel: la alimentación llega por cable desde el panel, y los picos del audio, del motor y de la tira producirían caídas momentáneas de tensión; y C2 (100 nF), para el ruido de alta frecuencia del cargador, que es una fuente conmutada.
 - *Riel de 5 V:* alimenta el DFPlayer, el amplificador, el motor, la tira de LEDs y la EDU-CIAA.
-- *EDU-CIAA:* se alimenta desde J2 hacia su bornera P4, la entrada de 5 V de la placa, combinada con la del USB mediante diodos [1].
-- *Riel de 3,3 V:* lo genera el regulador de la propia CIAA y sale por los pines 3V3 de P1 y P2, cada uno protegido por un fusible reseteable de 300 mA [1]. Se separa en `3V3_P1` (OLED y EEPROM) y `3V3_P2` (RFID) para repartir la carga entre ambos fusibles. No se agrega un regulador propio.
+- *EDU-CIAA:* se alimenta desde J2 hacia su bornera P4, la entrada de 5 V de la placa, combinada con la del USB mediante diodos @ciaa_esquematico.
+- *Riel de 3,3 V:* lo genera el regulador de la propia CIAA y sale por los pines 3V3 de P1 y P2, cada uno protegido por un fusible reseteable de 300 mA @ciaa_esquematico. Se separa en `3V3_P1` (OLED y EEPROM) y `3V3_P2` (RFID) para repartir la carga entre ambos fusibles. No se agrega un regulador propio.
 
 No se coloca diodo contra inversión de polaridad, porque su caída de tensión dejaría al amplificador y al DFPlayer por debajo de 5 V; en su lugar se usa un conector polarizado.
 
@@ -278,11 +277,11 @@ El consumo máximo queda por debajo de 300 mA aun si todas las cargas estuvieran
 
 === Riel de 5 V
 
-El consumo del amplificador se estima a partir de su potencia máxima de salida y su eficiencia, de 83 % según el fabricante [7]:
+El consumo del amplificador se estima a partir de su potencia máxima de salida y su eficiencia, de 83 % según el fabricante @diodes_pam8403:
 
 $ I_"PAM" = (2 dot P_"out") / (eta dot V_"DD") = (2 dot 3.2 "W") / (0.83 dot 5 "V") approx 1.54 "A" $
 
-Este valor corresponde a ambos canales a potencia máxima en forma continua, situación que la música no sostiene: la potencia media de una señal musical es bastante menor que la de pico. En la tira de LEDs, cada LED consume hasta 60 mA en blanco a brillo máximo [11], es decir 22 × 60 mA ≈ 1,32 A; como su uso es de iluminación ambiente, el brillo se limita por firmware a un 25 a 30 %.
+Este valor corresponde a ambos canales a potencia máxima en forma continua, situación que la música no sostiene: la potencia media de una señal musical es bastante menor que la de pico. En la tira de LEDs, cada LED consume hasta 60 mA en blanco a brillo máximo @diodes_pam8403, es decir 22 × 60 mA ≈ 1,32 A; como su uso es de iluminación ambiente, el brillo se limita por firmware a un 25 a 30 %.
 
 #figure(
   table(

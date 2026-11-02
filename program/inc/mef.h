@@ -3,10 +3,6 @@
 
 #include "main.h"
 
-#include "modules/display.h"
-#include "modules/motor.h"
-#include "modules/rfid.h"
-
 #define MEF_TICK_MS 20 // 20 ms 
 
 typedef enum {
