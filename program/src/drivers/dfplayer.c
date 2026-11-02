@@ -45,13 +45,13 @@ void mp3Detener(void){
     mp3EnviarComando(0x16 , 0);
 }
 
-void mp3Siguiente(void){
+/*void mp3Siguiente(void){
     mp3EnviarComando(0x01 , 0);
 }
 
 void mp3Anterior(void){
     mp3EnviarComando(0x02 , 0);
-}
+}*/
 
 void mp3Pausar(void){
     mp3EnviarComando(0x0E , 0);

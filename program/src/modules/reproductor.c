@@ -40,7 +40,7 @@ void reproductorAnterior(void){
     mp3Anterior();
     pausado = 0;
 }
-
+*/
 void reproductorPausaContinuar(void){
     if (pausado){
         mp3Continuar();
@@ -50,4 +50,4 @@ void reproductorPausaContinuar(void){
         mp3Pausar();
         pausado = 1;
     }
-}*/
+}

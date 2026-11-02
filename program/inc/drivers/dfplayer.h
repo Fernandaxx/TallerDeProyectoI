@@ -10,8 +10,8 @@ void mp3Reproducir(uint16_t pista);
 void mp3Detener(void);
 //void mp3Siguiente(void);
 //void mp3Anterior(void);
-//void mp3Pausar(void);
-//void mp3Continuar(void);
+void mp3Pausar(void);
+void mp3Continuar(void);
 void mp3Volumen(uint8_t volumen);
 
 #endif

@@ -2,7 +2,7 @@
 #include "modules/display.h"
 #include "modules/reproductor.h"
 #include "modules/efectos.h"
-#include "drivers/eeprom.h"
+#include "modules/biblioteca.h"
 #include "modules/rfid.h"
 
 #define MS_A_TICKS(ms)          ((ms) / MEF_TICK_MS)
@@ -11,11 +11,12 @@ state_t state;
 static uint16_t ticksEnEstado;
 
 static tag_t tagActual;
+
 static bool_t identificarDisco(void)
 {
     rfidUid_t uid;
     rfidObtenerUID(&uid);
-    return eepromBuscarTag(uid.bytes , uid.size , &tagActual) >= 0;
+    return bibliotecaBuscar(uid.bytes, uid.size, &tagActual) >= 0;
 }
 
 int mefEstado(void)

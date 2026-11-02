@@ -5,7 +5,7 @@
 #include "modules/efectos.h"
 #include "modules/rfid.h"
 #include "modules/volumen.h"
-#include "drivers/eeprom.h"
+#include "modules/biblioteca.h"
 
 #define RFID_PERIODO      10  // 10 x 20 ms = 200 ms
 #define VOLUMEN_PERIODO   3   // 3 x 20 ms =  60 ms
@@ -37,7 +37,7 @@ int main(void)
     i2cInit(I2C0, 100000);          // para la pantalla y la memoria
     spiConfig(SPI0);                // para el lector RFID
     
-    eepromCargarInicial();
+    bibliotecaInit(); 
 
     mefInit();
 
