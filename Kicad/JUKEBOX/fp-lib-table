@@ -1,0 +1,5 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "jukebox") (type "KiCad") (uri "${KIPRJMOD}/jukebox.pretty") (options "") (descr "Huellas del poncho segun norma de la catedra (orificio 0.7 mm)"))
+	(lib (name "Poncho_Esqueleto") (type "KiCad") (uri "${KIPRJMOD}/Poncho_Esqueleto.pretty") (options "") (descr "Huellas de ponchos del Proyecto CIAA"))
+)

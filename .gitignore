@@ -69,3 +69,9 @@ board.mk
 # debug information files
 *.dwo
 .DS_Store
+
+# KiCad: bloqueos, cache y respaldos automaticos
+~*.lck
+fp-info-cache
+*-backups/
+.history/

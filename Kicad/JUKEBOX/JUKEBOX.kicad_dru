@@ -1,0 +1,19 @@
+(version 1)
+
+# Norma de la catedra: simple faz (cobre solo en B.Cu), pistas >= 1 mm.
+(rule "Simple faz: sin pistas en F.Cu"
+	(layer "F.Cu")
+	(constraint disallow track))
+
+(rule "Simple faz: sin vias"
+	(constraint disallow via))
+
+(rule "Norma: pista minima 1 mm"
+	(constraint track_width (min 1mm)))
+
+(rule "Separacion minima 0,5 mm"
+	(constraint clearance (min 0.5mm)))
+
+(rule "Separacion de pistas a cualquier objeto: minimo 0,7 mm (ideal 1 mm)"
+	(condition "A.Type == 'track'")
+	(constraint clearance (min 0.7mm)))

@@ -153,7 +153,7 @@
   <kiatronics_28byj48>,  // [9]
   <st_uln2003>,          // [10]
   <worldsemi_ws2812b>,   // [11]
-  <onsemi_2n7002>,       // [12]
+  <microchip_2n7000>,    // [12]
   <adafruit_neopixel>,   // [13]
   <pernia_sapi>,         // [14]
   <pernia_firmware_v3>,  // [15]
@@ -249,3 +249,5 @@
 #include "typst/A1-materiales.typ"
 #pagebreak(weak: true)
 #include "typst/A2-esquematico.typ"
+#pagebreak(weak: true)
+#include "typst/A3-pcb.typ"
