@@ -69,24 +69,33 @@ Maneja la pantalla OLED de 128 × 64 píxeles con controlador SH1106 mediante la
 // está en la bibliografia como @balboa_rfid
 
 ==== neopixel
+Controla la tira de 22 LEDs WS2812B mediante una única línea GPIO conectada al transistor MOSFET. Debido a que los tiempos de pulso son del orden de los nanosegundos, el driver utiliza el contador de ciclos DWT->CYCCNT a 204 MHz para generar los retardos precisos bit a bit. Durante la transmisión de los datos, las interrupciones se deshabilitan temporalmente para evitar interrupciones de tiempo. La línea se opera negada, enviando el nivel lógico adecuado a la compuerta de Q1 para modular los 5 V requeridos por la tira.
 
 ==== motor
+Gestiona la secuencia de activación de las bobinas del motor paso a paso 28BYJ-48. Configura cuatro salidas GPIO y ejecuta la secuencia en modo full-step (pasos completos utilizando dos bobinas en energizado constante). La función motorPaso() hace avanzar el motor un paso en el sentido indicado y es invocada periódicamente dentro de la rutina de interrupción del SysTick (1 ms), garantizando un giro uniforme sin ralentizar el lazo principal.
 
 ==== dfplayer
+Encapsula la comunicación serie UART a 9600 baudios con el módulo MP3 DFPlayer Mini. La función interna mp3EnviarComando() construye de forma estructurada las tramas de 10 bytes exigidas por el protocolo: byte de inicio (0x7E), versión, longitud, código de comando, bytes de parámetro (MSB y LSB), suma de comprobación (checksum de 16 bits) y byte de finalización (0xEF). El driver usa funciones de bajo nivel para inicializar la reproducción desactivando repeticiones automáticas (mp3Init()), seleccionar y reproducir una pista almacenada en la carpeta de la microSD (mp3Reproducir(), utilizando la orden 0x0F), pausar/reanudar el audio (mp3Pausar(), mp3Continuar()), detener la reproducción (mp3Detener()) y limitar el volumen en una escala de 0 a 30 (mp3Volumen()).
 
 === Servicios
 
 ==== Biblioteca de discos
+Administra la asociación lógica entre los discos físicos con lasetiquetas RFID y los archivos de audio en la tarjeta microSD. Expone la función bibliotecaBuscar(), la cual recibe un UID de 7 bytes e identifica si el disco está registrado en la base de datos. En caso afirmativo, devuelve la información del disco: número de pista asociada, nombre de la canción, artista y el color asignado para la secuencia lumínica.
 
 ==== Volumen
 
 ==== Efectos
+Abstrae y simplifica el control coordinado del movimiento y la iluminación del tocadiscos. Brinda la interfaz para encender las luces NeoPixel fijando el color mediante componentes RGB personalizados para la canción en reproducción (efectosEncender()) o apagar las luces y el motor cuando el sistema entra en estado de reposo o detención (efectosApagar()).
 
 ==== Reproductor
+Constituye la capa de servicio que administra el estado del audio y se comunica directamente con la máquina de estados principal (mef.c). Utiliza el driver dfplayer, coordina las órdenes de arranque (reproductorPista()), pausa/reanudación (reproductorPausaContinuar()) y detención del audio (reproductorDetener()). Además, configura la lectura digital del pin BUSY de la placa y ofrece la función reproductorFinPista(), la cual evalúa el nivel alto para notificar una sola vez a la máquina de estados cuando un archivo de audio finaliza en forma natural.
 
 ==== RFID
+Monitorea periódicamente el lector de tarjetas sin bloquear el programa principal. Se ejecuta cada 200 ms, esto es controlado por temporización del lazo en main.c. Notifica a la máquina de estados cuando se apoya un nuevo disco (rfidCambioDisco()), cuando un disco se retira del campo magnético (rfidHayDisco()) o entregando el valor del UID leído (rfidObtenerUID()).
 
 ==== Display
+Maneja la interfaz visual del usuario sobre la pantalla OLED SH1106 ($128 x 64$ píxeles) con la biblioteca gráfica U8g2, administrando las pantallas de estado (UI_INICIO, UI_ESPERA, UI_REPRODUCIENDO, UI_FIN_PISTA, UI_NO_REGISTRADO, UI_CONFIG y UI_ERROR). Para garantizar que sea una operación no bloqueante dentro del bucle principal, la función tareaPantalla() fragmenta el refresco de la memoria gráfica procesando una sola página por pasada. Además, gestiona la animación en tiempo real de del disco girando (pasos de 10°) y renderiza secuencias de 14 cuadros en formato mapa de bits ($32 x 32$ píxeles), exponiendo la función uiActualizarTextos() para formatear el título (hasta 28 caracteres) y el artista (hasta 20 caracteres), y centralizando el flujo de interfaz mediante uiMostrar() 
+
 
 === Máquina de estados principal
 
