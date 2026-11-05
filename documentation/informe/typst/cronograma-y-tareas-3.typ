@@ -1,8 +1,10 @@
 = Cronograma actualizado
 
-El desarrollo del proyecto se organizó en etapas sucesivas que comprenden el análisis inicial, la investigación de componentes, el diseño de hardware y software, el desarrollo del código, la fabricación, la integración y las pruebas finales. La planificación se realizó tomando como referencia el cronograma propuesto por la cátedra y los requerimientos definidos para el sistema.
+El desarrollo del proyecto se organizó en 3 etapas diferentes: el análisis inicial, investigación de componentes y diseño de hardware, el desarrollo del código y diseño del firmware, y la fabricación, integración y pruebas finales. La planificación se realizó tomando como referencia el cronograma propuesto por la cátedra y fijando como meta la entrega final a principios de diciembre.
 
-A la fecha se completaron la elección y definición del proyecto, el análisis de componentes y protocolos, la definición de requerimientos y el diseño preliminar del esquemático y de la arquitectura del firmware. En la @tab-gantt se muestra el período restante, de octubre a diciembre de 2026, con las tareas pendientes y los hitos por cumplir.
+A la fecha se completaron la elección y definición del proyecto, el análisis de componentes y protocolos, la definición de requerimientos, el diseño del esquemático, el de la arquitectura del firmware y el de la PCB, la programación de la mayoría de los módulos y la integración de los mismos al bucle principal.
+
+En la @tab-gantt se muestra el período restante, de noviembre a diciembre de 2026, con las tareas pendientes y los hitos por cumplir.
 
 #let d = table.cell(fill: rgb("#ffe599"))[]   // diseño
 #let c = table.cell(fill: rgb("#f9cb9c"))[]   // código
@@ -77,13 +79,14 @@ A la fecha se completaron la elección y definición del proyecto, el análisis 
 
 = División de tareas del grupo
 
-Con el fin de organizar el desarrollo y permitir el trabajo en paralelo, las principales tareas del proyecto se distribuyeron entre los integrantes del grupo. Cada integrante tendrá responsabilidades principales sobre determinados bloques del sistema, aunque las etapas de integración, pruebas, validación y documentación se realizarán de manera conjunta. La distribución de tareas podrá ajustarse durante el desarrollo en función del avance del proyecto y de las necesidades que surjan en cada etapa.
+Con el fin de organizar el desarrollo y permitir el trabajo en paralelo, las principales tareas del proyecto se distribuyeron entre los integrantes del grupo. Cada integrante tendrá responsabilidades principales sobre determinados bloques del sistema, aunque las etapas de integración, pruebas, validación y documentación se realizarán de manera conjunta.
 
-Durante estas semanas se trabajó en conjunto en el esquemático y el diseño de la arquitectura del firmware. En la @tab-tareas se presenta la división de tareas del grupo, actualizada según el trabajo realizado. Se agregaron las horas computadas por cada integrante.
+En la @tab-tareas se presenta la división de tareas del grupo, actualizada según el trabajo realizado, y las horas computadas por cada integrante.
+
 #figure(
   table(
     columns: (1.1fr, 3fr, 0.87fr),
-    align: (left, left, left, left),
+    align: (left, left, left),
     stroke: 0.4pt + gray,
     inset: 7pt,
 
@@ -91,68 +94,43 @@ Durante estas semanas se trabajó en conjunto en el esquemático y el diseño de
 
     [Acuña, Lucía],
     [
-      Identificación RFID/NFC y funcionalidades complementarias:
-      - Integración y pruebas del lector MFRC522.
-      - Lectura de etiquetas y asociación UID–canción.
-      - Análisis de EEPROM 24LC256 y LEDs NeoPixel.
-      - Colaboración en requerimientos y revisión del diseño.
+      Efectos de iluminación y movimiento:
+      - Programación de los LEDs NeoPixel.
+      - Programación del motor.
+      - Desarrollo de la biblioteca de efectos.
     ],
-    [9 h],
+    [0 h],
 
     [Avila, Fernanda],
     [
-      Reproducción, audio y alimentación:
-      - Integración y ensayos del DFPlayer Mini.
-      - Configuración de microSD y reproducción de audio.
-      - Integración del PAM8403 y parlantes.
-      - Verificación de UART/BUSY y análisis de alimentación.
+      Reproducción de audio e identificación RFID:
+      - Programación del reproductor de audio.
+      - Programación del amplificador.
+      - Programación del lector RFID.
     ],
-    [9 h],
+    [0 h],
 
     [Bejarano, Abril],
     [
-      Interfaz de usuario y estructura física:
-      - Integración y ensayos de la pantalla OLED SH1106.
-      - Diseño de pantallas e información al usuario.
-      - Análisis del control de volumen mediante fader.
-      - Diseño preliminar de estructura e integración del motor.
+      Interfaz, almacenamiento y lógica principal:
+      - Diseño de la arquitectura del firmware y máquina de estados.
+      - Programación de la pantalla OLED.
+      - Programación de la memoria EEPROM.
+      - Desarrollo de la biblioteca de discos.
     ],
-    [9 h],
+    [0 h],
 
     [Seijo, Gerónimo],
     [
-      Firmware e integración de hardware:
-      - Diseño de la arquitectura del firmware y máquina de estados.
-      - Selección y asignación de pines de la EDU-CIAA-NXP.
-      - Diseño del esquemático e interfaces de periféricos.
-      - Inicio del diseño de la PCB tipo poncho.
+      Hardware e integración física:
+      - Asignación de pines de la EDU-CIAA-NXP.
+      - Diseño del esquemático.
+      - Diseño de la PCB tipo poncho.
     ],
-    [12 h],
+    [0 h],
   ),
 
-  caption: [División actualizada de tareas y horas invertidas por los integrantes del grupo.],
+  caption: [División de tareas y horas invertidas por cada integrante del grupo.],
   kind: table,
 ) <tab-tareas>
-
-
-#figure(
-  table(
-    columns: 1fr,
-    align: left,
-    stroke: 0.4pt + gray,
-    inset: 7pt,
-
-    table.header([*Tareas compartidas por todo el grupo*]),
-
-    [
-      - Revisión de requerimientos y selección de componentes.
-      - Revisión conjunta del diseño de hardware y firmware.
-      - Elaboración y corrección del Informe de Avance.
-      - Planificación de integración, pruebas y validación del prototipo.
-    ],
-  ),
-
-  caption: [Tareas compartidas por todos los integrantes del grupo.],
-  kind: table,
-) <tab-tareas-compartidas>
 

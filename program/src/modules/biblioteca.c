@@ -51,7 +51,7 @@ static int16_t bibliotecaBuscar(const uint8_t *uid , uint8_t size , tag_t *disco
         if (uidLeido[0] == 0xFF) return -1;                      // fin de la tabla
 
         if (memcmp(uidLeido , uidPad , UID_LEN) == 0){
-            if (!eepromLeer(dirTag(i) , (uint8_t *) t , sizeof(tag_t))) return -1;
+            if (!eepromLeer(dirTag(i) , (uint8_t *) disco , sizeof(tag_t))) return -1;
             disco->artista[ARTISTA_LEN - 1] = '\0';
             disco->cancion[CANCION_LEN - 1] = '\0';
             return i;
