@@ -1,4 +1,4 @@
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 
 = Diseño de software
 
@@ -9,7 +9,7 @@ El firmware se desarrolla en C sobre la EDU-CIAA-NXP utilizando la biblioteca sA
 El firmware se organiza en cuatro capas (@fig:arquitectura). Cada capa utiliza únicamente los servicios de la inmediatamente inferior, esta separación permite reemplazar un componente (por ejemplo, el módulo MP3 o la pantalla) modificando solo su driver, sin tocar la lógica principal. La única excepción es el control de volumen, que accede directamente al ADC de la sAPI porque el fader es un potenciómetro y no requiere un driver propio.
 
 #figure(
-  image("../images/arquitectura_v2.svg", width: 95%)
+  image("../images/arquitectura_v2.svg", width: 95%),
 ) <fig:arquitectura>
 
 - *sAPI:* acceso al hardware de la EDU-CIAA-NXP (I2C, SPI, UART, GPIO, ADC) y tick de 1 ms.
@@ -32,9 +32,7 @@ Se adopta un esquema cooperativo sin sistema operativo. El tick de 1 ms de la sA
     [200 ms],
     [Detecta la presencia de un disco y lee su UID. El retiro del disco se confirma tras varias lecturas fallidas consecutivas, para no reaccionar a una lectura perdida.],
 
-    [MEF],
-    [20 ms],
-    [Actualiza el estado del sistema a partir de los eventos del lector, el reproductor y el volumen.],
+    [MEF], [20 ms], [Actualiza el estado del sistema a partir de los eventos del lector, el reproductor y el volumen.],
 
     [Reproductor],
     [20 ms],
@@ -42,7 +40,10 @@ Se adopta un esquema cooperativo sin sistema operativo. El tick de 1 ms de la sA
 
     [Volumen], [60 ms], [Lee el ADC, promedia las muestras y traduce la posición del fader a un nivel de 0 a 30.],
     [Pantalla], [20 ms], [Actualiza la pantalla por páginas (ver más abajo).],
-    [Motor], [2 ms], [Avanza un paso de la secuencia mientras el disco debe girar. Se ejecuta desde la interrupción del tick de 1 ms, solo en los ticks pares.],
+    [Motor],
+    [2 ms],
+    [Avanza un paso de la secuencia mientras el disco debe girar. Se ejecuta desde la interrupción del tick de 1 ms, solo en los ticks pares.],
+
     [Iluminación], [Por evento], [Envía los colores a la tira solo cuando cambia el estado del sistema.],
   ),
   caption: [Tareas del sistema.],
@@ -71,17 +72,33 @@ Esta espera es la única parte bloqueante del driver. No afecta el funcionamient
 
 ==== rc522
 
+
 // biblioteca: usamos una adaptacion a edu ciaa de la libreria mfrc522 de balboa
 // está en la bibliografia como @balboa_rfid
+
+Maneja el lector RFID RC522, basado en el MFRC522 de NXP @nxp_mfrc522, por SPI. Es una adaptación a la EDU-CIAA de la biblioteca de Balboa @balboa_rfid, reducida a lo necesario: detectar una etiqueta ISO 14443A y leer su UID, sin autenticación ni acceso a bloques. Expone `rc522_init`, `rc522_version` y `rc522_read_uid`.
+
+Todas las operaciones se reducen a leer y escribir registros del chip: cada transferencia SPI comienza con un byte de dirección (con el bit 7 en alto para lecturas), y el chip select y el reset se manejan por GPIO. `rc522_init` hace el reset, configura el temporizador de espera (unos 10 ms), la modulación y la ganancia, y enciende la antena. `rc522_version` permite verificar que el lector responde por SPI.
+
+`rc522_read_uid` sigue la secuencia de ISO 14443A: despierta la etiqueta (WUPA), realiza la anticolisión, la selecciona y, si el UID no está completo, repite el proceso en un segundo nivel de cascada. Así se leen UID de 4 y de 7 bytes, como los de las etiquetas NTAG usadas. Al final deja la etiqueta detenida (HLTA) para que la lectura siguiente vuelva a empezar con WUPA. El resultado de cada intento se informa como `RC522_OK`, `RC522_NOTAG`, `RC522_COLLISION` o `RC522_ERROR`; el driver no decide si hay un disco apoyado, de eso se ocupa el servicio `rfid`.
+
 
 ==== neopixel
 Controla la tira de 22 LEDs WS2812B mediante una única línea GPIO conectada al transistor MOSFET. Debido a que los tiempos de pulso son del orden de los nanosegundos, el driver utiliza el contador de ciclos DWT->CYCCNT a 204 MHz para generar los retardos precisos bit a bit. Durante la transmisión de los datos, las interrupciones se deshabilitan temporalmente para evitar interrupciones de tiempo. La línea se opera negada, enviando el nivel lógico adecuado a la compuerta de Q1 para modular los 5 V requeridos por la tira.
 
+
 ==== motor
 Gestiona la secuencia de activación de las bobinas del motor paso a paso 28BYJ-48. Configura cuatro salidas GPIO y ejecuta la secuencia en modo full-step (pasos completos utilizando dos bobinas en energizado constante). La función motorPaso() hace avanzar el motor un paso en el sentido indicado y es invocada periódicamente dentro de la rutina de interrupción del SysTick (1 ms), garantizando un giro uniforme sin ralentizar el lazo principal.
 
+
 ==== dfplayer
-Encapsula la comunicación serie UART a 9600 baudios con el módulo MP3 DFPlayer Mini. La función interna mp3EnviarComando() construye de forma estructurada las tramas de 10 bytes exigidas por el protocolo: byte de inicio (0x7E), versión, longitud, código de comando, bytes de parámetro (MSB y LSB), suma de comprobación (checksum de 16 bits) y byte de finalización (0xEF). El driver usa funciones de bajo nivel para inicializar la reproducción desactivando repeticiones automáticas (mp3Init()), seleccionar y reproducir una pista almacenada en la carpeta de la microSD (mp3Reproducir(), utilizando la orden 0x0F), pausar/reanudar el audio (mp3Pausar(), mp3Continuar()), detener la reproducción (mp3Detener()) y limitar el volumen en una escala de 0 a 30 (mp3Volumen()).
+
+Controla el reproductor MP3 (MP3-TF-16P) por UART a 9600 baudios @dfrobot_dfplayer. El módulo decodifica los archivos de su microSD, por lo que el driver solo envía comandos. Expone `mp3Init`, `mp3Reproducir`, `mp3Detener`, `mp3Pausar`, `mp3Continuar` y `mp3Volumen`.
+
+Todas se apoyan en `mp3EnviarComando`, que arma una trama de 10 bytes: inicio (`0x7E`), versión, longitud, comando, parámetro de 16 bits, checksum y fin (`0xEF`).
+
+Las pistas se reproducen con el comando de carpeta y número (`0x0F`), con la carpeta fija en 1, de modo que cada archivo se identifica por su nombre (`/01/001.mp3`, …) y no por el orden de copiado. Al iniciar, `mp3Init` espera 1,5 s a que el módulo monte la microSD, fija el volumen en 20 y desactiva las repeticiones; luego, cada comando va seguido de una pausa de 100 ms. El driver es unidireccional: no lee las respuestas del módulo, y el fin de pista se detecta con la salida BUSY desde el servicio `reproductor`.
+
 
 === Servicios
 
@@ -98,18 +115,32 @@ Un registro vacío se reconoce porque su primer byte vale `0xFF`, esta marca per
 
 La búsqueda es lineal, lo cual resulta adecuado para la cantidad de discos prevista, y la lectura de cada UID es una transacción I2C breve. La máquina de estados invoca la búsqueda al detectar un cambio de disco.
 
-==== Volumen
+//==== Volumen
+
 
 ==== Efectos
+
 Abstrae y simplifica el control coordinado del movimiento y la iluminación del tocadiscos. Brinda la interfaz para encender las luces NeoPixel fijando el color mediante componentes RGB personalizados para la canción en reproducción (efectosEncender()) o apagar las luces y el motor cuando el sistema entra en estado de reposo o detención (efectosApagar()).
 
 ==== Reproductor
-Constituye la capa de servicio que administra el estado del audio y se comunica directamente con la máquina de estados principal (mef.c). Utiliza el driver dfplayer, coordina las órdenes de arranque (reproductorPista()), pausa/reanudación (reproductorPausaContinuar()) y detención del audio (reproductorDetener()). Además, configura la lectura digital del pin BUSY de la placa y ofrece la función reproductorFinPista(), la cual evalúa el nivel alto para notificar una sola vez a la máquina de estados cuando un archivo de audio finaliza en forma natural.
+
+
+
+Es el servicio que usa la máquina de estados para manejar el audio. Se apoya en el driver `dfplayer` y agrega el estado de la reproducción, de modo que la MEF pide "reproducir esta pista" sin conocer comandos ni protocolos. Sus funciones son `reproductorInit`, `reproductorPista`, `reproductorDetener`, `reproductorPausaContinuar` y `reproductorFinPista`.
+
+El fin de pista se detecta con la salida BUSY del módulo, activa en bajo: en bajo mientras suena y en alto cuando no (ver @sec:interfaces). `reproductorFinPista` devuelve verdadero una sola vez, cuando se ordenó una reproducción y la entrada pasa a nivel alto, por lo que la MEF puede consultarla en cada pasada sin repetir la transición. Para que BUSY alcance a bajar después de ordenar la pista, la MEF espera 500 ms en _Identificando_ antes de pasar a _Reproduciendo_ (ver @fig:mef).
+
 
 ==== RFID
-Monitorea periódicamente el lector de tarjetas sin bloquear el programa principal. Se ejecuta cada 200 ms, esto es controlado por temporización del lazo en main.c. Notifica a la máquina de estados cuando se apoya un nuevo disco (rfidCambioDisco()), cuando un disco se retira del campo magnético (rfidHayDisco()) o entregando el valor del UID leído (rfidObtenerUID()).
+Convierte las lecturas del driver `rc522` en información para la máquina de estados: si hay un disco apoyado, si es nuevo y cuál es su UID. La tarea `tareaRFID` se ejecuta cada 200 ms (ver @tab:tareas) e intenta leer un UID en cada pasada.
+
+Si la lectura es exitosa, el servicio guarda el UID y marca un disco nuevo cuando antes no había ninguno o el UID cambió. Si falla estando un disco presente, recién después de tres fallos seguidos (unos 0,6 s) lo considera retirado, para no reaccionar a una lectura perdida.
+
+La MEF consulta el servicio con tres funciones: `rfidHayDisco`, que indica si hay un disco apoyado; `rfidCambioDisco`, que devuelve verdadero una sola vez por cada disco nuevo; y `rfidObtenerUID`, que entrega el UID para buscar su pista en la biblioteca.
+
 
 ==== Display
+
 Es el servicio que decide qué se muestra en la pantalla y cuándo se actualiza, y se apoya en el driver `oled` para el dibujo. La máquina de estados indica qué pantalla corresponde con `uiMostrar`, y le entrega el artista y la canción del disco actual con `uiActualizarTextos` al comenzar la reproducción. Las pantallas disponibles son inicio, espera, reproduciendo, fin de pista, disco no registrado, configuración y error.
 
 El servicio separa dos tareas. Cambiar de pantalla o de texto solo modifica el contenido que se desea mostrar, y es instantáneo. La actualización física de la pantalla la realiza `tareaPantalla`, que el lazo principal ejecuta en cada paso de 20 ms. En cada ejecución arma o continúa la imagen en el buffer y envía una sola página de 128 bytes, lo cual toma unos 15 ms, menos que el período de la tarea. Así, la pantalla completa se renueva en varias pasadas consecutivas y el resto de las tareas, incluida la máquina de estados, se ejecutan sin retrasos. Como las animaciones avanzan por cuadros, su velocidad depende de este ritmo de actualización.

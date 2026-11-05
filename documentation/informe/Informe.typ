@@ -2,7 +2,7 @@
 #import "@preview/codly:1.3.0": *
 #import "@preview/codly-languages:0.1.10": codly-languages
 // Diagramas de estados o bloques
-#import "@preview/fletcher:0.5.8" as fletcher: diagram, node, edge
+#import "@preview/fletcher:0.5.8" as fletcher: diagram, edge, node
 // Listas o cuestionarios
 #import "@preview/lilaq:0.5.0" as lq
 // Notación matemática
@@ -142,25 +142,25 @@
 
 // Registra todas las referencias en el orden de la lista, sin mostrar nada
 #for clave in (
-  <ciaa_esquematico>,    // [1]
-  <pernia_pinout>,       // [2]
-  <nxp_lpc43xx>,         // [3]
-  <nxp_mfrc522>,         // [4]
-  <dfrobot_dfplayer>,    // [5]
-  <allvision_oled>,      // [6]
-  <diodes_pam8403>,      // [7]
-  <microchip_24lc256>,   // [8]
-  <kiatronics_28byj48>,  // [9]
-  <st_uln2003>,          // [10]
-  <worldsemi_ws2812b>,   // [11]
-  <microchip_2n7000>,    // [12]
-  <adafruit_neopixel>,   // [13]
-  <pernia_sapi>,         // [14]
-  <pernia_firmware_v3>,  // [15]
-  <balboa_rfid>,         // [16]
-  <proyecto_ciaa>,       // [17]
-  <sinowealth_sh1106>,   // [18]
-  <kicad>,               // [19]
+  <ciaa_esquematico>, // [1]
+  <pernia_pinout>, // [2]
+  <nxp_lpc43xx>, // [3]
+  <nxp_mfrc522>, // [4]
+  <dfrobot_dfplayer>, // [5]
+  <allvision_oled>, // [6]
+  <diodes_pam8403>, // [7]
+  <microchip_24lc256>, // [8]
+  <kiatronics_28byj48>, // [9]
+  <st_uln2003>, // [10]
+  <worldsemi_ws2812b>, // [11]
+  <microchip_2n7000>, // [12]
+  <adafruit_neopixel>, // [13]
+  <pernia_sapi>, // [14]
+  <pernia_firmware_v3>, // [15]
+  <balboa_rfid>, // [16]
+  <proyecto_ciaa>, // [17]
+  <sinowealth_sh1106>, // [18]
+  <kicad>, // [19]
 ) {
   cite(clave, form: none)
 }

@@ -27,46 +27,63 @@ En la @tab-gantt se muestra el período restante, de noviembre a diciembre de 20
 
 #let etapa(nombre) = (table.cell(colspan: ndias + 1, fill: rgb("#eeeeee"))[*#nombre*],)
 
-  #figure(
-    text(size: 7.5pt)[#table(
-      columns: (auto,) + (1fr,) * ndias,
-      align: (left,) + (center,) * ndias,
-      stroke: 0.4pt + gray,
-      inset: 3pt,
-      table.header(
-        table.cell(rowspan: 3, align: horizon)[*Tarea*],
-        table.cell(colspan: 5)[*9–13/11*],
-        table.cell(colspan: 5)[*16–20/11*],
-        table.cell(colspan: 5)[*23–27/11*],
-        table.cell(colspan: 4)[*30/11–3/12*],
-        ..([9], [10], [11], [12], [13],
-           [16], [17], [18], [19], [20],
-           [23], [24], [25], [26], [27],
-           [30], [1], [2], [3]).map(x => x),
-      ),
+#figure(
+  text(size: 7.5pt)[#table(
+    columns: (auto,) + (1fr,) * ndias,
+    align: (left,) + (center,) * ndias,
+    stroke: 0.4pt + gray,
+    inset: 3pt,
+    table.header(
+      table.cell(rowspan: 3, align: horizon)[*Tarea*],
+      table.cell(colspan: 5)[*9–13/11*],
+      table.cell(colspan: 5)[*16–20/11*],
+      table.cell(colspan: 5)[*23–27/11*],
+      table.cell(colspan: 4)[*30/11–3/12*],
+      ..(
+        [9],
+        [10],
+        [11],
+        [12],
+        [13],
+        [16],
+        [17],
+        [18],
+        [19],
+        [20],
+        [23],
+        [24],
+        [25],
+        [26],
+        [27],
+        [30],
+        [1],
+        [2],
+        [3],
+      ).map(x => x),
+    ),
 
-      ..etapa("Etapa de diseño"),
-      ..fila("Diseño del PCB (poncho)", d, (0, 4)),
+    ..etapa("Etapa de diseño"),
+    ..fila("Diseño del PCB (poncho)", d, (0, 4)),
 
-      ..etapa("Desarrollo de código"),
-      ..fila("Firmware de la máquina de estados", c, (0, 9)),
-      ..fila("Revisión de módulos", c, (0, 14)),
-      ..fila("Implementar biblioteca de discos", c, (3, 5)),
-      ..fila("Implementar service de efectos", c, (6, 8)),
-      ..fila("(Opcional) Modo configuración", h, (5, 11)),
+    ..etapa("Desarrollo de código"),
+    ..fila("Firmware de la máquina de estados", c, (0, 9)),
+    ..fila("Revisión de módulos", c, (0, 14)),
+    ..fila("Implementar biblioteca de discos", c, (3, 5)),
+    ..fila("Implementar service de efectos", c, (6, 8)),
+    ..fila("(Opcional) Modo configuración", h, (5, 11)),
 
-      ..etapa("Etapa final"),
-      ..fila("Fabricación y soldado del PCB", f, (5, 9)),
-      ..fila("Estructura física del tocadiscos", f, (5, 14)),
-      ..fila("Ensamblaje e integración del prototipo", f, (15, 16)),
-      ..fila("Pruebas de validación del sistema", f, (17, 18)),
-      ..fila("Documentación e informe final", f, (13, 18)),
+    ..etapa("Etapa final"),
+    ..fila("Fabricación y soldado del PCB", f, (5, 9)),
+    ..fila("Estructura física del tocadiscos", f, (5, 14)),
+    ..fila("Ensamblaje e integración del prototipo", f, (15, 16)),
+    ..fila("Pruebas de validación del sistema", f, (17, 18)),
+    ..fila("Documentación e informe final", f, (13, 18)),
 
-      ..etapa("Entregas formales"),
-      ..fila("Informe Final — 03/12/2026", m, (18, 18)),
-    )],
-    caption: [Diagrama de Gantt diario (días hábiles) del 9/11 al 3/12 de 2026.],
-  ) <tab-gantt>
+    ..etapa("Entregas formales"),
+    ..fila("Informe Final — 03/12/2026", m, (18, 18)),
+  )],
+  caption: [Diagrama de Gantt diario (días hábiles) del 9/11 al 3/12 de 2026.],
+) <tab-gantt>
 
 #text(size: 9pt)[
   *Referencias:*
@@ -99,7 +116,7 @@ En la @tab-tareas se presenta la división de tareas del grupo, actualizada seg�
       - Programación del motor.
       - Desarrollo de la biblioteca de efectos.
     ],
-    [0 h],
+    [23 h],
 
     [Avila, Fernanda],
     [
@@ -108,7 +125,7 @@ En la @tab-tareas se presenta la división de tareas del grupo, actualizada seg�
       - Programación del amplificador.
       - Programación del lector RFID.
     ],
-    [0 h],
+    [24 h],
 
     [Bejarano, Abril],
     [
@@ -118,7 +135,7 @@ En la @tab-tareas se presenta la división de tareas del grupo, actualizada seg�
       - Programación de la memoria EEPROM.
       - Desarrollo de la biblioteca de discos.
     ],
-    [0 h],
+    [25 h],
 
     [Seijo, Gerónimo],
     [
@@ -127,7 +144,7 @@ En la @tab-tareas se presenta la división de tareas del grupo, actualizada seg�
       - Diseño del esquemático.
       - Diseño de la PCB tipo poncho.
     ],
-    [0 h],
+    [28 h],
   ),
 
   caption: [División de tareas y horas invertidas por cada integrante del grupo.],
