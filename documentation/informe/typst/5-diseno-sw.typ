@@ -63,6 +63,12 @@ Maneja la pantalla OLED de 128 × 64 píxeles con controlador SH1106 mediante la
 
 ==== eeprom
 
+Maneja la memoria EEPROM 24LC256 por I2C, en el mismo bus que la pantalla, con dirección de dispositivo `0x50`. Es un driver de acceso a bytes, no conoce el formato de los datos que se guardan ya que de eso se ocupa el servicio de biblioteca de discos. Expone dos operaciones, `eepromLeer` y `eepromEscribir`, que reciben una dirección de 16 bits, un buffer y una cantidad de bytes, y devuelven si la transacción fue exitosa. Esto permite cambiar la estructura de la información sin cambiar el driver de la memoria.
+
+La lectura envía la dirección de 2 bytes y luego lee de forma secuencial la cantidad pedida, de modo que un registro completo se obtiene en una sola transacción. La escritura, en cambio, está limitada por las páginas internas de 64 bytes del dispositivo, por eso el driver parte la escritura en tramos de ese tamaño y envía cada uno en una transacción distinta. Después de cada tramo espera 6 ms, para asegurar que transcurran los 5 ms máximos de escritura interna indicados por el fabricante, durante los cuales la memoria no responde.
+
+Esta espera es la única parte bloqueante del driver. No afecta el funcionamiento normal, porque las lecturas no tienen retardo y la escritura solo se usa en dos casos: en la carga inicial de la tabla y en la asignación de un disco nuevo. En el primer caso se llama una vez por registro, lo que podría generar problemas pero ocurre antes de que arranque el lazo principal. Y en el segundo caso sólo se llama una vez por disco configurado, y a su vez sólo ocurre en el modo configuración donde no están encendidos el motor ni el reproductor.
+
 ==== rc522
 
 // biblioteca: usamos una adaptacion a edu ciaa de la libreria mfrc522 de balboa
@@ -79,8 +85,19 @@ Encapsula la comunicación serie UART a 9600 baudios con el módulo MP3 DFPlayer
 
 === Servicios
 
+La capa de servicios se ubica entre la máquina de estados y los drivers. Cada servicio implementa la lógica propia de una función del reproductor (identificar un disco, mostrar información, controlar los efectos) y utiliza los drivers para acceder al hardware, de modo que la máquina de estados trabaja con operaciones de alto nivel sin conocer protocolos ni direcciones. Los servicios periódicos se ejecutan como tareas desde el lazo principal, mientras que el resto de las funciones se invocan desde la máquina de estados.
+
 ==== Biblioteca de discos
 Administra la asociación lógica entre los discos físicos con lasetiquetas RFID y los archivos de audio en la tarjeta microSD. Expone la función bibliotecaBuscar(), la cual recibe un UID de 7 bytes e identifica si el disco está registrado en la base de datos. En caso afirmativo, devuelve la información del disco: número de pista asociada, nombre de la canción, artista y el color asignado para la secuencia lumínica.
+
+Administra la tabla que asocia cada disco con sus datos. Cada disco es una etiqueta RFID/NFC de 7 bytes de UID, y su registro contiene el número de pista en la microSD, el color RGB de los efectos de iluminación, y el nombre del artista y de la canción para mostrar en pantalla. Los registros tienen un tamaño fijo de 64 bytes y se guardan de forma consecutiva en la EEPROM. Es el único módulo que utiliza el driver `eeprom`, ninguna otra capa accede a la memoria directamente.
+
+Un registro vacío se reconoce porque su primer byte vale `0xFF`, esta marca permite resolver dos situaciones sin reservar espacio para una cabecera:
+
+- *Carga inicial:* al arrancar, `bibliotecaInit` lee el primer byte de la tabla. Si es distinto de `0xFF`, la tabla ya fue cargada y no se modifica; si no, escribe en la memoria los discos iniciales, definidos como una constante en memoria de programa. Una opción de compilación permite forzar el borrado de la tabla y su recarga, útil cuando cambia el formato del registro.
+- *Búsqueda:* `bibliotecaBuscar` recibe el UID leído por el lector RFID y recorre los registros en orden, leyendo solo el UID de cada uno, hasta encontrar una coincidencia o llegar al primer registro vacío, donde termina la búsqueda. Si encuentra el disco, lee el registro completo, asegura que las cadenas de texto terminen en `'\0'` y devuelve su índice; en caso contrario devuelve -1. Como los UID de 4 bytes se completan con ceros hasta los 7, la tabla admite etiquetas de ambos tamaños.
+
+La búsqueda es lineal, lo cual resulta adecuado para la cantidad de discos prevista, y la lectura de cada UID es una transacción I2C breve. La máquina de estados invoca la búsqueda al detectar un cambio de disco.
 
 ==== Volumen
 
@@ -97,12 +114,16 @@ Monitorea periódicamente el lector de tarjetas sin bloquear el programa princip
 Maneja la interfaz visual del usuario sobre la pantalla OLED SH1106 ($128 x 64$ píxeles) con la biblioteca gráfica U8g2, administrando las pantallas de estado (UI_INICIO, UI_ESPERA, UI_REPRODUCIENDO, UI_FIN_PISTA, UI_NO_REGISTRADO, UI_CONFIG y UI_ERROR). Para garantizar que sea una operación no bloqueante dentro del bucle principal, la función tareaPantalla() fragmenta el refresco de la memoria gráfica procesando una sola página por pasada. Además, gestiona la animación en tiempo real de del disco girando (pasos de 10°) y renderiza secuencias de 14 cuadros en formato mapa de bits ($32 x 32$ píxeles), exponiendo la función uiActualizarTextos() para formatear el título (hasta 28 caracteres) y el artista (hasta 20 caracteres), y centralizando el flujo de interfaz mediante uiMostrar() 
 
 
+Es el servicio que decide qué se muestra en la pantalla y cuándo se actualiza, y se apoya en el driver `oled` para el dibujo. La máquina de estados indica qué pantalla corresponde con `uiMostrar`, y le entrega el artista y la canción del disco actual con `uiActualizarTextos` al comenzar la reproducción. Las pantallas disponibles son inicio, espera, reproduciendo, fin de pista, disco no registrado, configuración y error.
+
+El servicio separa dos tareas. Cambiar de pantalla o de texto solo modifica el contenido que se desea mostrar, y es instantáneo. La actualización física de la pantalla la realiza `tareaPantalla`, que el lazo principal ejecuta en cada paso de 20 ms. En cada ejecución arma o continúa la imagen en el buffer y envía una sola página de 128 bytes, lo cual toma unos 15 ms, menos que el período de la tarea. Así, la pantalla completa se renueva en varias pasadas consecutivas y el resto de las tareas, incluida la máquina de estados, se ejecutan sin retrasos. Como las animaciones avanzan por cuadros, su velocidad depende de este ritmo de actualización.
+
 === Máquina de estados principal
 
 El comportamiento del sistema se describe con la MEF de la @fig:mef. El control de volumen y la actualización de la pantalla se ejecutan en todos los estados, por lo que no figuran como transiciones.
 
 #figure(
-  image("../images/mef.svg", width: 80%),
+  image("../images/diagrama_mef.png", width: 80%),
   caption: [Máquina de estados principal.],
 ) <fig:mef>
 
